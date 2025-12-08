@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ session.title }} - MectoFitness CRM{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--primary-green);">{{ session.title }}</h1>
+        <div class="action-buttons">
+            <a href="{{ url_for('sessions.edit_session', session_id=session.id) }}" class="btn btn-primary">Edit</a>
+            {% if session.status == 'scheduled' %}
+            <form method="POST" action="{{ url_for('sessions.complete_session', session_id=session.id) }}" style="display: inline;">
+                <button type="submit" class="btn btn-primary">Mark Complete</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>Session Details</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Client:</strong> <a href="{{ url_for('clients.view_client', client_id=session.client.id) }}" style="color: var(--primary-green);">{{ session.client.full_name }}</a></p>
+            <p><strong>Session Type:</strong> {{ session.session_type|title }}</p>
+            <p><strong>Status:</strong> {{ session.status|title }}</p>
+            <p><strong>Scheduled Start:</strong> {{ session.scheduled_start.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p><strong>Scheduled End:</strong> {{ session.scheduled_end.strftime('%Y-%m-%d %H:%M') }}</p>
+            {% if session.location %}
+            <p><strong>Location:</strong> {{ session.location }}</p>
+            {% endif %}
+            {% if session.description %}
+            <p><strong>Description:</strong> {{ session.description }}</p>
+            {% endif %}
+            {% if session.trainer_notes %}
+            <p><strong>Trainer Notes:</strong> {{ session.trainer_notes }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

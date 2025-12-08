@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ program.name }} - MectoFitness CRM{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--primary-green);">{{ program.name }}</h1>
+        <div class="action-buttons">
+            <a href="{{ url_for('programs.edit_program', program_id=program.id) }}" class="btn btn-primary">Edit Program</a>
+            {% if not program.is_ai_generated %}
+            <form method="POST" action="{{ url_for('programs.generate_ai_program', program_id=program.id) }}" style="display: inline;">
+                <button type="submit" class="btn btn-primary">🤖 Generate AI Program</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>Program Details</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Client:</strong> <a href="{{ url_for('clients.view_client', client_id=program.client.id) }}" style="color: var(--primary-green);">{{ program.client.full_name }}</a></p>
+            <p><strong>Goal:</strong> {{ program.goal or 'Not specified' }}</p>
+            <p><strong>Duration:</strong> {{ program.duration_weeks }} weeks</p>
+            <p><strong>Difficulty Level:</strong> {{ program.difficulty_level|title }}</p>
+            <p><strong>Status:</strong> {{ program.status|title }}</p>
+            {% if program.is_ai_generated %}
+            <p><strong>AI Generated:</strong> Yes (Model: {{ program.ai_model_version }})</p>
+            {% endif %}
+            {% if program.description %}
+            <p><strong>Description:</strong> {{ program.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% if exercises %}
+    <div class="card">
+        <div class="card-header">
+            <h2>Exercises</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Order</th>
+                            <th>Exercise</th>
+                            <th>Type</th>
+                            <th>Sets</th>
+                            <th>Reps</th>
+                            <th>Muscle Group</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exercise in exercises %}
+                        <tr>
+                            <td>Day {{ exercise.day_number }}</td>
+                            <td>{{ exercise.order_in_day }}</td>
+                            <td><strong>{{ exercise.name }}</strong></td>
+                            <td>{{ exercise.exercise_type|title }}</td>
+                            <td>{{ exercise.sets or '-' }}</td>
+                            <td>{{ exercise.reps or '-' }}</td>
+                            <td>{{ exercise.muscle_group or '-' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="card">
+        <div class="card-body" style="text-align: center; padding: 2rem;">
+            <p style="color: var(--medium-gray);">No exercises added yet. Add exercises to this program to get started.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

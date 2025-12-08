@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - MectoFitness CRM{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 style="color: var(--primary-green); margin-bottom: 2rem;">Welcome, {{ current_user.full_name }}!</h1>
+    
+    <!-- Statistics Dashboard -->
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <h3>ACTIVE CLIENTS</h3>
+            <div class="stat-value">{{ total_clients }}</div>
+        </div>
+        
+        <div class="stat-card" style="border-left-color: #3498DB;">
+            <h3>ACTIVE PROGRAMS</h3>
+            <div class="stat-value" style="color: #3498DB;">{{ total_programs }}</div>
+        </div>
+        
+        <div class="stat-card" style="border-left-color: #F39C12;">
+            <h3>TODAY'S SESSIONS</h3>
+            <div class="stat-value" style="color: #F39C12;">{{ today_sessions|length }}</div>
+        </div>
+        
+        <div class="stat-card" style="border-left-color: #E74C3C;">
+            <h3>UPCOMING (7 DAYS)</h3>
+            <div class="stat-value" style="color: #E74C3C;">{{ upcoming_sessions|length }}</div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Quick Actions</h2>
+        </div>
+        <div class="card-body">
+            <div class="action-buttons">
+                <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary">Add New Client</a>
+                <a href="{{ url_for('sessions.add_session') }}" class="btn btn-primary">Schedule Session</a>
+                <a href="{{ url_for('programs.add_program') }}" class="btn btn-primary">Create Program</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Today's Sessions -->
+    {% if today_sessions %}
+    <div class="card">
+        <div class="card-header">
+            <h2>Today's Sessions</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Client</th>
+                            <th>Session Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in today_sessions %}
+                        <tr>
+                            <td>{{ session.scheduled_start.strftime('%H:%M') }}</td>
+                            <td>{{ session.client.full_name }}</td>
+                            <td>{{ session.session_type|title }}</td>
+                            <td>{{ session.status|title }}</td>
+                            <td>
+                                <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Upcoming Sessions -->
+    {% if upcoming_sessions %}
+    <div class="card">
+        <div class="card-header">
+            <h2>Upcoming Sessions</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Client</th>
+                            <th>Title</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in upcoming_sessions %}
+                        <tr>
+                            <td>{{ session.scheduled_start.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ session.client.full_name }}</td>
+                            <td>{{ session.title }}</td>
+                            <td>
+                                <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Recent Clients -->
+    {% if recent_clients %}
+    <div class="card">
+        <div class="card-header">
+            <h2>Recent Clients</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Fitness Goal</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in recent_clients %}
+                        <tr>
+                            <td>{{ client.full_name }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.fitness_goal or 'Not specified' }}</td>
+                            <td>
+                                <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}About - MectoFitness CRM{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>About MectoFitness CRM</h1>
+        </div>
+        <div class="card-body">
+            <h2 style="color: var(--primary-green); margin-top: 1rem;">Professional Personal Trainer Management Software</h2>
+            
+            <p style="margin: 1rem 0; font-size: 1.1rem;">
+                MectoFitness CRM is designed specifically for personal trainers, fitness coaches, and gym professionals 
+                who want to streamline their business operations and focus on what they do best - training clients.
+            </p>
+            
+            <h3 style="color: var(--primary-green); margin-top: 2rem;">Key Features</h3>
+            <ul style="margin: 1rem 0; line-height: 2;">
+                <li><strong>Client Management:</strong> Comprehensive client profiles with fitness goals, medical history, and progress tracking</li>
+                <li><strong>Session Scheduling:</strong> Easy-to-use scheduling system with status tracking and notes</li>
+                <li><strong>Training Programs:</strong> Create and manage custom workout programs for your clients</li>
+                <li><strong>AI-Powered Programs:</strong> Leverage AI to generate personalized training programs based on your expertise</li>
+                <li><strong>Calendar Integration:</strong> Sync with Google Calendar and Outlook for seamless scheduling</li>
+                <li><strong>Gym Platform APIs:</strong> Integrate with popular gym management systems</li>
+                <li><strong>Progress Analytics:</strong> Track client progress and business metrics</li>
+            </ul>
+            
+            <h3 style="color: var(--primary-green); margin-top: 2rem;">Built for Fitness Professionals</h3>
+            <p style="margin: 1rem 0; font-size: 1.1rem;">
+                Whether you're an independent personal trainer, work at a gym, or manage a team of trainers,
+                MectoFitness CRM provides all the tools you need to grow your fitness business and deliver 
+                exceptional service to your clients.
+            </p>
+            
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-large">Get Started Today</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
