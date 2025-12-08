@@ -249,8 +249,17 @@
 
 /* Utilities Layer - Custom Utilities */
 @layer utilities {
+  /* Text balance for better typography - Chrome 114+, Safari 17+ */
+  /* Gracefully degrades to normal wrapping in unsupported browsers */
   .text-balance {
     text-wrap: balance;
+  }
+  
+  @supports not (text-wrap: balance) {
+    .text-balance {
+      /* Fallback: normal text wrapping */
+      text-wrap: normal;
+    }
   }
 
   .gradient-text {

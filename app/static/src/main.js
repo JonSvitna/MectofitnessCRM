@@ -102,11 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
             this.disabled = true;
             this.innerHTML = '<span class="spinner-border spinner-border-sm mr-2"></span>Loading...';
             
-            // Re-enable after 10 seconds as fallback
+            // Re-enable after 10 seconds as fallback to prevent stuck buttons
+            // if the form submission or navigation fails
+            const FALLBACK_TIMEOUT_MS = 10000;
             setTimeout(() => {
                 this.disabled = false;
                 this.innerHTML = originalText;
-            }, 10000);
+            }, FALLBACK_TIMEOUT_MS);
         });
     });
 
