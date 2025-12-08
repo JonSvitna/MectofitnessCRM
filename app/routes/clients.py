@@ -3,6 +3,8 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from app import db
 from app.models.client import Client
+from app.models.session import Session
+from app.models.program import Program
 from datetime import datetime
 
 bp = Blueprint('clients', __name__, url_prefix='/clients')

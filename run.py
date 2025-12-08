@@ -28,4 +28,7 @@ if __name__ == '__main__':
         print("Database tables created successfully!")
     
     # Run the application
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Debug mode is controlled by FLASK_ENV environment variable
+    # Set FLASK_ENV=production in production to disable debug mode
+    debug_mode = os.getenv('FLASK_ENV', 'development') == 'development'
+    app.run(debug=debug_mode, host='0.0.0.0', port=5000)
