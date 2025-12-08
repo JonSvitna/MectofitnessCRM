@@ -5,6 +5,17 @@ from datetime import timedelta
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
+def get_database_uri():
+    """Get database URI and ensure compatibility with SQLAlchemy 2.x."""
+    database_url = os.environ.get('DATABASE_URL')
+    
+    # Fix for Vercel Postgres and other providers that use deprecated postgres://
+    if database_url and database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    
+    return database_url or 'sqlite:///' + os.path.join(basedir, 'mectofitness.db')
+
+
 class Config:
     """Base configuration."""
     
@@ -12,8 +23,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
     
     # Database
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'mectofitness.db')
+    SQLALCHEMY_DATABASE_URI = get_database_uri()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Session
