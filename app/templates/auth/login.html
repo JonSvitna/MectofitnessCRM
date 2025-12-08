@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Login - MectoFitness CRM{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h2 style="text-align: center; color: var(--primary-green); margin-bottom: 2rem;">Personal Trainer Login</h2>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="remember"> Remember me
+                </label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 1rem;">
+            Don't have an account? <a href="{{ url_for('auth.register') }}" style="color: var(--primary-green);">Register here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

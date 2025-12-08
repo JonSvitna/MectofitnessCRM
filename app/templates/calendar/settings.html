@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Calendar Settings - MectoFitness CRM{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 style="color: var(--primary-green); margin-bottom: 2rem;">Calendar Integration Settings</h1>
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>Connect Your Calendar</h2>
+        </div>
+        <div class="card-body">
+            <p>Sync your training sessions with your favorite calendar apps. Never miss a session!</p>
+            
+            <div style="margin-top: 2rem;">
+                <h3 style="color: var(--primary-green); margin-bottom: 1rem;">Available Integrations</h3>
+                
+                <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                    <div style="border: 2px solid var(--light-gray); padding: 1.5rem; border-radius: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4>Google Calendar</h4>
+                                <p style="color: var(--medium-gray); margin: 0.5rem 0;">Sync your training sessions with Google Calendar</p>
+                            </div>
+                            <a href="{{ url_for('calendar.connect_google') }}" class="btn btn-primary">Connect</a>
+                        </div>
+                    </div>
+                    
+                    <div style="border: 2px solid var(--light-gray); padding: 1.5rem; border-radius: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4>Outlook Calendar</h4>
+                                <p style="color: var(--medium-gray); margin: 0.5rem 0;">Sync your training sessions with Microsoft Outlook</p>
+                            </div>
+                            <a href="{{ url_for('calendar.connect_outlook') }}" class="btn btn-primary">Connect</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if integrations %}
+    <div class="card">
+        <div class="card-header">
+            <h2>Connected Calendars</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Status</th>
+                            <th>Last Sync</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for integration in integrations %}
+                        <tr>
+                            <td><strong>{{ integration.provider|title }}</strong></td>
+                            <td>{% if integration.sync_enabled %}Active{% else %}Disabled{% endif %}</td>
+                            <td>{{ integration.last_sync.strftime('%Y-%m-%d %H:%M') if integration.last_sync else 'Never' }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <form method="POST" action="{{ url_for('calendar.sync_calendar', integration_id=integration.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Sync Now</button>
+                                    </form>
+                                    <form method="POST" action="{{ url_for('calendar.disconnect_calendar', integration_id=integration.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem;">Disconnect</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

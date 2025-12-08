@@ -1,0 +1,303 @@
+/* Custom Fonts - Must come before Tailwind directives */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Layer - Custom Styles */
+@layer base {
+  body {
+    @apply antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+}
+
+/* Components Layer - Reusable Components */
+@layer components {
+  /* Navigation */
+  .navbar {
+    @apply bg-gray-900 text-white shadow-lg;
+  }
+
+  .nav-brand {
+    @apply text-2xl font-display font-bold;
+  }
+
+  .brand-name {
+    @apply text-primary-400;
+  }
+
+  .brand-tag {
+    @apply text-white ml-2;
+  }
+
+  .nav-link {
+    @apply text-gray-300 hover:text-white px-4 py-2 transition-colors duration-200;
+  }
+
+  .nav-link.active {
+    @apply text-white font-semibold;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-button font-semibold transition-all duration-300 shadow-button hover:shadow-lg;
+  }
+
+  .btn-primary {
+    @apply bg-primary-400 text-white hover:bg-primary-500 active:bg-primary-600;
+  }
+
+  .btn-secondary {
+    @apply bg-accent-400 text-gray-900 hover:bg-accent-500 active:bg-accent-600;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-white;
+  }
+
+  .btn-large {
+    @apply px-8 py-4 text-lg;
+  }
+
+  .btn-small {
+    @apply px-4 py-2 text-sm;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    @apply bg-gradient-to-br from-primary-600 via-primary-500 to-primary-400 text-white py-20 md:py-32;
+  }
+
+  .hero-title {
+    @apply text-4xl md:text-6xl font-display font-bold mb-6 leading-tight;
+  }
+
+  .hero-subtitle {
+    @apply text-xl md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto;
+  }
+
+  .hero-cta {
+    @apply flex flex-col sm:flex-row gap-4 justify-center items-center;
+  }
+
+  /* Feature Cards */
+  .features-section {
+    @apply py-20 bg-gray-50;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-display font-bold text-center mb-16 text-gray-900;
+  }
+
+  .features-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+  }
+
+  .feature-card {
+    @apply bg-white p-8 rounded-card shadow-card hover:shadow-card-hover transition-all duration-300 cursor-pointer;
+  }
+
+  .feature-icon {
+    @apply text-5xl mb-4;
+  }
+
+  .feature-card h3 {
+    @apply text-xl font-display font-semibold mb-3 text-primary-600;
+  }
+
+  .feature-card p {
+    @apply text-gray-600 leading-relaxed;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    @apply py-20 bg-accent-400 text-gray-900;
+  }
+
+  .cta-section h2 {
+    @apply text-3xl md:text-4xl font-display font-bold mb-4;
+  }
+
+  .cta-section p {
+    @apply text-lg md:text-xl mb-8;
+  }
+
+  /* Forms */
+  .form-group {
+    @apply mb-6;
+  }
+
+  .form-label {
+    @apply block text-sm font-semibold text-gray-700 mb-2;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-400 focus:border-primary-400 transition-colors;
+  }
+
+  .form-input:focus {
+    @apply outline-none;
+  }
+
+  .form-input.error {
+    @apply border-red-500 focus:ring-red-500;
+  }
+
+  /* Alerts */
+  .alert {
+    @apply p-4 rounded-lg mb-4 transition-opacity duration-300;
+  }
+
+  .alert-success {
+    @apply bg-green-100 border border-green-400 text-green-700;
+  }
+
+  .alert-error {
+    @apply bg-red-100 border border-red-400 text-red-700;
+  }
+
+  .alert-warning {
+    @apply bg-yellow-100 border border-yellow-400 text-yellow-700;
+  }
+
+  .alert-info {
+    @apply bg-blue-100 border border-blue-400 text-blue-700;
+  }
+
+  /* Dashboard */
+  .dashboard-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8;
+  }
+
+  .stat-card {
+    @apply bg-white p-6 rounded-card shadow-card;
+  }
+
+  .stat-label {
+    @apply text-sm text-gray-600 font-semibold uppercase tracking-wide mb-2;
+  }
+
+  .stat-number {
+    @apply text-4xl font-display font-bold text-primary-600;
+  }
+
+  .stat-change {
+    @apply text-sm mt-2;
+  }
+
+  .stat-change.positive {
+    @apply text-green-600;
+  }
+
+  .stat-change.negative {
+    @apply text-red-600;
+  }
+
+  /* Client Cards */
+  .client-card {
+    @apply bg-white p-6 rounded-card shadow-card hover:shadow-card-hover transition-all duration-300;
+  }
+
+  .client-avatar {
+    @apply w-16 h-16 rounded-full bg-primary-400 text-white flex items-center justify-center text-2xl font-bold;
+  }
+
+  .client-name {
+    @apply text-lg font-semibold text-gray-900;
+  }
+
+  .client-info {
+    @apply text-sm text-gray-600;
+  }
+
+  /* Footer */
+  .footer {
+    @apply bg-gray-900 text-gray-400 py-8 text-center;
+  }
+
+  .footer p {
+    @apply mb-2;
+  }
+
+  /* Loading Spinner */
+  .spinner-border {
+    @apply inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin;
+  }
+
+  .spinner-border-sm {
+    @apply w-3 h-3;
+  }
+}
+
+/* Utilities Layer - Custom Utilities */
+@layer utilities {
+  /* Text balance for better typography - Chrome 114+, Safari 17+ */
+  /* Gracefully degrades to normal wrapping in unsupported browsers */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  @supports not (text-wrap: balance) {
+    .text-balance {
+      /* Fallback: normal text wrapping */
+      text-wrap: normal;
+    }
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent;
+  }
+
+  .glass-effect {
+    @apply bg-white bg-opacity-10 backdrop-blur-lg;
+  }
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Print Styles */
+@media print {
+  .navbar,
+  .footer,
+  .btn,
+  .hero-cta {
+    display: none !important;
+  }
+
+  body {
+    @apply text-black bg-white;
+  }
+}

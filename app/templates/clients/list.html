@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Clients - MectoFitness CRM{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--primary-green);">My Clients</h1>
+        <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary">Add New Client</a>
+    </div>
+    
+    {% if clients.items %}
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Fitness Goal</th>
+                    <th>Level</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients.items %}
+                <tr>
+                    <td><strong>{{ client.full_name }}</strong></td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.phone or '-' }}</td>
+                    <td>{{ client.fitness_goal or '-' }}</td>
+                    <td>{{ client.fitness_level or '-' }}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
+                            <a href="{{ url_for('clients.edit_client', client_id=client.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Edit</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination -->
+    {% if clients.pages > 1 %}
+    <div class="pagination">
+        {% if clients.has_prev %}
+            <a href="{{ url_for('clients.list_clients', page=clients.prev_num) }}">&laquo; Previous</a>
+        {% endif %}
+        
+        {% for page_num in clients.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if page_num == clients.page %}
+                    <span class="active">{{ page_num }}</span>
+                {% else %}
+                    <a href="{{ url_for('clients.list_clients', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                <span>...</span>
+            {% endif %}
+        {% endfor %}
+        
+        {% if clients.has_next %}
+            <a href="{{ url_for('clients.list_clients', page=clients.next_num) }}">Next &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="card">
+        <div class="card-body" style="text-align: center; padding: 3rem;">
+            <p style="font-size: 1.2rem; color: var(--medium-gray);">No clients yet. Add your first client to get started!</p>
+            <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary" style="margin-top: 1rem;">Add Client</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
