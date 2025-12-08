@@ -57,6 +57,7 @@ body {
     background-color: var(--black);
     padding: 1rem 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 0;
 }
 
 .navbar .container {
@@ -226,8 +227,9 @@ body {
 .hero-section {
     background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
     color: var(--white);
-    padding: 5rem 0;
+    padding: 3rem 0 5rem 0;
     text-align: center;
+    margin-top: 0;
 }
 
 .hero-title {
