@@ -1,7 +1,10 @@
 """Run the MectoFitness CRM application."""
 import os
 from app import create_app, db
-from app.models import User, Client, Session, Program, Exercise, CalendarIntegration
+from app.models import (User, Client, Session, Program, Exercise, CalendarIntegration,
+                       ClientIntake, EmailTemplate, SMSTemplate, MarketingCampaign,
+                       WorkflowTemplate, WorkflowExecution, AutomationRule,
+                       ExerciseLibrary, ProgramTemplate, TrainerSettings)
 
 # Create application
 app = create_app(os.getenv('FLASK_ENV', 'development'))
@@ -17,7 +20,17 @@ def make_shell_context():
         'Session': Session,
         'Program': Program,
         'Exercise': Exercise,
-        'CalendarIntegration': CalendarIntegration
+        'CalendarIntegration': CalendarIntegration,
+        'ClientIntake': ClientIntake,
+        'EmailTemplate': EmailTemplate,
+        'SMSTemplate': SMSTemplate,
+        'MarketingCampaign': MarketingCampaign,
+        'WorkflowTemplate': WorkflowTemplate,
+        'WorkflowExecution': WorkflowExecution,
+        'AutomationRule': AutomationRule,
+        'ExerciseLibrary': ExerciseLibrary,
+        'ProgramTemplate': ProgramTemplate,
+        'TrainerSettings': TrainerSettings
     }
 
 

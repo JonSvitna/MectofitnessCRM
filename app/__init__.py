@@ -27,7 +27,8 @@ def create_app(config_name='default'):
     login_manager.login_message = 'Please log in to access this page.'
     
     # Register blueprints
-    from app.routes import auth, main, clients, sessions, programs, calendar_sync, api
+    from app.routes import (auth, main, clients, sessions, programs, calendar_sync, api,
+                           intake, marketing, workflow, settings, exercise_library)
     
     app.register_blueprint(auth.bp)
     app.register_blueprint(main.bp)
@@ -36,6 +37,11 @@ def create_app(config_name='default'):
     app.register_blueprint(programs.bp)
     app.register_blueprint(calendar_sync.bp)
     app.register_blueprint(api.bp)
+    app.register_blueprint(intake.bp)
+    app.register_blueprint(marketing.bp)
+    app.register_blueprint(workflow.bp)
+    app.register_blueprint(settings.bp)
+    app.register_blueprint(exercise_library.bp)
     
     # User loader
     from app.models.user import User
