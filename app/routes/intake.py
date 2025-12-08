@@ -5,6 +5,7 @@ from app import db
 from app.models.client import Client
 from app.models.intake import ClientIntake
 from app.models.program import Program
+from app.models.settings import TrainerSettings
 from datetime import datetime
 import json
 
@@ -86,7 +87,8 @@ def generate_program(intake_id):
     intake = ClientIntake.query.filter_by(id=intake_id, trainer_id=current_user.id).first_or_404()
     
     # Check if trainer has AI features enabled
-    if not current_user.settings or not current_user.settings.enable_ai_programs:
+    trainer_settings = TrainerSettings.query.filter_by(trainer_id=current_user.id).first()
+    if not trainer_settings or not trainer_settings.enable_ai_programs:
         flash('AI program generation is not enabled. Please enable it in settings.', 'warning')
         return redirect(url_for('intake.view_intake', intake_id=intake.id))
     

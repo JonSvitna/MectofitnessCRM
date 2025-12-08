@@ -7,7 +7,7 @@ Flask-WTF==1.2.1
 SQLAlchemy==2.0.23
 python-dotenv==1.0.0
 gunicorn==21.2.0
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.9  # Use psycopg2 (not -binary) in production for better performance
 google-api-python-client==2.108.0
 google-auth-httplib2==0.2.0
 google-auth-oauthlib==1.2.0

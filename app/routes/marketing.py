@@ -77,15 +77,19 @@ def generate_ai_email(template_id=None):
     # AI Generation Logic (placeholder)
     # This would call an AI service like OpenAI to generate email content
     
-    ai_subject = f"AI-Generated: {prompt[:50]}"
-    ai_body = f"""Dear {{client_name}},
+    # Sanitize prompt for safe inclusion in content
+    import html
+    safe_prompt = html.escape(prompt) if prompt else ""
+    
+    ai_subject = f"AI-Generated: {safe_prompt[:50]}"
+    ai_body = f"""Dear {{{{client_name}}}},
 
 This is an AI-generated email based on your requirements.
 
-Prompt: {prompt}
+Prompt: {safe_prompt}
 
 Best regards,
-{{trainer_name}}
+{{{{trainer_name}}}}
 """
     
     template = EmailTemplate(

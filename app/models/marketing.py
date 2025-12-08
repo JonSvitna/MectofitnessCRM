@@ -44,7 +44,7 @@ class SMSTemplate(db.Model):
     trainer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
     name = db.Column(db.String(200), nullable=False)
-    message = db.Column(db.Text, nullable=False)  # Max 160 chars recommended
+    message = db.Column(db.String(320), nullable=False)  # SMS limit: 160 chars (single), 320 chars (concatenated)
     category = db.Column(db.String(50))  # reminder, promotion, welcome, follow_up
     
     # AI Generation
@@ -60,6 +60,21 @@ class SMSTemplate(db.Model):
     
     # Relationships
     trainer = db.relationship('User', backref='sms_templates')
+    
+    def validate_message_length(self):
+        """Validate SMS message length."""
+        if self.message and len(self.message) > 320:
+            raise ValueError(f"SMS message exceeds 320 character limit (current: {len(self.message)} chars)")
+        return True
+    
+    def get_message_segments(self):
+        """Calculate number of SMS segments required."""
+        if not self.message:
+            return 0
+        length = len(self.message)
+        if length <= 160:
+            return 1
+        return (length + 152) // 153  # Concatenated SMS uses 153 chars per segment
     
     def __repr__(self):
         return f'<SMSTemplate {self.name}>'
