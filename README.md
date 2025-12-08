@@ -1,2 +1,2 @@
 # MectofitnessCRM
-Personal trainer mgt sinplified
+Personal trainer mgt simplified
