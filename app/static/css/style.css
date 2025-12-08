@@ -1,25 +1,36 @@
-/* MectoFitness CRM - Empowering Leadership: Amber, Lava Red, Orange Color Scheme */
+/* MectoFitness CRM - Professional Fitness Software Theme (TrueCoach/Trainerize Inspired) */
 
 :root {
-    --primary-amber: #FF8C00;
-    --dark-orange: #FF6600;
-    --lava-red: #FF4500;
-    --warm-amber: #FFA500;
-    --light-amber: #FFB84D;
+    /* Primary Colors - Professional Blue/Teal (TrueCoach inspired) */
+    --primary-blue: #367588;
+    --dark-blue: #1E566C;
+    --light-blue: #5795A7;
+    --sky-blue: #89B8CA;
+    
+    /* Accent Colors - Energetic Yellow/Orange (Trainerize inspired) */
+    --accent-yellow: #FFC107;
+    --accent-orange: #FF9500;
+    --accent-gold: #FFB84D;
+    
+    /* Neutral Colors */
     --black: #1C1C1C;
     --dark-gray: #2C3E50;
     --medium-gray: #7F8C8D;
     --light-gray: #ECF0F1;
     --white: #FFFFFF;
+    
+    /* Status Colors */
     --success: #28A745;
     --danger: #DC3545;
     --warning: #FFC107;
     --info: #17A2B8;
     
     /* Legacy aliases for compatibility */
-    --primary-green: #FF8C00;
-    --dark-green: #FF6600;
-    --light-green: #FFB84D;
+    --primary-green: #367588;
+    --dark-green: #1E566C;
+    --light-green: #5795A7;
+    --primary-amber: #367588;
+    --dark-orange: #1E566C;
 }
 
 * {
@@ -61,7 +72,7 @@ body {
 }
 
 .brand-name {
-    color: var(--primary-amber);
+    color: var(--primary-blue);
 }
 
 .brand-tag {
@@ -84,7 +95,7 @@ body {
 
 .nav-link:hover {
     background-color: var(--dark-gray);
-    color: var(--primary-amber);
+    color: var(--primary-blue);
 }
 
 .nav-dropdown {
@@ -117,7 +128,7 @@ body {
 
 .dropdown-item:hover {
     background-color: var(--light-gray);
-    color: var(--dark-orange);
+    color: var(--primary-blue);
 }
 
 /* Buttons */
@@ -134,29 +145,29 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary-amber) 0%, var(--dark-orange) 100%);
+    background: var(--primary-blue);
     color: var(--white);
     font-weight: 600;
-    box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(54, 117, 136, 0.3);
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, var(--dark-orange) 0%, var(--lava-red) 100%);
-    box-shadow: 0 6px 12px rgba(255, 69, 0, 0.4);
+    background: var(--dark-blue);
+    box-shadow: 0 6px 12px rgba(30, 86, 108, 0.4);
     transform: translateY(-2px);
 }
 
 .btn-secondary {
     background-color: var(--white);
-    color: var(--dark-orange);
-    border: 2px solid var(--primary-amber);
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
     font-weight: 600;
 }
 
 .btn-secondary:hover {
-    background-color: var(--primary-amber);
+    background-color: var(--primary-blue);
     color: var(--white);
-    border-color: var(--dark-orange);
+    border-color: var(--dark-blue);
 }
 
 .btn-large {
@@ -213,7 +224,7 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, var(--lava-red) 0%, var(--dark-orange) 50%, var(--primary-amber) 100%);
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
     color: var(--white);
     padding: 5rem 0;
     text-align: center;
@@ -271,8 +282,8 @@ body {
 
 .feature-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(255, 140, 0, 0.3);
-    border-color: var(--primary-amber);
+    box-shadow: 0 8px 16px rgba(54, 117, 136, 0.3);
+    border-color: var(--primary-blue);
 }
 
 .feature-icon {
@@ -281,7 +292,7 @@ body {
 }
 
 .feature-card h3 {
-    color: var(--dark-orange);
+    color: var(--primary-blue);
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
@@ -292,8 +303,8 @@ body {
 
 /* CTA Section */
 .cta-section {
-    background: linear-gradient(90deg, var(--dark-orange) 0%, var(--lava-red) 100%);
-    color: var(--white);
+    background: var(--accent-yellow);
+    color: var(--black);
     padding: 4rem 0;
     text-align: center;
 }
@@ -340,8 +351,8 @@ body {
 
 .form-control:focus {
     outline: none;
-    border-color: var(--primary-amber);
-    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(54, 117, 136, 0.1);
 }
 
 textarea.form-control {
@@ -362,7 +373,7 @@ textarea.form-control {
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-left: 4px solid var(--primary-amber);
+    border-left: 4px solid var(--primary-blue);
 }
 
 .stat-card h3 {
@@ -374,7 +385,7 @@ textarea.form-control {
 .stat-card .stat-value {
     font-size: 2rem;
     font-weight: bold;
-    color: var(--dark-orange);
+    color: var(--primary-blue);
 }
 
 /* Tables */
@@ -403,7 +414,7 @@ textarea.form-control {
 }
 
 .table tr:hover {
-    background-color: #FFF8F0;
+    background-color: #F0F8FB;
 }
 
 /* Footer */

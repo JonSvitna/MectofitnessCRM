@@ -39,13 +39,13 @@ class Config:
     
     # SEO
     SITE_NAME = 'MectoFitness'
-    SITE_DESCRIPTION = 'Simple, powerful software for personal trainers to manage clients and grow their fitness business'
-    SITE_KEYWORDS = 'personal trainer software, fitness business, client management, workout programs, training software, fitness coaching'
+    SITE_DESCRIPTION = 'Professional personal training software for fitness coaches. Manage clients, build programs, and grow your business.'
+    SITE_KEYWORDS = 'personal trainer software, fitness CRM, client management, workout builder, training software, gym management, fitness coaching'
     
-    # Branding Colors (Leadership Theme)
-    PRIMARY_COLOR = '#FF8C00'  # Amber
-    SECONDARY_COLOR = '#FF6600'  # Dark Orange
-    ACCENT_COLOR = '#FF4500'  # Lava Red
+    # Branding Colors (Professional Fitness Software Theme - TrueCoach/Trainerize Inspired)
+    PRIMARY_COLOR = '#367588'  # Teal Blue (Professional, Trustworthy)
+    SECONDARY_COLOR = '#1E566C'  # Dark Blue (Grounded, Stable)
+    ACCENT_COLOR = '#FFC107'  # Yellow/Gold (Energetic, Action)
 
 
 class DevelopmentConfig(Config):
