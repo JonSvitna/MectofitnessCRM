@@ -38,9 +38,14 @@ class Config:
     UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
     
     # SEO
-    SITE_NAME = 'MectoFitness CRM'
-    SITE_DESCRIPTION = 'Professional personal trainer management software for fitness professionals, gym trainers, and wellness coaches'
-    SITE_KEYWORDS = 'personal trainer software, fitness CRM, gym management, client tracking, workout programs, trainer scheduling, fitness coaching'
+    SITE_NAME = 'MectoFitness'
+    SITE_DESCRIPTION = 'Simple, powerful software for personal trainers to manage clients and grow their fitness business'
+    SITE_KEYWORDS = 'personal trainer software, fitness business, client management, workout programs, training software, fitness coaching'
+    
+    # Branding Colors (Leadership Theme)
+    PRIMARY_COLOR = '#FF8C00'  # Amber
+    SECONDARY_COLOR = '#FF6600'  # Dark Orange
+    ACCENT_COLOR = '#FF4500'  # Lava Red
 
 
 class DevelopmentConfig(Config):

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - MectoFitness CRM{% endblock %}
+{% block title %}Dashboard - MectoFitness{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 style="color: var(--primary-green); margin-bottom: 2rem;">Welcome, {{ current_user.full_name }}!</h1>
+    <h1 style="color: var(--dark-orange); margin-bottom: 2rem;">Welcome Back, {{ current_user.full_name }}!</h1>
     
     <!-- Statistics Dashboard -->
     <div class="dashboard-grid">
@@ -13,19 +13,19 @@
             <div class="stat-value">{{ total_clients }}</div>
         </div>
         
-        <div class="stat-card" style="border-left-color: #3498DB;">
+        <div class="stat-card" style="border-left-color: var(--warm-amber);">
             <h3>ACTIVE PROGRAMS</h3>
-            <div class="stat-value" style="color: #3498DB;">{{ total_programs }}</div>
+            <div class="stat-value" style="color: var(--warm-amber);">{{ total_programs }}</div>
         </div>
         
-        <div class="stat-card" style="border-left-color: #F39C12;">
+        <div class="stat-card" style="border-left-color: var(--lava-red);">
             <h3>TODAY'S SESSIONS</h3>
-            <div class="stat-value" style="color: #F39C12;">{{ today_sessions|length }}</div>
+            <div class="stat-value" style="color: var(--lava-red);">{{ today_sessions|length }}</div>
         </div>
         
-        <div class="stat-card" style="border-left-color: #E74C3C;">
+        <div class="stat-card" style="border-left-color: var(--light-amber);">
             <h3>UPCOMING (7 DAYS)</h3>
-            <div class="stat-value" style="color: #E74C3C;">{{ upcoming_sessions|length }}</div>
+            <div class="stat-value" style="color: var(--light-amber);">{{ upcoming_sessions|length }}</div>
         </div>
     </div>
     

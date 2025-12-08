@@ -1,60 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}MectoFitness CRM - Professional Personal Trainer Management Software{% endblock %}
+{% block title %}MectoFitness - Grow Your Fitness Business{% endblock %}
 
-{% block meta_description %}MectoFitness CRM: The complete personal trainer management software with AI-powered workout programs, calendar sync, and gym platform integration. Perfect for fitness professionals and wellness coaches.{% endblock %}
+{% block meta_description %}MectoFitness: The simple, powerful tool for personal trainers. Manage clients, create workout plans, and grow your business - all in one place.{% endblock %}
 
 {% block content %}
 <div class="hero-section">
     <div class="container">
-        <h1 class="hero-title">Professional Personal Trainer Management Software</h1>
-        <p class="hero-subtitle">Streamline your fitness business with AI-powered workout programs, seamless calendar integration, and comprehensive client management</p>
+        <h1 class="hero-title">Lead Your Fitness Business to Success</h1>
+        <p class="hero-subtitle">Everything you need to manage clients and build powerful workout programs - made simple</p>
         <div class="hero-cta">
-            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-large">Start Free Trial</a>
-            <a href="{{ url_for('main.about') }}" class="btn btn-secondary btn-large">Learn More</a>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-large">Start Free</a>
         </div>
     </div>
 </div>
 
 <div class="features-section">
     <div class="container">
-        <h2 class="section-title">Everything You Need to Grow Your Fitness Business</h2>
+        <h2 class="section-title">Built for Trainers, By Trainers</h2>
         
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">👥</div>
-                <h3>Client Management</h3>
-                <p>Keep all your client information, fitness goals, and progress tracking in one place. Easily manage personal training clients and gym members.</p>
+                <h3>Manage Your Clients</h3>
+                <p>Keep track of all your clients in one simple place. See their goals, progress, and training history at a glance.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💪</div>
+                <h3>Build Workout Programs</h3>
+                <p>Create custom training programs fast. Use our exercise library or add your own. AI helps you design the perfect plan.</p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-icon">📅</div>
-                <h3>Calendar Integration</h3>
-                <p>Sync with Google Calendar and Outlook to manage your training sessions seamlessly. Never miss an appointment with automatic calendar sync.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>AI-Powered Programs</h3>
-                <p>Generate personalized workout programs using AI trained on your expertise. Create custom training plans in minutes, not hours.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🏋️</div>
-                <h3>Session Tracking</h3>
-                <p>Schedule and track all your personal training sessions, group classes, and online coaching sessions with detailed notes and progress tracking.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🔗</div>
-                <h3>Gym Platform Integration</h3>
-                <p>Integrate with popular gym management systems and fitness platforms. Streamline your workflow with API connections.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Progress Analytics</h3>
-                <p>Track client progress, session attendance, and business metrics. Make data-driven decisions to grow your fitness coaching business.</p>
+                <h3>Schedule Sessions</h3>
+                <p>Book sessions with your clients easily. Sync with your calendar so you never miss a training.</p>
             </div>
         </div>
     </div>
@@ -62,9 +43,9 @@
 
 <div class="cta-section">
     <div class="container">
-        <h2>Ready to Transform Your Personal Training Business?</h2>
-        <p>Join hundreds of fitness professionals using MectoFitness CRM</p>
-        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-large">Get Started Now</a>
+        <h2>Ready to Transform Your Business?</h2>
+        <p>Join fitness professionals who are leading with MectoFitness</p>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-large" style="background: var(--white); color: var(--lava-red); font-weight: 700;">Get Started Free</a>
     </div>
 </div>
 {% endblock %}
