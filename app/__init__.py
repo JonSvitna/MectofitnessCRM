@@ -34,11 +34,27 @@ def create_app(config_name='default'):
     login_manager.init_app(app)
     CORS(app)
     
-    # Test database connection on startup
+    # Test database connection and create tables on startup
     with app.app_context():
         try:
+            # Test connection
             db.engine.connect()
             logger.info("Database connection successful")
+            
+            # Import all models to ensure they're registered
+            from app.models import (
+                User, Client, Session, Program, Exercise, 
+                CalendarIntegration, ClientIntake, EmailTemplate, 
+                SMSTemplate, MarketingCampaign, WorkflowTemplate, 
+                WorkflowExecution, AutomationRule, ExerciseLibrary, 
+                ProgramTemplate, TrainerSettings
+            )
+            
+            # Create tables if they don't exist
+            logger.info("Creating database tables if needed...")
+            db.create_all()
+            logger.info("✅ Database tables initialized")
+            
         except Exception as e:
             logger.error(f"Database connection failed: {e}")
             logger.warning("App will continue, but database operations may fail")
