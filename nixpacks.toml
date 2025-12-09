@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["python3", "nodejs_20", "postgresql"]
+nixPkgs = ["python312", "nodejs_20", "postgresql"]
 nixLibs = []
 
 [phases.install]
