@@ -8,8 +8,8 @@ echo "MectoFitness CRM - Railway Startup"
 echo "========================================"
 echo ""
 
-# Use Python 3.11
-PYTHON=python3.11
+# Use Python 3
+PYTHON=python3
 echo "Python version check:"
 $PYTHON --version
 
@@ -33,27 +33,11 @@ if [ -z "$PORT" ]; then
 fi
 
 echo ""
-echo "Database Connection Test..."
-$PYTHON test_db.py || {
-    echo "❌ Database connection failed"
+echo "Initializing Database..."
+$PYTHON init_db.py || {
+    echo "❌ Database initialization failed"
     exit 1
 }
-
-echo ""
-echo "Initializing Database Tables..."
-$PYTHON -c "
-from app import create_app, db
-import os
-
-try:
-    app = create_app(os.getenv('FLASK_ENV', 'production'))
-    with app.app_context():
-        db.create_all()
-        print('✓ Database tables ready')
-except Exception as e:
-    print(f'❌ Database initialization failed: {e}')
-    raise
-"
 
 echo ""
 echo "========================================"
