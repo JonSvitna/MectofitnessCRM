@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MectoFitness CRM</title>
+    {% set manifest = load_vite_manifest() %}
+    {% if manifest and 'src/main.jsx' in manifest %}
+    <!-- Production build -->
+    {% for css_file in manifest['src/main.jsx'].get('css', []) %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/' + css_file) }}">
+    {% endfor %}
+    {% endif %}
+</head>
+<body>
+    <div id="app"></div>
+    {% set manifest = load_vite_manifest() %}
+    {% if manifest and 'src/main.jsx' in manifest %}
+    <!-- Production build -->
+    <script type="module" src="{{ url_for('static', filename='dist/' + manifest['src/main.jsx']['file']) }}"></script>
+    {% else %}
+    <!-- Development mode -->
+    <p>React app not built. Run <code>npm run build</code> to build the frontend.</p>
+    {% endif %}
+</body>
+</html>

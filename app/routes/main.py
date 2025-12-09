@@ -13,8 +13,16 @@ bp = Blueprint('main', __name__)
 def index():
     """Landing page."""
     if current_user.is_authenticated:
-        return redirect(url_for('main.dashboard'))
+        return redirect(url_for('main.app'))
     return render_template('index.html')
+
+
+@bp.route('/app')
+@bp.route('/app/<path:path>')
+@login_required
+def app(path=''):
+    """Serve React app for authenticated users."""
+    return render_template('app.html')
 
 
 @bp.route('/dashboard')

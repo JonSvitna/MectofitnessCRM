@@ -183,4 +183,20 @@ def create_app(config_name='default'):
             db.session.rollback()
         db.session.remove()
     
+    # Add context processor for Vite manifest
+    @app.context_processor
+    def inject_vite_manifest():
+        """Load Vite manifest for production builds."""
+        import json
+        import os
+        
+        def load_vite_manifest():
+            manifest_path = os.path.join(app.static_folder, 'dist', '.vite', 'manifest.json')
+            if os.path.exists(manifest_path):
+                with open(manifest_path, 'r') as f:
+                    return json.load(f)
+            return {}
+        
+        return dict(load_vite_manifest=load_vite_manifest)
+    
     return app
