@@ -38,7 +38,8 @@ def create_app(config_name='default'):
     with app.app_context():
         try:
             # Test connection
-            db.engine.connect()
+            connection = db.engine.connect()
+            connection.close()
             logger.info("Database connection successful")
             
             # Import all models to ensure they're registered
@@ -50,13 +51,27 @@ def create_app(config_name='default'):
                 ProgramTemplate, TrainerSettings
             )
             
-            # Create tables if they don't exist
-            logger.info("Creating database tables if needed...")
-            db.create_all()
-            logger.info("✅ Database tables initialized")
+            # Create tables if they don't exist (silently ignore if they already exist)
+            try:
+                logger.info("Checking database tables...")
+                db.create_all()
+                
+                # Verify tables exist
+                from sqlalchemy import inspect
+                inspector = inspect(db.engine)
+                tables = inspector.get_table_names()
+                logger.info(f"✅ Database ready with {len(tables)} tables")
+            except Exception as table_error:
+                # Tables might already exist, check if we can query
+                try:
+                    db.session.execute(db.text('SELECT 1 FROM users LIMIT 1'))
+                    logger.info("✅ Database tables already exist and are accessible")
+                except:
+                    logger.error(f"Table creation issue: {table_error}")
+                    raise
             
         except Exception as e:
-            logger.error(f"Database connection failed: {e}")
+            logger.error(f"Database initialization failed: {e}")
             logger.warning("App will continue, but database operations may fail")
     
     # Configure login manager
