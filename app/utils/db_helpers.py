@@ -43,7 +43,8 @@ def safe_db_operation(max_retries=3, retry_delay=1):
                         try:
                             # Try to rollback the session
                             db.session.rollback()
-                        except:
+                        except Exception:
+                            # Rollback failure is not critical
                             pass
                     else:
                         logger.error(
@@ -77,7 +78,8 @@ def safe_db_operation(max_retries=3, retry_delay=1):
                     )
                     try:
                         db.session.rollback()
-                    except:
+                    except Exception:
+                        # Rollback failure is not critical
                         pass
                     raise
             

@@ -167,6 +167,9 @@ class User(UserMixin, db.Model):
         except Exception as e:
             return None, f"Authentication failed: {str(e)}"
     
+    # Fields that cannot be updated via update_profile
+    PROTECTED_FIELDS = ['id', 'password_hash', 'created_at']
+    
     def update_profile(self, **kwargs):
         """
         Update user profile with error handling.
@@ -179,7 +182,7 @@ class User(UserMixin, db.Model):
         """
         try:
             for key, value in kwargs.items():
-                if hasattr(self, key) and key not in ['id', 'password_hash', 'created_at']:
+                if hasattr(self, key) and key not in self.PROTECTED_FIELDS:
                     setattr(self, key, value)
             
             self.updated_at = datetime.utcnow()

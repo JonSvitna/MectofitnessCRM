@@ -85,8 +85,11 @@ def create_tables(app, db):
             tables = inspector.get_table_names()
             
             if tables:
+                # Core tables that are critical for the application
+                CORE_TABLES = ['users', 'clients', 'sessions', 'programs', 'exercises']
+                core_tables_found = [t for t in tables if t in CORE_TABLES]
                 print(f"✓ Successfully created {len(tables)} tables")
-                print(f"  Core tables: {', '.join([t for t in tables if t in ['users', 'clients', 'sessions', 'programs', 'exercises']])}")
+                print(f"  Core tables: {', '.join(core_tables_found)}")
                 return True
             else:
                 print("⚠ No tables were created")
@@ -249,7 +252,8 @@ def test_user_crud(app, db):
                     db.session.delete(cleanup_user)
                     db.session.commit()
                     print("  ✓ Test user cleaned up")
-        except:
+        except Exception:
+            # Cleanup failure is not critical
             pass
         
         return False
