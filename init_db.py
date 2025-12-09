@@ -39,7 +39,6 @@ def wait_for_db(app, db, max_retries=5, delay=2):
                 with db.engine.connect() as connection:
                     result = connection.execute(db.text("SELECT 1"))
                     result.fetchone()
-                    connection.commit()
                     print(f"✓ Database connection successful (attempt {attempt}/{max_retries})")
                     return True
         except Exception as e:

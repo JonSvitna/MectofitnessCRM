@@ -263,7 +263,6 @@ def test_connection_retry():
                     with db.engine.connect() as connection:
                         result = connection.execute(db.text("SELECT 1"))
                         result.fetchone()
-                        connection.commit()
                     
                     elapsed = round((time.time() - start_time) * 1000, 2)
                     print(f"  ✓ Connected in {elapsed}ms")

@@ -115,7 +115,6 @@ def health_check():
         with db.engine.connect() as connection:
             result = connection.execute(db.text("SELECT 1"))
             result.fetchone()
-            connection.commit()
         
         # Try to query a table to ensure tables exist
         user_count = User.query.count()

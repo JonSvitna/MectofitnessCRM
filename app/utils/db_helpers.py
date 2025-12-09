@@ -104,7 +104,6 @@ def check_db_connection():
         with db.engine.connect() as connection:
             result = connection.execute(db.text("SELECT 1"))
             result.fetchone()
-            connection.commit()
         return True, None
     except Exception as e:
         logger.error(f"Database connection check failed: {str(e)}")
@@ -138,7 +137,6 @@ def init_db_with_retry(app, max_retries=5, retry_delay=3):
                 # Test connection with explicit timeout
                 with db.engine.connect() as connection:
                     connection.execute(db.text("SELECT 1"))
-                    connection.commit()
                 
                 # Dispose of any existing connections to ensure fresh pool
                 db.engine.dispose()
