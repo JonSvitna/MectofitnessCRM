@@ -40,10 +40,14 @@ def make_shell_context():
 
 
 if __name__ == '__main__':
-    # Create database tables if they don't exist
-    with app.app_context():
-        db.create_all()
+    # Create database tables if they don't exist with retry logic
+    from app.utils.db_helpers import init_db_with_retry
+    
+    if init_db_with_retry(app, max_retries=5, retry_delay=2):
         print("Database tables created successfully!")
+    else:
+        print("Warning: Database initialization failed. Application may not work correctly.")
+        print("Please check DATABASE_URL and database connectivity.")
     
     # Run the application
     # Debug mode is controlled by FLASK_ENV environment variable
