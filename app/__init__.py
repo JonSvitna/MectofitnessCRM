@@ -44,7 +44,7 @@ def create_app(config_name='default'):
             
             # Import all models to ensure they're registered
             from app.models import (
-                User, Client, Session, Program, Exercise, 
+                Organization, User, Client, Session, Program, Exercise, 
                 CalendarIntegration, ClientIntake, EmailTemplate, 
                 SMSTemplate, MarketingCampaign, WorkflowTemplate, 
                 WorkflowExecution, AutomationRule, ExerciseLibrary, 
@@ -83,7 +83,7 @@ def create_app(config_name='default'):
                            intake, marketing, workflow, settings, exercise_library)
     from app.routes import (api_clients_bp, api_sessions_bp, api_exercises_bp, api_programs_bp,
                            api_progress_bp, api_nutrition_bp, api_booking_bp, api_payments_bp,
-                           api_dashboard_bp)
+                           api_dashboard_bp, api_organization_bp)
     
     app.register_blueprint(auth.bp)
     app.register_blueprint(main.bp)
@@ -101,6 +101,7 @@ def create_app(config_name='default'):
     app.register_blueprint(api_booking_bp)  # RESTful booking API
     app.register_blueprint(api_payments_bp)  # RESTful payments API
     app.register_blueprint(api_dashboard_bp)  # RESTful dashboard API
+    app.register_blueprint(api_organization_bp)  # RESTful organization API
     app.register_blueprint(intake.bp)
     app.register_blueprint(marketing.bp)
     app.register_blueprint(workflow.bp)

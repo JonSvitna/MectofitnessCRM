@@ -1,4 +1,5 @@
 """Database models package."""
+from app.models.organization import Organization
 from app.models.user import User
 from app.models.client import Client
 from app.models.session import Session
@@ -17,7 +18,7 @@ from app.models.booking import BookingAvailability, BookingException, OnlineBook
 from app.models.integrations import Integration, VideoConference, WebhookEndpoint, AppCustomization
 
 __all__ = [
-    'User', 'Client', 'Session', 'Program', 'Exercise', 'CalendarIntegration',
+    'Organization', 'User', 'Client', 'Session', 'Program', 'Exercise', 'CalendarIntegration',
     'ClientIntake', 'EmailTemplate', 'SMSTemplate', 'MarketingCampaign', 'CommunicationLog',
     'WorkflowTemplate', 'WorkflowExecution', 'AutomationRule',
     'ExerciseLibrary', 'ProgramTemplate', 'TrainerSettings', 'SystemSettings',

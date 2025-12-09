@@ -8,3 +8,4 @@ from app.routes.api_nutrition import api_nutrition as api_nutrition_bp
 from app.routes.api_booking import api_booking as api_booking_bp
 from app.routes.api_payments import api_payments as api_payments_bp
 from app.routes.api_dashboard import api_dashboard as api_dashboard_bp
+from app.routes.api_organization import api_organization as api_organization_bp

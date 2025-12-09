@@ -14,6 +14,11 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, nullable=False, index=True)
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(256), nullable=False)
+    
+    # Organization & RBAC
+    organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), nullable=True)
+    role = db.Column(db.String(20), default='trainer')  # owner, admin, trainer, client
+    
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
     phone = db.Column(db.String(20))
@@ -45,6 +50,47 @@ class User(UserMixin, db.Model):
         if self.first_name and self.last_name:
             return f"{self.first_name} {self.last_name}"
         return self.username
+    
+    # RBAC Permission Checks
+    def is_owner(self):
+        """Check if user is organization owner."""
+        return self.role == 'owner'
+    
+    def is_admin(self):
+        """Check if user is admin or owner."""
+        return self.role in ['owner', 'admin']
+    
+    def is_trainer(self):
+        """Check if user is trainer, admin, or owner."""
+        return self.role in ['owner', 'admin', 'trainer']
+    
+    def is_client_user(self):
+        """Check if user is a client (read-only access)."""
+        return self.role == 'client'
+    
+    def can_manage_organization(self):
+        """Check if user can manage organization settings."""
+        return self.role == 'owner'
+    
+    def can_manage_users(self):
+        """Check if user can manage other users."""
+        return self.role in ['owner', 'admin']
+    
+    def can_access_client_data(self, client_id):
+        """Check if user can access specific client data."""
+        if self.is_admin():
+            # Admins can access all clients in their organization
+            from app.models.client import Client
+            client = Client.query.get(client_id)
+            if client:
+                trainer = User.query.get(client.trainer_id)
+                return trainer and trainer.organization_id == self.organization_id
+        elif self.is_trainer():
+            # Trainers can only access their own clients
+            from app.models.client import Client
+            client = Client.query.get(client_id)
+            return client and client.trainer_id == self.id
+        return False
     
     # CRUD Methods
     @classmethod
