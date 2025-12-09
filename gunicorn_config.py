@@ -3,7 +3,6 @@ Gunicorn configuration for MectoFitness CRM.
 Handles worker lifecycle to prevent database connection issues.
 """
 import os
-import multiprocessing
 
 # Server socket
 bind = f"0.0.0.0:{os.getenv('PORT', '5000')}"
@@ -51,6 +50,11 @@ def pre_fork(server, worker):
 def _dispose_db_pool(log_func, context_msg):
     """
     Helper function to safely dispose database connection pool.
+    
+    This import is inside the function intentionally - it's only called during
+    worker lifecycle events (not per-request), and importing at module level
+    would cause issues since the app may not be initialized when this config
+    file is first loaded by Gunicorn.
     
     Args:
         log_func: Logging function to use (e.g., server.log.info, worker.log.info)

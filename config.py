@@ -26,7 +26,7 @@ def get_engine_options():
         return {
             # Connection Pool Settings
             'pool_size': 5,  # Number of permanent connections to maintain
-            'pool_recycle': 240,  # Recycle connections after 4 minutes (more aggressive than Railway's ~5min timeout)
+            'pool_recycle': 240,  # Recycle connections after 4 minutes (Railway closes idle connections after approximately 300s)
             'pool_pre_ping': True,  # Test connections before using them to avoid stale connections
             'pool_timeout': 30,  # Timeout for getting connection from pool
             'max_overflow': 10,  # Additional connections beyond pool_size when needed
