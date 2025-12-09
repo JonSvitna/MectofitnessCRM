@@ -26,7 +26,7 @@ def get_engine_options():
         return {
             # Connection Pool Settings
             'pool_size': 5,  # Number of permanent connections to maintain
-            'pool_recycle': 300,  # Recycle connections after 5 minutes (Railway timeout is typically 300s)
+            'pool_recycle': 240,  # Recycle connections after 4 minutes (more aggressive than Railway's ~5min timeout)
             'pool_pre_ping': True,  # Test connections before using them to avoid stale connections
             'pool_timeout': 30,  # Timeout for getting connection from pool
             'max_overflow': 10,  # Additional connections beyond pool_size when needed
@@ -35,7 +35,7 @@ def get_engine_options():
             'connect_args': {
                 'connect_timeout': 10,  # Timeout for establishing new connections
                 'keepalives': 1,  # Enable TCP keepalive
-                'keepalives_idle': 30,  # Seconds before starting keepalive probes
+                'keepalives_idle': 20,  # Seconds before starting keepalive probes (more aggressive)
                 'keepalives_interval': 10,  # Interval between keepalive probes
                 'keepalives_count': 5,  # Max keepalive probes before giving up
             }
