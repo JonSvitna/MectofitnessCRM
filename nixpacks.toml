@@ -1,11 +1,11 @@
 [phases.setup]
-nixPkgs = ["python311", "nodejs_20", "postgresql"]
+nixPkgs = ["python3", "nodejs_20", "postgresql"]
 nixLibs = []
 
 [phases.install]
 cmds = [
-  "python3.11 -m pip install --upgrade pip setuptools wheel",
-  "python3.11 -m pip install -r requirements.txt",
+  "python3 -m pip install --upgrade pip setuptools wheel",
+  "python3 -m pip install -r requirements.txt",
   "npm install"
 ]
 
@@ -13,4 +13,4 @@ cmds = [
 cmds = ["npm run build"]
 
 [start]
-cmd = "python3.11 -m gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT"
+cmd = "python3 -m gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT"

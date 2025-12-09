@@ -8,8 +8,8 @@ echo "MectoFitness CRM - Railway Startup"
 echo "========================================"
 echo ""
 
-# Force Python 3.11
-PYTHON=python3.11
+# Use available Python 3
+PYTHON=python3
 echo "Python version check:"
 $PYTHON --version
 
@@ -59,4 +59,4 @@ echo ""
 echo "========================================"
 echo "Starting Gunicorn Server on port $PORT"
 echo "========================================"
-echo "Note: Gunicorn started via nixpacks (python3.11 -m gunicorn)"
+echo "Note: Gunicorn started via nixpacks (python3 -m gunicorn)"
