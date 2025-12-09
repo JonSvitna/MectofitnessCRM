@@ -4,10 +4,10 @@ services:
     name: mectofitness-api
     env: python
     region: oregon
-    plan: starter
+    plan: free
     branch: main
     buildCommand: "pip install -r requirements.txt && npm install && npm run build"
-    startCommand: "gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT"
+    startCommand: "gunicorn run:app --workers 2 --timeout 120 --bind 0.0.0.0:$PORT"
     envVars:
       - key: FLASK_ENV
         value: production
