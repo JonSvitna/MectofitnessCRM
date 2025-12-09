@@ -8,7 +8,13 @@ echo "MectoFitness CRM - Railway Startup"
 echo "========================================"
 echo ""
 
+# Force Python 3.11
+PYTHON=python3.11
+echo "Python version check:"
+$PYTHON --version
+
 # Check critical environment variables
+echo ""
 echo "Environment Check:"
 if [ -z "$DATABASE_URL" ]; then
     echo "❌ ERROR: DATABASE_URL not set!"
@@ -28,14 +34,14 @@ fi
 
 echo ""
 echo "Database Connection Test..."
-python test_db.py || {
+$PYTHON test_db.py || {
     echo "❌ Database connection failed"
     exit 1
 }
 
 echo ""
 echo "Initializing Database Tables..."
-python -c "
+$PYTHON -c "
 from app import create_app, db
 import os
 
@@ -53,4 +59,4 @@ echo ""
 echo "========================================"
 echo "Starting Gunicorn Server on port $PORT"
 echo "========================================"
-exec gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT --log-level info
+echo "Note: Gunicorn started via nixpacks (python3.11 -m gunicorn)"
