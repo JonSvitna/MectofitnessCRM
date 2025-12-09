@@ -17,6 +17,36 @@ def get_database_uri():
     return database_url or 'sqlite:///' + os.path.join(basedir, 'mectofitness.db')
 
 
+def get_engine_options():
+    """Get SQLAlchemy engine options based on database type."""
+    database_uri = get_database_uri()
+    
+    # PostgreSQL-specific connection pooling settings
+    if database_uri and 'postgresql' in database_uri:
+        return {
+            # Connection Pool Settings
+            'pool_size': 5,  # Number of permanent connections to maintain
+            'pool_recycle': 300,  # Recycle connections after 5 minutes (Railway timeout is typically 300s)
+            'pool_pre_ping': True,  # Test connections before using them to avoid stale connections
+            'pool_timeout': 30,  # Timeout for getting connection from pool
+            'max_overflow': 10,  # Additional connections beyond pool_size when needed
+            
+            # Connection Options (PostgreSQL-specific)
+            'connect_args': {
+                'connect_timeout': 10,  # Timeout for establishing new connections
+                'keepalives': 1,  # Enable TCP keepalive
+                'keepalives_idle': 30,  # Seconds before starting keepalive probes
+                'keepalives_interval': 10,  # Interval between keepalive probes
+                'keepalives_count': 5,  # Max keepalive probes before giving up
+            }
+        }
+    else:
+        # SQLite settings (simpler, no keepalives needed)
+        return {
+            'pool_pre_ping': True,  # Still useful for detecting issues
+        }
+
+
 class Config:
     """Base configuration."""
     
@@ -28,23 +58,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # SQLAlchemy Engine Options for robust connection handling
-    SQLALCHEMY_ENGINE_OPTIONS = {
-        # Connection Pool Settings
-        'pool_size': 5,  # Number of permanent connections to maintain
-        'pool_recycle': 300,  # Recycle connections after 5 minutes (Railway timeout is typically 300s)
-        'pool_pre_ping': True,  # Test connections before using them to avoid stale connections
-        'pool_timeout': 30,  # Timeout for getting connection from pool
-        'max_overflow': 10,  # Additional connections beyond pool_size when needed
-        
-        # Connection Options
-        'connect_args': {
-            'connect_timeout': 10,  # Timeout for establishing new connections
-            'keepalives': 1,  # Enable TCP keepalive
-            'keepalives_idle': 30,  # Seconds before starting keepalive probes
-            'keepalives_interval': 10,  # Interval between keepalive probes
-            'keepalives_count': 5,  # Max keepalive probes before giving up
-        }
-    }
+    # Automatically configured based on database type (PostgreSQL vs SQLite)
+    SQLALCHEMY_ENGINE_OPTIONS = get_engine_options()
     
     # Session
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
