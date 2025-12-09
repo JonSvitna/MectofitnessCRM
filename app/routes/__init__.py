@@ -3,3 +3,8 @@ from app.routes.api_clients import api_clients as api_clients_bp
 from app.routes.api_sessions import api_sessions as api_sessions_bp
 from app.routes.api_exercises import api_exercises as api_exercises_bp
 from app.routes.api_programs import api_programs as api_programs_bp
+from app.routes.api_progress import api_progress as api_progress_bp
+from app.routes.api_nutrition import api_nutrition as api_nutrition_bp
+from app.routes.api_booking import api_booking as api_booking_bp
+from app.routes.api_payments import api_payments as api_payments_bp
+from app.routes.api_dashboard import api_dashboard as api_dashboard_bp
