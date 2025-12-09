@@ -34,8 +34,9 @@
                 <a href="{{ url_for('programs.list_programs') }}" class="nav-link">Programs</a>
                 <a href="{{ url_for('calendar.calendar_settings') }}" class="nav-link">Calendar</a>
                 <div class="nav-dropdown">
-                    <span class="nav-link">{{ current_user.full_name }}</span>
+                    <span class="nav-link">{{ current_user.name or current_user.full_name or current_user.email }}</span>
                     <div class="dropdown-menu">
+                        <a href="{{ url_for('settings.index') }}" class="dropdown-item">Settings</a>
                         <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
                     </div>
                 </div>
