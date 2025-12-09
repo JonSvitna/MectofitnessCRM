@@ -4,32 +4,54 @@
 
 {% block content %}
 <div class="container">
-    <div class="form-container">
-        <h2 style="text-align: center; color: var(--primary-green); margin-bottom: 2rem;">Personal Trainer Login</h2>
+    <div class="form-container" style="max-width: 450px; margin: 3rem auto;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h2 style="color: #FF6B35; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 700;">Welcome Back</h2>
+            <p style="color: #666; font-size: 0.95rem;">Log in to your trainer account</p>
+        </div>
         
         <form method="POST">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" class="form-control" required>
+                <label for="username" style="font-weight: 600; color: #333;">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required 
+                       placeholder="Enter your username" 
+                       style="padding: 0.75rem; font-size: 1rem; border: 2px solid #e5e7eb; border-radius: 8px;">
             </div>
             
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="form-control" required>
+                <label for="password" style="font-weight: 600; color: #333;">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required 
+                       placeholder="Enter your password"
+                       style="padding: 0.75rem; font-size: 1rem; border: 2px solid #e5e7eb; border-radius: 8px;">
             </div>
             
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" name="remember"> Remember me
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" name="remember" style="margin-right: 0.5rem;"> 
+                    <span style="font-size: 0.9rem; color: #666;">Remember me</span>
                 </label>
+                <a href="#" style="font-size: 0.9rem; color: #FF6B35; text-decoration: none;">Forgot password?</a>
             </div>
             
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            <button type="submit" class="btn btn-primary" 
+                    style="width: 100%; padding: 0.75rem; font-size: 1.05rem; font-weight: 600; background: #FF6B35; border: none; border-radius: 8px; margin-top: 1rem;">
+                Log In
+            </button>
         </form>
         
-        <p style="text-align: center; margin-top: 1rem;">
-            Don't have an account? <a href="{{ url_for('auth.register') }}" style="color: var(--primary-green);">Register here</a>
-        </p>
+        <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+            <p style="color: #666; font-size: 0.95rem;">
+                Don't have an account? 
+                <a href="{{ url_for('auth.register') }}" 
+                   style="color: #FF6B35; font-weight: 600; text-decoration: none;">Sign up free</a>
+            </p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="{{ url_for('main.index') }}" style="color: #999; font-size: 0.9rem; text-decoration: none;">
+                ← Back to homepage
+            </a>
+        </div>
     </div>
 </div>
 {% endblock %}

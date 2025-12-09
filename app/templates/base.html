@@ -43,9 +43,10 @@
             </div>
             {% else %}
             <div class="nav-menu">
-                <a href="{{ url_for('main.about') }}" class="nav-link">About</a>
+                <a href="{{ url_for('main.index') }}#features" class="nav-link">Features</a>
+                <a href="{{ url_for('main.index') }}#pricing" class="nav-link">Pricing</a>
                 <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
-                <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Get Started</a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="background: #FF6B35; border: none; padding: 0.5rem 1.5rem; border-radius: 6px;">Start Free Trial</a>
             </div>
             {% endif %}
         </div>
