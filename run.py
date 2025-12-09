@@ -1,5 +1,10 @@
 """Run the MectoFitness CRM application."""
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 from app import create_app, db
 from app.models import (User, Client, Session, Program, Exercise, CalendarIntegration,
                        ClientIntake, EmailTemplate, SMSTemplate, MarketingCampaign,

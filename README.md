@@ -48,14 +48,22 @@ MectoFitness CRM is a comprehensive management system designed specifically for 
    # Edit .env with your configuration
    ```
 
-5. **Initialize the database**
+5. **Verify setup (recommended)**
+   ```bash
+   python verify_setup.py
+   ```
+   This checks your database connection and configuration.
+
+6. **Initialize the database**
    ```bash
    python run.py
    ```
-   This will automatically create the SQLite database with all necessary tables.
+   This will automatically create the database tables.
 
-6. **Access the application**
+7. **Access the application**
    Open your browser and navigate to `http://localhost:5000`
+
+> **Note**: For PostgreSQL setup, see [POSTGRESQL_SETUP.md](POSTGRESQL_SETUP.md). For troubleshooting, see [QUICKSTART.md](QUICKSTART.md).
 
 ## 📖 Usage
 
