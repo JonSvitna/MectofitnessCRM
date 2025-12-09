@@ -48,9 +48,8 @@ def test_database_connection():
         
         with app.app_context():
             # Try to connect
-            connection = db.engine.connect()
-            print("✓ Database connection successful!")
-            connection.close()
+            with db.engine.connect() as connection:
+                print("✓ Database connection successful!")
             
             # Check if tables exist
             from sqlalchemy import inspect

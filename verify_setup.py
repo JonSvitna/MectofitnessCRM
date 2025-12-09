@@ -54,9 +54,8 @@ def test_database_connection(db_type):
         
         with app.app_context():
             # Test connection
-            connection = db.engine.connect()
-            print("✓ Database connection successful")
-            connection.close()
+            with db.engine.connect() as connection:
+                print("✓ Database connection successful")
             
             # Check tables
             from sqlalchemy import inspect
@@ -79,7 +78,9 @@ def test_database_connection(db_type):
             return True
             
     except Exception as e:
-        print(f"❌ Database connection failed: {str(e)}")
+        # Log error without exposing sensitive details
+        error_type = type(e).__name__
+        print(f"❌ Database connection failed: {error_type}")
         if db_type == 'postgresql':
             print("\nPostgreSQL Troubleshooting Tips:")
             print("1. Verify DATABASE_URL format: postgresql://user:password@host:port/database")
@@ -87,6 +88,7 @@ def test_database_connection(db_type):
             print("3. Verify database credentials")
             print("4. Ensure database exists")
             print("5. Check firewall/network settings")
+            print("\nFor detailed error information, check application logs")
         return False
 
 def test_user_operations():

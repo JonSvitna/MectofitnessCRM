@@ -79,7 +79,8 @@ def register():
         except Exception as e:
             db.session.rollback()
             logger.error(f"Registration error: {str(e)}", exc_info=True)
-            flash(f'Registration failed: {str(e)}. Please check database configuration.', 'danger')
+            # Don't expose sensitive error details to users
+            flash('Registration failed. Please try again or contact support if the problem persists.', 'danger')
             return redirect(url_for('auth.register'))
     
     return render_template('auth/register.html')
