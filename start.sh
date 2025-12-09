@@ -1,56 +1,56 @@
 #!/bin/bash
 # Railway startup script - Initialize database and start app
 
+set -e  # Exit on any error
+
 echo "========================================" 
-echo "Railway Startup - MectoFitness CRM"
+echo "MectoFitness CRM - Railway Startup"
 echo "========================================"
 echo ""
 
-# Debug environment variables
+# Check critical environment variables
 echo "Environment Check:"
 if [ -z "$DATABASE_URL" ]; then
-    echo "❌ ERROR: DATABASE_URL is NOT set!"
-    echo "   Please add PostgreSQL database in Railway and link it to this service"
+    echo "❌ ERROR: DATABASE_URL not set!"
+    echo "   Add PostgreSQL database in Railway and link it"
     exit 1
-else
-    echo "✓ DATABASE_URL is set"
-    # Show masked version
-    echo "  Connection type: $(echo $DATABASE_URL | cut -d: -f1)"
+fi
+echo "✓ DATABASE_URL configured"
+
+if [ -z "$SECRET_KEY" ]; then
+    echo "⚠  WARNING: SECRET_KEY not set, using default (insecure)"
 fi
 
 if [ -z "$PORT" ]; then
-    echo "⚠ PORT not set, using default 5000"
+    echo "⚠  PORT not set, defaulting to 5000"
     export PORT=5000
-else
-    echo "✓ PORT: $PORT"
 fi
 
 echo ""
-
-# Test database connection
-echo "Testing database connection..."
-python test_db.py
-if [ $? -ne 0 ]; then
-    echo "❌ Database connection test failed!"
+echo "Database Connection Test..."
+python test_db.py || {
+    echo "❌ Database connection failed"
     exit 1
-fi
+}
 
-# Initialize database tables
 echo ""
-echo "Initializing database..."
+echo "Initializing Database Tables..."
 python -c "
 from app import create_app, db
 import os
 
-app = create_app(os.getenv('FLASK_ENV', 'production'))
-with app.app_context():
-    print('Creating database tables...')
-    db.create_all()
-    print('✓ Database tables created successfully!')
+try:
+    app = create_app(os.getenv('FLASK_ENV', 'production'))
+    with app.app_context():
+        db.create_all()
+        print('✓ Database tables ready')
+except Exception as e:
+    print(f'❌ Database initialization failed: {e}')
+    raise
 "
 
 echo ""
 echo "========================================"
-echo "Starting Gunicorn web server..."
+echo "Starting Gunicorn Server on port $PORT"
 echo "========================================"
-exec gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT
+exec gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT --log-level info
