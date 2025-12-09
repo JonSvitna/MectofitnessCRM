@@ -1,0 +1,23 @@
+{
+  "providers": ["python", "node"],
+  "phases": {
+    "setup": {
+      "nixPkgs": ["python311", "nodejs_20", "npm"],
+      "aptPkgs": ["postgresql-client"]
+    },
+    "install": {
+      "cmds": [
+        "pip install -r requirements.txt",
+        "npm install"
+      ]
+    },
+    "build": {
+      "cmds": [
+        "npm run build"
+      ]
+    }
+  },
+  "start": {
+    "cmd": "gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT"
+  }
+}
