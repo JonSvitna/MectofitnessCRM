@@ -108,4 +108,14 @@ def create_app(config_name='default'):
             error_message='An unexpected error occurred. Please try again later.'
         ), 500
     
+    @app.teardown_appcontext
+    def shutdown_session(exception=None):
+        """
+        Clean up database session after each request.
+        This ensures connections are returned to the pool properly.
+        """
+        if exception:
+            db.session.rollback()
+        db.session.remove()
+    
     return app

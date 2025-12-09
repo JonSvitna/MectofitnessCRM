@@ -49,4 +49,6 @@ echo ""
 echo "========================================"
 echo "Starting Gunicorn Server on port $PORT"
 echo "========================================"
-exec $PYTHON -m gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT --log-level info
+echo "Using gunicorn_config.py for worker lifecycle management"
+echo "Config includes: workers=4, timeout=120, bind, log-level, and lifecycle hooks"
+exec $PYTHON -m gunicorn run:app --config gunicorn_config.py
