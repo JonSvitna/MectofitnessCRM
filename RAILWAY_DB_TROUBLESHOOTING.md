@@ -32,14 +32,14 @@ Our config.py automatically converts this, but double-check if issues persist.
 ```python
 SQLALCHEMY_ENGINE_OPTIONS = {
     'pool_size': 5,              # Maintain 5 connections
-    'pool_recycle': 300,         # Recycle after 5 min (Railway timeout)
+    'pool_recycle': 240,         # Recycle after 4 min (more aggressive than Railway's ~5min timeout)
     'pool_pre_ping': True,       # Test before use (catches stale connections)
     'pool_timeout': 30,          # Wait 30s for connection from pool
     'max_overflow': 10,          # Up to 10 extra connections
     'connect_args': {
         'connect_timeout': 10,   # 10s to establish connection
         'keepalives': 1,         # Enable TCP keepalive
-        'keepalives_idle': 30,   # Start keepalive after 30s idle
+        'keepalives_idle': 20,   # Start keepalive after 20s idle (more aggressive)
         'keepalives_interval': 10,  # Send probe every 10s
         'keepalives_count': 5,   # 5 probes before giving up
     }
@@ -48,9 +48,42 @@ SQLALCHEMY_ENGINE_OPTIONS = {
 
 **Key Features:**
 - `pool_pre_ping`: Tests connections before using them (prevents stale connection errors)
-- `pool_recycle`: Recycles connections before Railway closes them (300s = 5 minutes)
+- `pool_recycle=240`: More aggressive recycling (4 min vs Railway's ~5 min timeout)
+- `keepalives_idle=20`: Faster keepalive detection (20s vs previous 30s)
 - `keepalives`: Keeps connections alive during idle periods
 - `connect_timeout`: Fails fast if database is unreachable
+
+### Gunicorn Worker Lifecycle Management (gunicorn_config.py)
+**NEW**: Added worker lifecycle hooks to prevent connection sharing between workers:
+
+```python
+def post_fork(server, worker):
+    """Each worker gets its own connection pool"""
+    from app import db
+    db.engine.dispose()  # Dispose inherited pool
+
+def child_exit(server, worker):
+    """Clean up connections when worker exits"""
+    from app import db
+    db.engine.dispose()
+```
+
+**Why This Matters:**
+- Gunicorn spawns multiple worker processes
+- Without proper handling, workers can share/inherit connection pools
+- This causes "server closed the connection unexpectedly" errors
+- Each worker now creates and manages its own connection pool
+
+### Request Cleanup (app/__init__.py)
+Added proper session teardown after each request:
+
+```python
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    if exception:
+        db.session.rollback()
+    db.session.remove()
+```
 
 ### Retry Logic with Exponential Backoff
 - Initial retry: 2 seconds
@@ -126,9 +159,11 @@ In Railway dashboard:
 ### Issue 3: "Too many connections"
 **Cause:** Connection pool exhausted
 **Solution:**
-1. Reduce `pool_size` in config.py (currently 5)
-2. Reduce `max_overflow` (currently 10)
-3. Check for connection leaks in your code
+1. Verify each Gunicorn worker has its own pool (check gunicorn_config.py is being used)
+2. Reduce `pool_size` in config.py (currently 5 per worker)
+3. Reduce `max_overflow` (currently 10)
+4. Check for connection leaks in your code
+5. Note: With 4 workers, max connections = 4 × (5 + 10) = 60 connections
 
 ### Issue 4: "SSL connection has been closed unexpectedly"
 **Cause:** Railway's SSL configuration
@@ -140,21 +175,26 @@ In Railway dashboard:
 ## Performance Optimization
 
 ### Connection Pool Sizing
-Current settings:
+Current settings (per worker):
 - `pool_size=5`: Good for small apps (1-100 concurrent users)
-- `max_overflow=10`: Allows spikes up to 15 connections
+- `max_overflow=10`: Allows spikes up to 15 connections per worker
+- With 4 workers: Max total connections = 4 × 15 = 60 connections
 
 Adjust based on your traffic:
 - Small app (<100 users): pool_size=5, max_overflow=10
 - Medium app (100-1000 users): pool_size=10, max_overflow=20
 - Large app (>1000 users): pool_size=20, max_overflow=30
 
+**Important**: Remember to multiply by number of Gunicorn workers!
+
 ### Pool Recycle Timing
 Railway typically closes idle connections after ~5 minutes (300s).
-Our `pool_recycle=300` matches this to prevent stale connections.
+**Current setting**: `pool_recycle=240` (4 minutes) - More aggressive than Railway's timeout.
+
+This was changed from 300s to 240s to be more proactive about refreshing connections.
 
 If you still see issues, try:
-- `pool_recycle=240` (4 minutes) - More aggressive
+- `pool_recycle=180` (3 minutes) - Very aggressive
 - `pool_recycle=180` (3 minutes) - Very aggressive
 
 ## Monitoring in Production
@@ -218,11 +258,13 @@ Contact Railway support if:
 
 The improvements made to this application:
 1. ✅ Connection pool pre-ping (detects stale connections)
-2. ✅ Aggressive connection recycling (prevents Railway timeouts)
-3. ✅ TCP keepalives (maintains connection health)
-4. ✅ Exponential backoff retry (handles transient failures)
-5. ✅ Connection pool disposal on failure (fresh connections on retry)
-6. ✅ Enhanced health check endpoint (monitors connection quality)
-7. ✅ Better error messages (helps with debugging)
+2. ✅ More aggressive connection recycling (240s vs Railway's ~300s timeout)
+3. ✅ Faster TCP keepalives (20s idle vs previous 30s)
+4. ✅ **Gunicorn worker lifecycle management** (each worker gets own connection pool - prevents sharing issues)
+5. ✅ **Request teardown handlers** (proper session cleanup after each request)
+6. ✅ Exponential backoff retry (handles transient failures)
+7. ✅ Connection pool disposal on failure (fresh connections on retry)
+8. ✅ Enhanced health check endpoint (monitors connection quality)
+9. ✅ Better error messages (helps with debugging)
 
-These changes should resolve the "server closed the connection unexpectedly" error in most cases.
+These changes should resolve the "server closed the connection unexpectedly" error in most cases by addressing both connection lifetime issues and multi-worker connection management problems.
