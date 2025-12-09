@@ -94,3 +94,35 @@ def webhook_gym_platform():
     # This would handle events from gym management systems
     
     return jsonify({'status': 'received'}), 200
+
+
+@bp.route('/health', methods=['GET'])
+def health_check():
+    """
+    Health check endpoint to verify application and database status.
+    Returns 200 OK if database is accessible, 503 Service Unavailable otherwise.
+    """
+    from app import db
+    from app.models.user import User
+    
+    try:
+        # Try to execute a simple query to check database connectivity
+        with db.engine.connect() as connection:
+            connection.execute(db.text("SELECT 1"))
+        
+        # Try to query a table to ensure tables exist
+        User.query.limit(1).all()
+        
+        return jsonify({
+            'status': 'healthy',
+            'database': 'connected',
+            'timestamp': datetime.utcnow().isoformat()
+        }), 200
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'unhealthy',
+            'database': 'disconnected',
+            'error': 'Database connection failed',
+            'timestamp': datetime.utcnow().isoformat()
+        }), 503

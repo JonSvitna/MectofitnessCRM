@@ -46,5 +46,195 @@ class User(UserMixin, db.Model):
             return f"{self.first_name} {self.last_name}"
         return self.username
     
+    # CRUD Methods
+    @classmethod
+    def create_user(cls, username, email, password, **kwargs):
+        """
+        Create a new user with proper error handling.
+        
+        Args:
+            username: Unique username
+            email: Unique email address
+            password: Plain text password (will be hashed)
+            **kwargs: Additional user attributes (first_name, last_name, etc.)
+        
+        Returns:
+            tuple: (User object or None, error message or None)
+        """
+        try:
+            # Validate required fields
+            if not username or not email or not password:
+                return None, "Username, email, and password are required"
+            
+            # Check if username already exists
+            if cls.query.filter_by(username=username).first():
+                return None, "Username already exists"
+            
+            # Check if email already exists
+            if cls.query.filter_by(email=email).first():
+                return None, "Email already registered"
+            
+            # Create new user
+            user = cls(username=username, email=email, **kwargs)
+            user.set_password(password)
+            
+            db.session.add(user)
+            db.session.commit()
+            
+            return user, None
+            
+        except Exception as e:
+            db.session.rollback()
+            return None, f"Failed to create user: {str(e)}"
+    
+    @classmethod
+    def get_by_id(cls, user_id):
+        """
+        Get user by ID with error handling.
+        
+        Args:
+            user_id: User ID
+        
+        Returns:
+            User object or None
+        """
+        try:
+            return db.session.get(cls, user_id)
+        except Exception:
+            return None
+    
+    @classmethod
+    def get_by_username(cls, username):
+        """
+        Get user by username with error handling.
+        
+        Args:
+            username: Username to search for
+        
+        Returns:
+            User object or None
+        """
+        try:
+            return cls.query.filter_by(username=username).first()
+        except Exception:
+            return None
+    
+    @classmethod
+    def get_by_email(cls, email):
+        """
+        Get user by email with error handling.
+        
+        Args:
+            email: Email to search for
+        
+        Returns:
+            User object or None
+        """
+        try:
+            return cls.query.filter_by(email=email).first()
+        except Exception:
+            return None
+    
+    @classmethod
+    def authenticate(cls, username, password):
+        """
+        Authenticate user with username and password.
+        
+        Args:
+            username: Username or email
+            password: Plain text password
+        
+        Returns:
+            tuple: (User object or None, error message or None)
+        """
+        try:
+            # Try to find user by username or email
+            user = cls.query.filter(
+                (cls.username == username) | (cls.email == username)
+            ).first()
+            
+            if not user:
+                return None, "Invalid username or password"
+            
+            if not user.is_active:
+                return None, "Account is disabled"
+            
+            if not user.check_password(password):
+                return None, "Invalid username or password"
+            
+            return user, None
+            
+        except Exception as e:
+            return None, f"Authentication failed: {str(e)}"
+    
+    # Fields that cannot be updated via update_profile
+    PROTECTED_FIELDS = ['id', 'password_hash', 'created_at']
+    
+    def update_profile(self, **kwargs):
+        """
+        Update user profile with error handling.
+        
+        Args:
+            **kwargs: Attributes to update
+        
+        Returns:
+            tuple: (success boolean, error message or None)
+        """
+        try:
+            for key, value in kwargs.items():
+                if hasattr(self, key) and key not in self.PROTECTED_FIELDS:
+                    setattr(self, key, value)
+            
+            self.updated_at = datetime.utcnow()
+            db.session.commit()
+            return True, None
+            
+        except Exception as e:
+            db.session.rollback()
+            return False, f"Failed to update profile: {str(e)}"
+    
+    def change_password(self, old_password, new_password):
+        """
+        Change user password with validation.
+        
+        Args:
+            old_password: Current password
+            new_password: New password
+        
+        Returns:
+            tuple: (success boolean, error message or None)
+        """
+        try:
+            if not self.check_password(old_password):
+                return False, "Current password is incorrect"
+            
+            if len(new_password) < 8:
+                return False, "New password must be at least 8 characters"
+            
+            self.set_password(new_password)
+            self.updated_at = datetime.utcnow()
+            db.session.commit()
+            return True, None
+            
+        except Exception as e:
+            db.session.rollback()
+            return False, f"Failed to change password: {str(e)}"
+    
+    def delete_user(self):
+        """
+        Delete user with error handling.
+        
+        Returns:
+            tuple: (success boolean, error message or None)
+        """
+        try:
+            db.session.delete(self)
+            db.session.commit()
+            return True, None
+            
+        except Exception as e:
+            db.session.rollback()
+            return False, f"Failed to delete user: {str(e)}"
+    
     def __repr__(self):
         return f'<User {self.username}>'

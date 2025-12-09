@@ -48,6 +48,64 @@ def create_app(config_name='default'):
     
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        try:
+            return db.session.get(User, int(user_id))
+        except Exception:
+            return None
+    
+    # Register error handlers
+    from sqlalchemy.exc import OperationalError
+    
+    @app.errorhandler(OperationalError)
+    def handle_db_error(error):
+        """Handle database connection errors."""
+        from flask import render_template, jsonify, request
+        import logging
+        
+        logger = logging.getLogger(__name__)
+        logger.error(f"Database connection error: {str(error)}")
+        
+        # Rollback session
+        db.session.rollback()
+        
+        # Return JSON for API requests
+        if request.path.startswith('/api/'):
+            return jsonify({
+                'error': 'Database connection error',
+                'message': 'Unable to connect to database. Please try again later.'
+            }), 503
+        
+        # Return HTML for regular requests
+        return render_template(
+            'error.html',
+            error_title='Database Connection Error',
+            error_message='Unable to connect to the database. Please try again in a moment.'
+        ), 503
+    
+    @app.errorhandler(500)
+    def handle_server_error(error):
+        """Handle internal server errors."""
+        from flask import render_template, jsonify, request
+        import logging
+        
+        logger = logging.getLogger(__name__)
+        logger.error(f"Internal server error: {str(error)}", exc_info=True)
+        
+        # Rollback session
+        db.session.rollback()
+        
+        # Return JSON for API requests
+        if request.path.startswith('/api/'):
+            return jsonify({
+                'error': 'Internal server error',
+                'message': 'An unexpected error occurred. Please try again later.'
+            }), 500
+        
+        # Return HTML for regular requests
+        return render_template(
+            'error.html',
+            error_title='Internal Server Error',
+            error_message='An unexpected error occurred. Please try again later.'
+        ), 500
     
     return app

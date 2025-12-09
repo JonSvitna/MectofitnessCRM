@@ -20,14 +20,21 @@ def login():
         password = request.form.get('password')
         remember = request.form.get('remember', False)
         
-        user = User.query.filter_by(username=username).first()
+        # Use the new authenticate method with better error handling
+        user, error = User.authenticate(username, password)
         
-        if user and user.check_password(password):
-            login_user(user, remember=remember)
-            next_page = request.args.get('next')
-            return redirect(next_page or url_for('main.dashboard'))
+        if user:
+            try:
+                login_user(user, remember=remember)
+                logger.info(f"User logged in: {user.username}")
+                next_page = request.args.get('next')
+                return redirect(next_page or url_for('main.dashboard'))
+            except Exception as e:
+                logger.error(f"Login failed for user {username}: {str(e)}")
+                flash('Login failed. Please try again.', 'danger')
         else:
-            flash('Invalid username or password', 'danger')
+            logger.warning(f"Failed login attempt for: {username}")
+            flash(error or 'Invalid username or password', 'danger')
     
     return render_template('auth/login.html')
 
@@ -46,38 +53,26 @@ def register():
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
             
-            # Validate required fields
-            if not username or not email or not password:
-                flash('Username, email, and password are required', 'danger')
-                return redirect(url_for('auth.register'))
-            
-            # Check if user exists
-            if User.query.filter_by(username=username).first():
-                flash('Username already exists', 'danger')
-                return redirect(url_for('auth.register'))
-            
-            if User.query.filter_by(email=email).first():
-                flash('Email already registered', 'danger')
-                return redirect(url_for('auth.register'))
-            
-            # Create new user
-            user = User(
+            # Use the new create_user method with better error handling
+            user, error = User.create_user(
                 username=username,
                 email=email,
+                password=password,
                 first_name=first_name,
                 last_name=last_name
             )
-            user.set_password(password)
             
-            db.session.add(user)
-            db.session.commit()
-            
-            logger.info(f"New user registered: {username}")
-            flash('Registration successful! Please log in.', 'success')
-            return redirect(url_for('auth.login'))
+            if user:
+                logger.info(f"New user registered: {username}")
+                flash('Registration successful! Please log in.', 'success')
+                return redirect(url_for('auth.login'))
+            else:
+                logger.warning(f"Registration failed for {username}: {error}")
+                # Don't expose sensitive error details to users
+                flash(error or 'Registration failed. Please try again.', 'danger')
+                return redirect(url_for('auth.register'))
             
         except Exception as e:
-            db.session.rollback()
             logger.error(f"Registration error: {str(e)}", exc_info=True)
             # Don't expose sensitive error details to users
             flash('Registration failed. Please try again or contact support if the problem persists.', 'danger')
