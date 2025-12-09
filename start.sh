@@ -34,8 +34,14 @@ fi
 
 echo ""
 echo "Initializing Database..."
+echo "Note: Railway PostgreSQL connections may take 30-60 seconds to establish"
 $PYTHON init_db.py || {
     echo "❌ Database initialization failed"
+    echo "   This may be due to:"
+    echo "   1. PostgreSQL service not running or not accessible"
+    echo "   2. Network connectivity issues"
+    echo "   3. Incorrect DATABASE_URL credentials"
+    echo "   Please check Railway logs and database status"
     exit 1
 }
 

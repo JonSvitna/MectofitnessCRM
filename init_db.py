@@ -13,13 +13,13 @@ load_dotenv()
 
 def wait_for_db(app, db, max_retries=5, delay=2):
     """
-    Wait for database to be available with retry logic.
+    Wait for database to be available with retry logic and exponential backoff.
     
     Args:
         app: Flask application instance
         db: SQLAlchemy database instance
         max_retries: Maximum number of connection attempts
-        delay: Delay in seconds between retries
+        delay: Initial delay in seconds between retries (will increase exponentially)
     
     Returns:
         bool: True if connection successful, False otherwise
@@ -29,6 +29,12 @@ def wait_for_db(app, db, max_retries=5, delay=2):
     for attempt in range(1, max_retries + 1):
         try:
             with app.app_context():
+                # Dispose of any stale connections before attempting
+                try:
+                    db.engine.dispose()
+                except Exception:
+                    pass
+                
                 # Try to connect to the database
                 with db.engine.connect() as connection:
                     result = connection.execute(db.text("SELECT 1"))
@@ -36,12 +42,23 @@ def wait_for_db(app, db, max_retries=5, delay=2):
                     print(f"✓ Database connection successful (attempt {attempt}/{max_retries})")
                     return True
         except Exception as e:
-            print(f"⚠ Database connection attempt {attempt}/{max_retries} failed: {str(e)}")
+            error_msg = str(e)
+            print(f"⚠ Database connection attempt {attempt}/{max_retries} failed: {error_msg}")
+            
+            # Dispose of connection pool on failure
+            try:
+                db.engine.dispose()
+            except Exception:
+                pass
+            
             if attempt < max_retries:
-                print(f"  Retrying in {delay} seconds...")
-                time.sleep(delay)
+                # Exponential backoff
+                current_delay = delay * (2 ** (attempt - 1))
+                print(f"  Retrying in {current_delay} seconds...")
+                time.sleep(current_delay)
             else:
                 print(f"❌ Failed to connect to database after {max_retries} attempts")
+                print(f"   Last error: {error_msg}")
                 return False
     
     return False

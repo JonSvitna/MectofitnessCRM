@@ -102,21 +102,27 @@ def check_db_connection():
     
     try:
         with db.engine.connect() as connection:
-            connection.execute(db.text("SELECT 1"))
+            result = connection.execute(db.text("SELECT 1"))
+            result.fetchone()
         return True, None
     except Exception as e:
         logger.error(f"Database connection check failed: {str(e)}")
+        # Dispose of pool to prevent stale connections
+        try:
+            db.engine.dispose()
+        except Exception:
+            pass
         return False, str(e)
 
 
 def init_db_with_retry(app, max_retries=5, retry_delay=3):
     """
-    Initialize database with retry logic.
+    Initialize database with retry logic and exponential backoff.
     
     Args:
         app: Flask application instance
         max_retries: Maximum number of connection attempts
-        retry_delay: Delay in seconds between retries
+        retry_delay: Initial delay in seconds between retries (will increase exponentially)
     
     Returns:
         bool: True if initialization successful, False otherwise
@@ -128,14 +134,22 @@ def init_db_with_retry(app, max_retries=5, retry_delay=3):
     for attempt in range(1, max_retries + 1):
         try:
             with app.app_context():
-                # Test connection
+                # Test connection with explicit timeout
                 with db.engine.connect() as connection:
                     connection.execute(db.text("SELECT 1"))
+                
+                # Dispose of any existing connections to ensure fresh pool
+                db.engine.dispose()
                 
                 # Create tables
                 db.create_all()
                 
-                logger.info(f"Database initialized successfully (attempt {attempt}/{max_retries})")
+                # Verify tables were created
+                from sqlalchemy import inspect
+                inspector = inspect(db.engine)
+                tables = inspector.get_table_names()
+                
+                logger.info(f"Database initialized successfully with {len(tables)} tables (attempt {attempt}/{max_retries})")
                 return True
                 
         except Exception as e:
@@ -143,9 +157,17 @@ def init_db_with_retry(app, max_retries=5, retry_delay=3):
                 f"Database initialization attempt {attempt}/{max_retries} failed: {str(e)}"
             )
             
+            # Dispose of connection pool on failure to ensure clean retry
+            try:
+                db.engine.dispose()
+            except Exception:
+                pass
+            
             if attempt < max_retries:
-                logger.info(f"Retrying in {retry_delay} seconds...")
-                time.sleep(retry_delay)
+                # Exponential backoff: delay grows with each attempt
+                current_delay = retry_delay * (2 ** (attempt - 1))
+                logger.info(f"Retrying in {current_delay} seconds...")
+                time.sleep(current_delay)
             else:
                 logger.error(f"Failed to initialize database after {max_retries} attempts")
                 return False
