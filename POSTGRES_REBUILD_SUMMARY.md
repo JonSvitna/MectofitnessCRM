@@ -160,11 +160,11 @@ python3 run.py
 
 ## Environment Configuration
 
-The `.env` file contains:
+The `.env` file contains (example format):
 ```
 FLASK_ENV=development
-SECRET_KEY=dev-secret-key-change-in-production-12345
-DATABASE_URL=postgresql://mecto_user:mecto_dev_password@localhost:5432/mectofitness_db
+SECRET_KEY=your-secret-key-here
+DATABASE_URL=postgresql://username:password@localhost:5432/database_name
 ```
 
 **Note:** The `.env` file is gitignored for security.
