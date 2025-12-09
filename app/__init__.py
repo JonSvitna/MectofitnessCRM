@@ -80,7 +80,8 @@ def create_app(config_name='default'):
     
     # Register blueprints
     from app.routes import (auth, main, clients, sessions, programs, calendar_sync, api,
-                           intake, marketing, workflow, settings, exercise_library, api_clients)
+                           intake, marketing, workflow, settings, exercise_library, 
+                           api_clients, api_sessions)
     
     app.register_blueprint(auth.bp)
     app.register_blueprint(main.bp)
@@ -89,7 +90,8 @@ def create_app(config_name='default'):
     app.register_blueprint(programs.bp)
     app.register_blueprint(calendar_sync.bp)
     app.register_blueprint(api.bp)
-    app.register_blueprint(api_clients.bp)  # New RESTful client API
+    app.register_blueprint(api_clients.bp)  # RESTful client API
+    app.register_blueprint(api_sessions.bp)  # RESTful sessions API
     app.register_blueprint(intake.bp)
     app.register_blueprint(marketing.bp)
     app.register_blueprint(workflow.bp)
