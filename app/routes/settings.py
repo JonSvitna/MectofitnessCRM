@@ -3,7 +3,10 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from app import db
 from app.models.settings import TrainerSettings
+from app.models.organization import Organization
+from app.models.user import User
 from datetime import datetime
+from werkzeug.security import generate_password_hash
 
 bp = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -19,7 +22,81 @@ def index():
         db.session.add(settings)
         db.session.commit()
     
-    return render_template('settings/index.html', settings=settings)
+    # Get organization if user has one
+    organization = None
+    if current_user.organization_id:
+        organization = Organization.query.get(current_user.organization_id)
+    
+    return render_template('settings/index.html', settings=settings, organization=organization)
+
+
+@bp.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    """User profile settings."""
+    if request.method == 'POST':
+        # Update basic profile info
+        current_user.name = request.form.get('name')
+        current_user.email = request.form.get('email')
+        
+        # Update password if provided
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+        
+        if new_password:
+            if new_password != confirm_password:
+                flash('Passwords do not match!', 'error')
+                return redirect(url_for('settings.profile'))
+            current_user.password = generate_password_hash(new_password)
+        
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('settings.profile'))
+    
+    return render_template('settings/profile.html')
+
+
+@bp.route('/organization', methods=['GET', 'POST'])
+@login_required
+def organization():
+    """Organization settings - only accessible to owners."""
+    if not current_user.is_owner():
+        flash('Only organization owners can access this page.', 'error')
+        return redirect(url_for('settings.index'))
+    
+    org = Organization.query.get(current_user.organization_id)
+    if not org:
+        flash('Organization not found.', 'error')
+        return redirect(url_for('settings.index'))
+    
+    if request.method == 'POST':
+        # Update organization details
+        org.name = request.form.get('name')
+        org.business_type = request.form.get('business_type')
+        org.description = request.form.get('description')
+        org.website = request.form.get('website')
+        org.phone = request.form.get('phone')
+        org.email = request.form.get('email')
+        org.address = request.form.get('address')
+        org.city = request.form.get('city')
+        org.state = request.form.get('state')
+        org.zip_code = request.form.get('zip_code')
+        org.country = request.form.get('country')
+        org.timezone = request.form.get('timezone')
+        
+        # Update subscription settings
+        org.subscription_tier = request.form.get('subscription_tier')
+        org.max_trainers = request.form.get('max_trainers', type=int)
+        org.max_clients = request.form.get('max_clients', type=int)
+        
+        db.session.commit()
+        flash('Organization settings updated successfully!', 'success')
+        return redirect(url_for('settings.organization'))
+    
+    # Get organization members
+    members = User.query.filter_by(organization_id=org.id).all()
+    
+    return render_template('settings/organization.html', organization=org, members=members)
 
 
 @bp.route('/general', methods=['GET', 'POST'])

@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}Organization Settings - MectoFitness CRM{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="mb-6">
+            <a href="{{ url_for('settings.index') }}" class="text-blue-600 hover:text-blue-800 flex items-center">
+                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Back to Settings
+            </a>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-8">
+            <h1 class="text-3xl font-bold mb-6">Organization Settings</h1>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="mb-4 p-4 rounded-lg {% if category == 'error' %}bg-red-100 text-red-800{% else %}bg-green-100 text-green-800{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" class="space-y-8">
+                <!-- Basic Organization Info -->
+                <div>
+                    <h2 class="text-xl font-semibold mb-4">Organization Information</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Organization Name *</label>
+                            <input type="text" id="name" name="name" value="{{ organization.name }}" required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label for="business_type" class="block text-sm font-medium text-gray-700 mb-2">Business Type</label>
+                            <select id="business_type" name="business_type" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="personal_training" {% if organization.business_type == 'personal_training' %}selected{% endif %}>Personal Training</option>
+                                <option value="gym" {% if organization.business_type == 'gym' %}selected{% endif %}>Gym/Fitness Center</option>
+                                <option value="online_coaching" {% if organization.business_type == 'online_coaching' %}selected{% endif %}>Online Coaching</option>
+                                <option value="sports_team" {% if organization.business_type == 'sports_team' %}selected{% endif %}>Sports Team</option>
+                                <option value="other" {% if organization.business_type == 'other' %}selected{% endif %}>Other</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="subscription_tier" class="block text-sm font-medium text-gray-700 mb-2">Subscription Tier</label>
+                            <select id="subscription_tier" name="subscription_tier" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="free" {% if organization.subscription_tier == 'free' %}selected{% endif %}>Free</option>
+                                <option value="starter" {% if organization.subscription_tier == 'starter' %}selected{% endif %}>Starter</option>
+                                <option value="professional" {% if organization.subscription_tier == 'professional' %}selected{% endif %}>Professional</option>
+                                <option value="enterprise" {% if organization.subscription_tier == 'enterprise' %}selected{% endif %}>Enterprise</option>
+                            </select>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea id="description" name="description" rows="3"
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ organization.description or '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="pt-6 border-t border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4">Contact Information</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" id="email" name="email" value="{{ organization.email or '' }}"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                            <input type="tel" id="phone" name="phone" value="{{ organization.phone or '' }}"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label for="website" class="block text-sm font-medium text-gray-700 mb-2">Website</label>
+                            <input type="url" id="website" name="website" value="{{ organization.website or '' }}"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   placeholder="https://example.com">
+                        </div>
+                        
+                        <div>
+                            <label for="timezone" class="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
+                            <select id="timezone" name="timezone"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="America/New_York" {% if organization.timezone == 'America/New_York' %}selected{% endif %}>Eastern Time</option>
+                                <option value="America/Chicago" {% if organization.timezone == 'America/Chicago' %}selected{% endif %}>Central Time</option>
+                                <option value="America/Denver" {% if organization.timezone == 'America/Denver' %}selected{% endif %}>Mountain Time</option>
+                                <option value="America/Los_Angeles" {% if organization.timezone == 'America/Los_Angeles' %}selected{% endif %}>Pacific Time</option>
+                                <option value="UTC" {% if organization.timezone == 'UTC' %}selected{% endif %}>UTC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Address -->
+                <div class="pt-6 border-t border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4">Address</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Street Address</label>
+                            <input type="text" id="address" name="address" value="{{ organization.address or '' }}"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="city" class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                                <input type="text" id="city" name="city" value="{{ organization.city or '' }}"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            
+                            <div>
+                                <label for="state" class="block text-sm font-medium text-gray-700 mb-2">State</label>
+                                <input type="text" id="state" name="state" value="{{ organization.state or '' }}"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            
+                            <div>
+                                <label for="zip_code" class="block text-sm font-medium text-gray-700 mb-2">ZIP Code</label>
+                                <input type="text" id="zip_code" name="zip_code" value="{{ organization.zip_code or '' }}"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="country" class="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                            <input type="text" id="country" name="country" value="{{ organization.country or 'United States' }}"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Subscription Limits -->
+                <div class="pt-6 border-t border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4">Subscription Limits</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="max_trainers" class="block text-sm font-medium text-gray-700 mb-2">Max Trainers</label>
+                            <input type="number" id="max_trainers" name="max_trainers" value="{{ organization.max_trainers or 5 }}" min="1"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label for="max_clients" class="block text-sm font-medium text-gray-700 mb-2">Max Clients</label>
+                            <input type="number" id="max_clients" name="max_clients" value="{{ organization.max_clients or 50 }}" min="1"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p class="text-sm text-blue-800">
+                            <span class="font-medium">Current Usage:</span> 
+                            {{ organization.trainer_count }} of {{ organization.max_trainers }} trainers, 
+                            {{ organization.client_count }} of {{ organization.max_clients }} clients
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Save Button -->
+                <div class="pt-6 border-t border-gray-200">
+                    <button type="submit" 
+                            class="w-full md:w-auto px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+                        Save Organization Settings
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Organization Members -->
+        <div class="mt-8 bg-white rounded-lg shadow-md p-8">
+            <h2 class="text-2xl font-bold mb-6">Organization Members</h2>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for member in members %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ member.name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ member.email }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs rounded-full {% if member.role == 'owner' %}bg-purple-100 text-purple-800{% elif member.role == 'admin' %}bg-blue-100 text-blue-800{% elif member.role == 'trainer' %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ member.role.title() }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ member.created_at.strftime('%B %d, %Y') }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
