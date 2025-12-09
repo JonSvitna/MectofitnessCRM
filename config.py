@@ -35,23 +35,40 @@ def get_engine_options():
     
     # PostgreSQL-specific connection pooling settings
     if database_uri and 'postgresql' in database_uri:
-        return {
-            # Connection Pool Settings
-            'pool_size': 5,  # Number of permanent connections to maintain
-            'pool_recycle': 240,  # Recycle connections after 4 minutes (Railway closes idle connections after approximately 300s)
-            'pool_pre_ping': True,  # Test connections before using them to avoid stale connections
-            'pool_timeout': 30,  # Timeout for getting connection from pool
-            'max_overflow': 10,  # Additional connections beyond pool_size when needed
-            
-            # Connection Options (PostgreSQL-specific)
-            'connect_args': {
-                'connect_timeout': 10,  # Timeout for establishing new connections
-                'keepalives': 1,  # Enable TCP keepalive
-                'keepalives_idle': 20,  # Seconds before starting keepalive probes (more aggressive)
-                'keepalives_interval': 10,  # Interval between keepalive probes
-                'keepalives_count': 5,  # Max keepalive probes before giving up
-            }
+        # Determine if using Railway's public proxy (less stable) or internal network
+        is_public_proxy = 'rlwy.net' in database_uri or 'railway.app' in database_uri
+        
+        base_options = {
+            # Connection Pool Settings (reduced for Railway public proxy stability)
+            'pool_size': 3,  # Fewer permanent connections for public proxy
+            'pool_recycle': 180,  # Recycle every 3 minutes (before Railway timeout)
+            'pool_pre_ping': True,  # Always test connections before use
+            'pool_timeout': 60,  # Longer wait time for public proxy
+            'max_overflow': 5,  # Limit overflow connections
         }
+        
+        # Add connection args based on network type
+        if is_public_proxy:
+            # Public proxy needs more aggressive settings
+            base_options['connect_args'] = {
+                'connect_timeout': 30,  # Longer timeout for public proxy
+                'keepalives': 1,
+                'keepalives_idle': 60,  # Less aggressive to avoid proxy issues
+                'keepalives_interval': 30,
+                'keepalives_count': 3,
+                'options': '-c statement_timeout=30000'  # 30 second statement timeout
+            }
+        else:
+            # Internal network can use standard settings
+            base_options['connect_args'] = {
+                'connect_timeout': 10,
+                'keepalives': 1,
+                'keepalives_idle': 20,
+                'keepalives_interval': 10,
+                'keepalives_count': 5,
+            }
+        
+        return base_options
     else:
         # SQLite settings (simpler, no keepalives needed)
         return {
