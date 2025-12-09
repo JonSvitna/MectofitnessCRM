@@ -7,8 +7,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 def get_database_uri():
     """Get database URI and ensure compatibility with SQLAlchemy 2.x."""
-    # Try DATABASE_PUBLIC_URL first (for Railway public access), then DATABASE_URL
-    database_url = os.environ.get('DATABASE_PUBLIC_URL') or os.environ.get('DATABASE_URL')
+    # Try DATABASE_PRIVATE_URL first (Railway internal network - most stable)
+    # Then fall back to DATABASE_URL, then DATABASE_PUBLIC_URL (least stable)
+    database_url = (
+        os.environ.get('DATABASE_PRIVATE_URL') or 
+        os.environ.get('DATABASE_URL') or 
+        os.environ.get('DATABASE_PUBLIC_URL')
+    )
     
     # Fix for Vercel Postgres and other providers that use deprecated postgres://
     if database_url and database_url.startswith('postgres://'):
