@@ -122,7 +122,7 @@ Add these in Railway dashboard for additional features:
 ### Build Fails
 - Check logs in Railway dashboard
 - Verify `requirements.txt` and `package.json` are valid
-- Ensure Python 3.11 compatibility
+- Ensure Python 3.12 compatibility (configured in nixpacks.toml)
 
 ### App Won't Start
 - Check that `DATABASE_URL` is set
