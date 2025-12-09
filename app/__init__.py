@@ -1,10 +1,15 @@
 """Initialize Flask application."""
+import logging
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_cors import CORS
 from config import config
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -16,11 +21,27 @@ def create_app(config_name='default'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     
+    # Log database configuration (without credentials)
+    db_uri = app.config['SQLALCHEMY_DATABASE_URI']
+    if db_uri and 'postgresql://' in db_uri:
+        # Mask credentials in log
+        masked_uri = db_uri.split('@')[1] if '@' in db_uri else 'configured'
+        logger.info(f"Database configured: {masked_uri}")
+    
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
     CORS(app)
+    
+    # Test database connection on startup
+    with app.app_context():
+        try:
+            db.engine.connect()
+            logger.info("Database connection successful")
+        except Exception as e:
+            logger.error(f"Database connection failed: {e}")
+            logger.warning("App will continue, but database operations may fail")
     
     # Configure login manager
     login_manager.login_view = 'auth.login'

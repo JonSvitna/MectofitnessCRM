@@ -62,3 +62,27 @@ def dashboard():
 def about():
     """About page."""
     return render_template('about.html')
+
+
+@bp.route('/health')
+def health():
+    """Health check endpoint for Railway/Render monitoring."""
+    from app import db
+    from flask import jsonify
+    
+    health_status = {
+        'status': 'healthy',
+        'database': 'unknown'
+    }
+    
+    try:
+        # Test database connection
+        db.session.execute(db.text('SELECT 1'))
+        health_status['database'] = 'connected'
+    except Exception as e:
+        health_status['status'] = 'unhealthy'
+        health_status['database'] = 'disconnected'
+        health_status['error'] = str(e)
+        return jsonify(health_status), 503
+    
+    return jsonify(health_status), 200

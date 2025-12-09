@@ -14,6 +14,13 @@ def get_database_uri():
     if database_url and database_url.startswith('postgres://'):
         database_url = database_url.replace('postgres://', 'postgresql://', 1)
     
+    # Add SSL mode for Railway/Render if using PostgreSQL
+    if database_url and database_url.startswith('postgresql://'):
+        # Railway requires SSL, add if not already present
+        if '?sslmode=' not in database_url and '&sslmode=' not in database_url:
+            separator = '&' if '?' in database_url else '?'
+            database_url = f"{database_url}{separator}sslmode=require"
+    
     return database_url or 'sqlite:///' + os.path.join(basedir, 'mectofitness.db')
 
 
