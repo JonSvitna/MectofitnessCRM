@@ -101,28 +101,48 @@ def health_check():
     """
     Health check endpoint to verify application and database status.
     Returns 200 OK if database is accessible, 503 Service Unavailable otherwise.
+    Uses pool_pre_ping behavior to detect stale connections.
     """
     from app import db
     from app.models.user import User
+    import time
+    
+    start_time = time.time()
     
     try:
         # Try to execute a simple query to check database connectivity
+        # This will use pool_pre_ping if configured, automatically detecting stale connections
         with db.engine.connect() as connection:
-            connection.execute(db.text("SELECT 1"))
+            result = connection.execute(db.text("SELECT 1"))
+            result.fetchone()
+            connection.commit()
         
         # Try to query a table to ensure tables exist
-        User.query.limit(1).all()
+        user_count = User.query.count()
+        
+        response_time = round((time.time() - start_time) * 1000, 2)  # ms
         
         return jsonify({
             'status': 'healthy',
             'database': 'connected',
+            'response_time_ms': response_time,
+            'user_count': user_count,
             'timestamp': datetime.utcnow().isoformat()
         }), 200
         
     except Exception as e:
+        # Dispose of connection pool to avoid stale connections
+        try:
+            db.engine.dispose()
+        except Exception:
+            pass
+        
+        response_time = round((time.time() - start_time) * 1000, 2)  # ms
+        
         return jsonify({
             'status': 'unhealthy',
             'database': 'disconnected',
             'error': 'Database connection failed',
+            'response_time_ms': response_time,
             'timestamp': datetime.utcnow().isoformat()
         }), 503
