@@ -8,8 +8,8 @@ echo "MectoFitness CRM - Railway Startup"
 echo "========================================"
 echo ""
 
-# Use available Python 3
-PYTHON=python3
+# Use Python 3.11
+PYTHON=python3.11
 echo "Python version check:"
 $PYTHON --version
 
@@ -59,4 +59,4 @@ echo ""
 echo "========================================"
 echo "Starting Gunicorn Server on port $PORT"
 echo "========================================"
-echo "Note: Gunicorn started via nixpacks (python3 -m gunicorn)"
+exec $PYTHON -m gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT --log-level info
