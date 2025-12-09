@@ -8,8 +8,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Set test database
-os.environ['DATABASE_URL'] = 'sqlite:///test_homepage.db'
+# Set test database if not already configured
+if 'DATABASE_URL' not in os.environ or 'test' not in os.environ.get('DATABASE_URL', ''):
+    os.environ['DATABASE_URL'] = 'sqlite:///test_homepage.db'
 
 from app import create_app
 
