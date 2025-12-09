@@ -4,9 +4,9 @@ nixLibs = []
 
 [phases.install]
 cmds = [
-  "python -m ensurepip --upgrade",
-  "python -m pip install --upgrade pip setuptools wheel",
-  "python -m pip install -r requirements.txt",
+  "python -m venv /opt/venv",
+  ". /opt/venv/bin/activate && pip install --upgrade pip setuptools wheel",
+  ". /opt/venv/bin/activate && pip install -r requirements.txt",
   "npm install"
 ]
 
@@ -14,4 +14,4 @@ cmds = [
 cmds = ["npm run build"]
 
 [start]
-cmd = "./start.sh"
+cmd = ". /opt/venv/bin/activate && ./start.sh"
