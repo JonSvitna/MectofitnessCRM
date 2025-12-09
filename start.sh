@@ -33,6 +33,17 @@ if [ -z "$PORT" ]; then
 fi
 
 echo ""
+echo "Building Frontend..."
+if command -v npm &> /dev/null; then
+    echo "npm found, building React app..."
+    npm run build || {
+        echo "⚠  Frontend build failed, continuing with backend only"
+    }
+else
+    echo "⚠  npm not found, skipping frontend build"
+fi
+
+echo ""
 echo "Initializing Database..."
 echo "Note: Railway PostgreSQL connections may take 30-60 seconds to establish"
 $PYTHON init_db.py || {
