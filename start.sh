@@ -1,9 +1,17 @@
 #!/bin/bash
 # Railway startup script - Initialize database and start app
 
-echo "Checking database connection..."
+echo "=" 
+echo "Railway Startup - MectoFitness CRM"
+echo "="
+
+# Test database connection
+echo "Testing database connection..."
+python test_db.py
 
 # Initialize database tables
+echo ""
+echo "Initializing database..."
 python -c "
 from app import create_app, db
 import os
@@ -15,5 +23,6 @@ with app.app_context():
     print('✓ Database tables created successfully!')
 "
 
-echo "Starting Gunicorn..."
+echo ""
+echo "Starting Gunicorn web server..."
 exec gunicorn run:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT
