@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+  plugins: [react()],
   root: resolve(__dirname, 'app/static'),
   base: '/static/',
   build: {
@@ -10,7 +12,7 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'app/static/src/main.js'),
+        main: resolve(__dirname, 'app/static/src/main.jsx'),
       },
     },
   },
@@ -20,6 +22,11 @@ export default defineConfig({
     hmr: {
       protocol: 'ws',
       host: 'localhost',
+    },
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'app/static/src'),
     },
   },
 });
