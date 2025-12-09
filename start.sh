@@ -8,6 +8,12 @@ echo "MectoFitness CRM - Railway Startup"
 echo "========================================"
 echo ""
 
+# Activate virtual environment if it exists
+if [ -d "/opt/venv" ]; then
+    echo "Activating Python virtual environment..."
+    source /opt/venv/bin/activate
+fi
+
 # Use Python 3
 PYTHON=python3
 echo "Python version check:"
