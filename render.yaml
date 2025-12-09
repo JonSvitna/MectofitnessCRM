@@ -51,7 +51,7 @@ databases:
   - name: mectofitness-db
     databaseName: mectofitness
     user: mectofitness_user
-    plan: starter
+    plan: free
 
 # Redis for Celery background jobs (Optional - Uncomment if needed)
 # - type: redis
