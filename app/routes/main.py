@@ -1,4 +1,12 @@
-"""Main application routes."""
+"""Main application routes.
+
+This module supports dual routing:
+1. Traditional Flask routes (/dashboard, /clients, etc.) - Always available
+2. React SPA route (/app) - Optional, requires `npm run build` to generate assets
+
+Authenticated users are directed to /dashboard by default.
+Users can optionally use /app for the React interface if it's built.
+"""
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
 from app.models.client import Client
@@ -13,7 +21,7 @@ bp = Blueprint('main', __name__)
 def index():
     """Landing page."""
     if current_user.is_authenticated:
-        return redirect(url_for('main.app'))
+        return redirect(url_for('main.dashboard'))
     return render_template('index.html')
 
 
