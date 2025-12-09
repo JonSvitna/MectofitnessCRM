@@ -65,6 +65,24 @@ MectoFitness CRM is a comprehensive management system designed specifically for 
 
 > **Note**: For PostgreSQL setup, see [POSTGRESQL_SETUP.md](POSTGRESQL_SETUP.md). For troubleshooting, see [QUICKSTART.md](QUICKSTART.md).
 
+### Optional: React Frontend
+
+The application includes an optional modern React interface. The traditional Flask interface is fully functional by default.
+
+To use the React interface:
+
+```bash
+# Install Node.js dependencies
+npm install
+
+# Build the React app
+npm run build
+
+# Access React interface at /app after logging in
+```
+
+See [ROUTING_ARCHITECTURE.md](ROUTING_ARCHITECTURE.md) for details on the dual routing system.
+
 ## 📖 Usage
 
 ### Getting Started
