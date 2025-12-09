@@ -48,6 +48,22 @@ def pre_fork(server, worker):
     server.log.info(f"Worker {worker.pid} about to be forked...")
 
 
+def _dispose_db_pool(log_func, context_msg):
+    """
+    Helper function to safely dispose database connection pool.
+    
+    Args:
+        log_func: Logging function to use (e.g., server.log.info, worker.log.info)
+        context_msg: Context message describing when this is being called
+    """
+    try:
+        from app import db
+        db.engine.dispose()
+        log_func(f"{context_msg}: Connection pool disposed")
+    except Exception as e:
+        log_func(f"{context_msg}: Could not dispose connection pool: {e}")
+
+
 def post_fork(server, worker):
     """
     Called just after a worker has been forked.
@@ -58,17 +74,7 @@ def post_fork(server, worker):
     - Prevents sharing connections across worker processes
     """
     server.log.info(f"Worker {worker.pid} spawned")
-    
-    try:
-        # Import here to avoid issues during startup
-        from app import db
-        
-        # Dispose of any inherited connection pool
-        # Each worker needs its own connection pool
-        db.engine.dispose()
-        server.log.info(f"Worker {worker.pid}: Connection pool disposed, will create fresh connections")
-    except Exception as e:
-        server.log.warning(f"Worker {worker.pid}: Could not dispose connection pool: {e}")
+    _dispose_db_pool(server.log.info, f"Worker {worker.pid}")
 
 
 def pre_exec(server):
@@ -98,14 +104,7 @@ def worker_abort(worker):
     This usually happens when a worker times out.
     """
     worker.log.warning(f"Worker {worker.pid} aborted (timeout or error)")
-    
-    try:
-        from app import db
-        # Clean up database connections before worker dies
-        db.engine.dispose()
-        worker.log.info(f"Worker {worker.pid}: Connection pool disposed on abort")
-    except Exception as e:
-        worker.log.warning(f"Worker {worker.pid}: Could not dispose connection pool on abort: {e}")
+    _dispose_db_pool(worker.log.info, f"Worker {worker.pid} (on abort)")
 
 
 def worker_exit(server, worker):
@@ -120,14 +119,7 @@ def child_exit(server, worker):
     Called just after a worker has been exited, in the worker process.
     """
     worker.log.info(f"Worker {worker.pid} exiting, cleaning up...")
-    
-    try:
-        from app import db
-        # Clean up database connections when worker exits
-        db.engine.dispose()
-        worker.log.info(f"Worker {worker.pid}: Connection pool disposed on exit")
-    except Exception as e:
-        worker.log.warning(f"Worker {worker.pid}: Could not dispose connection pool on exit: {e}")
+    _dispose_db_pool(worker.log.info, f"Worker {worker.pid} (on exit)")
 
 
 def pre_request(worker, req):
@@ -156,11 +148,4 @@ def on_exit(server):
     Called just before the master process exits.
     """
     server.log.info("Shutting down MectoFitness CRM server...")
-    
-    try:
-        from app import db
-        # Final cleanup of database connections
-        db.engine.dispose()
-        server.log.info("Master process: Connection pool disposed")
-    except Exception as e:
-        server.log.warning(f"Master process: Could not dispose connection pool: {e}")
+    _dispose_db_pool(server.log.info, "Master process")
