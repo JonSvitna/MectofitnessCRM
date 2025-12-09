@@ -53,28 +53,52 @@ def register():
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
             
-            # Use the new create_user method with better error handling
+            # Create the user first
             user, error = User.create_user(
                 username=username,
                 email=email,
                 password=password,
                 first_name=first_name,
-                last_name=last_name
+                last_name=last_name,
+                role='owner'  # New users start as owners of their organization
             )
             
             if user:
-                logger.info(f"New user registered: {username}")
+                # Create organization for the new user
+                from app.models.organization import Organization
+                import re
+                
+                org_name = f"{first_name} {last_name}" if first_name and last_name else username
+                org_name = org_name.strip() + " Fitness"
+                
+                # Create slug from name
+                slug = re.sub(r'[^a-z0-9]+', '-', org_name.lower()).strip('-')
+                
+                organization = Organization(
+                    name=org_name,
+                    slug=slug,
+                    subscription_tier='free',
+                    max_trainers=1,
+                    max_clients=10
+                )
+                db.session.add(organization)
+                db.session.flush()  # Get the organization ID
+                
+                # Assign user to organization
+                user.organization_id = organization.id
+                db.session.commit()
+                
+                logger.info(f"New user registered: {username} with organization: {org_name}")
                 flash('Registration successful! Please log in.', 'success')
                 return redirect(url_for('auth.login'))
             else:
                 logger.warning(f"Registration failed for {username}: {error}")
-                # Don't expose sensitive error details to users
                 flash(error or 'Registration failed. Please try again.', 'danger')
                 return redirect(url_for('auth.register'))
             
         except Exception as e:
+            db.session.rollback()
             logger.error(f"Registration error: {str(e)}", exc_info=True)
-            # Don't expose sensitive error details to users
             flash('Registration failed. Please try again or contact support if the problem persists.', 'danger')
             return redirect(url_for('auth.register'))
     
