@@ -8,7 +8,7 @@ from app.models.program import Program
 from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 
-bp = Blueprint('api_clients', __name__, url_prefix='/api/v1/clients')
+api_clients = Blueprint('api_clients', __name__, url_prefix='/api/v1/clients')
 
 
 # Helper function for error responses
@@ -57,7 +57,7 @@ def client_to_dict(client, include_details=False):
     return client_dict
 
 
-@bp.route('', methods=['GET'])
+@api_clients.route('', methods=['GET'])
 @login_required
 def get_clients():
     """
@@ -152,7 +152,7 @@ def get_clients():
         return error_response(f'Error fetching clients: {str(e)}', 500)
 
 
-@bp.route('/<int:client_id>', methods=['GET'])
+@api_clients.route('/<int:client_id>', methods=['GET'])
 @login_required
 def get_client(client_id):
     """
@@ -212,7 +212,7 @@ def get_client(client_id):
         return error_response(f'Error fetching client: {str(e)}', 500)
 
 
-@bp.route('', methods=['POST'])
+@api_clients.route('', methods=['POST'])
 @login_required
 def create_client():
     """
@@ -300,7 +300,7 @@ def create_client():
         return error_response(f'Error creating client: {str(e)}', 500)
 
 
-@bp.route('/<int:client_id>', methods=['PUT', 'PATCH'])
+@api_clients.route('/<int:client_id>', methods=['PUT', 'PATCH'])
 @login_required
 def update_client(client_id):
     """
@@ -367,7 +367,7 @@ def update_client(client_id):
         return error_response(f'Error updating client: {str(e)}', 500)
 
 
-@bp.route('/<int:client_id>', methods=['DELETE'])
+@api_clients.route('/<int:client_id>', methods=['DELETE'])
 @login_required
 def delete_client(client_id):
     """
@@ -416,7 +416,7 @@ def delete_client(client_id):
         return error_response(f'Error deleting client: {str(e)}', 500)
 
 
-@bp.route('/stats', methods=['GET'])
+@api_clients.route('/stats', methods=['GET'])
 @login_required
 def get_client_stats():
     """
