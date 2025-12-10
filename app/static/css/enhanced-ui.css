@@ -1,32 +1,41 @@
-/* Enhanced UI/UX with Gamification - MectoFitness CRM */
+/* Professional Gym/Trainer UI with Gamification - MectoFitness CRM */
 
 :root {
-    /* Vibrant Primary Colors */
-    --electric-blue: #0066FF;
-    --neon-purple: #8B5CF6;
-    --energetic-orange: #FF6B35;
-    --success-green: #10B981;
-    --warning-amber: #F59E0B;
-    --danger-red: #EF4444;
+    /* Professional Gym Colors - Bold & Energetic */
+    --gym-primary: #FF6B35;        /* Energetic Orange */
+    --gym-secondary: #004E89;      /* Deep Blue */
+    --gym-accent: #1AE5BE;         /* Mint Accent */
+    --gym-dark: #1A1A2E;           /* Rich Black */
+    --gym-gold: #FFD700;           /* Achievement Gold */
     
-    /* Gradient Accents */
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-success: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    --gradient-energy: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-    --gradient-fire: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+    /* Status Colors */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --info: #3B82F6;
     
-    /* Gamification Colors */
-    --xp-gold: #FFD700;
-    --level-up-glow: #00FF88;
-    --streak-fire: #FF4500;
-    --achievement-purple: #9333EA;
+    /* Gradients - Professional & Bold */
+    --gradient-primary: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+    --gradient-secondary: linear-gradient(135deg, #004E89 0%, #1A659E 100%);
+    --gradient-success: linear-gradient(135deg, #10B981 0%, #1AE5BE 100%);
+    --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
     
-    /* Modern Neutrals */
-    --dark-mode-bg: #0F172A;
-    --card-bg: #1E293B;
-    --text-primary: #F1F5F9;
-    --text-secondary: #94A3B8;
-    --border-subtle: #334155;
+    /* Neutral Palette */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8FAFC;
+    --bg-tertiary: #F1F5F9;
+    --text-primary: #1A1A2E;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+    --border-color: #E2E8F0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    
+    /* Typography */
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    --font-display: 'Inter', -apple-system, sans-serif;
 }
 
 /* Gamification Elements */

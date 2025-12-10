@@ -3,60 +3,104 @@
 {% block title %}Dashboard - MectoFitness{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/enhanced-ui.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="container" style="padding-top: 2rem;">
-    <!-- Professional Welcome Header -->
-    <div style="margin-bottom: 2.5rem;">
-        <h1 style="color: #1E293B; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 600;">
-            Welcome Back, {{ current_user.full_name }}
-        </h1>
-        <p style="color: #64748B; font-size: 1rem;">Here's your training overview for today</p>
-    </div>
-    
-    <!-- Professional Statistics Dashboard -->
-    <div class="dashboard-grid" style="margin-bottom: 2.5rem;">
-        <div class="stat-card" style="border-left: 4px solid #367588;">
-            <h3 style="color: #64748B; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Active Clients</h3>
-            <div class="stat-value" style="color: #367588; font-size: 2.5rem; font-weight: 700;">{{ total_clients }}</div>
-        </div>
-        
-        <div class="stat-card" style="border-left: 4px solid #10B981;">
-            <h3 style="color: #64748B; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Active Programs</h3>
-            <div class="stat-value" style="color: #10B981; font-size: 2.5rem; font-weight: 700;">{{ total_programs }}</div>
-        </div>
-        
-        <div class="stat-card" style="border-left: 4px solid #F59E0B;">
-            <h3 style="color: #64748B; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Today's Sessions</h3>
-            <div class="stat-value" style="color: #F59E0B; font-size: 2.5rem; font-weight: 700;">{{ today_sessions|length }}</div>
-        </div>
-        
-        <div class="stat-card" style="border-left: 4px solid #6366F1;">
-            <h3 style="color: #64748B; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Upcoming Sessions</h3>
-            <div class="stat-value" style="color: #6366F1; font-size: 2.5rem; font-weight: 700;">{{ upcoming_sessions|length }}</div>
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+    <!-- Professional Header with Gamification -->
+    <div class="page-header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+                <h1 class="page-title">Welcome Back, {{ current_user.full_name }}</h1>
+                <p class="page-subtitle">Let's crush today's training goals 💪</p>
+            </div>
+            <div style="display: flex; gap: var(--space-3); align-items: center;">
+                <div class="level-badge">
+                    <span style="font-size: 1.25rem;">⚡</span>
+                    <span>Level 5</span>
+                </div>
+                <div class="streak-badge">
+                    <span class="streak-flame">🔥</span>
+                    <span>7 Day Streak</span>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- XP Progress Bar -->
+    <div style="margin-bottom: var(--space-8);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2);">
+            <span class="text-overline">Progress to Level 6</span>
+            <span style="font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--text-secondary);">750 / 1000 XP</span>
+        </div>
+        <div class="xp-bar">
+            <div class="xp-bar-fill" style="width: 75%;"></div>
+            <div class="xp-text">75% Complete</div>
+        </div>
+    </div>
     
-    <!-- Professional Quick Actions -->
-    <div class="card" style="margin-bottom: 2.5rem;">
+    <!-- Statistics Dashboard -->
+    <div class="grid-4" style="margin-bottom: var(--space-8);">
+        <div class="stat-card">
+            <div class="stat-label">Active Clients</div>
+            <div class="stat-value" style="color: var(--brand-secondary);">{{ total_clients }}</div>
+            <div class="stat-change positive">
+                <span>↑</span>
+                <span>3 this month</span>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Active Programs</div>
+            <div class="stat-value" style="color: var(--color-success);">{{ total_programs }}</div>
+            <div class="stat-change positive">
+                <span>↑</span>
+                <span>2 new programs</span>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Today's Sessions</div>
+            <div class="stat-value" style="color: var(--brand-primary);">{{ today_sessions|length }}</div>
+            <div class="stat-change positive">
+                <span>✓</span>
+                <span>On schedule</span>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Upcoming Sessions</div>
+            <div class="stat-value" style="color: var(--color-info);">{{ upcoming_sessions|length }}</div>
+            <div class="stat-change">
+                <span>→</span>
+                <span>Next 7 days</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="card" style="margin-bottom: var(--space-8);">
         <div class="card-header">
-            <h2 style="font-size: 1.25rem; font-weight: 600; color: #1E293B;">Quick Actions</h2>
+            <h2 class="card-title">Quick Actions</h2>
         </div>
         <div class="card-body">
-            <div class="action-buttons" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary" style="padding: 0.875rem 1.5rem; text-align: center;">
-                    <span style="margin-right: 0.5rem;">➕</span> Add Client
+            <div class="grid-4">
+                <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary btn-lg">
+                    <span style="font-size: 1.25rem;">➕</span>
+                    <span>Add Client</span>
                 </a>
-                <a href="{{ url_for('sessions.add_session') }}" class="btn btn-primary" style="padding: 0.875rem 1.5rem; text-align: center;">
-                    <span style="margin-right: 0.5rem;">📅</span> Schedule Session
+                <a href="{{ url_for('sessions.add_session') }}" class="btn btn-primary btn-lg">
+                    <span style="font-size: 1.25rem;">📅</span>
+                    <span>Schedule Session</span>
                 </a>
-                <a href="{{ url_for('programs.add_program') }}" class="btn btn-primary" style="padding: 0.875rem 1.5rem; text-align: center;">
-                    <span style="margin-right: 0.5rem;">📋</span> Create Program
+                <a href="{{ url_for('programs.add_program') }}" class="btn btn-secondary btn-lg">
+                    <span style="font-size: 1.25rem;">📋</span>
+                    <span>Create Program</span>
                 </a>
-                <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary" style="padding: 0.875rem 1.5rem; text-align: center;">
-                    <span style="margin-right: 0.5rem;">💪</span> Exercise Library
+                <a href="{{ url_for('exercise_library.index') }}" class="btn btn-outline btn-lg">
+                    <span style="font-size: 1.25rem;">💪</span>
+                    <span>Exercise Library</span>
                 </a>
             </div>
         </div>
@@ -64,11 +108,11 @@
     
     <!-- Today's Sessions -->
     {% if today_sessions %}
-    <div class="card">
+    <div class="card" style="margin-bottom: var(--space-8);">
         <div class="card-header">
-            <h2>Today's Sessions</h2>
+            <h2 class="card-title">Today's Sessions</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding: 0;">
             <div class="table-container">
                 <table class="table">
                     <thead>
@@ -83,12 +127,12 @@
                     <tbody>
                         {% for session in today_sessions %}
                         <tr>
-                            <td>{{ session.scheduled_start.strftime('%H:%M') }}</td>
+                            <td><strong>{{ session.scheduled_start.strftime('%H:%M') }}</strong></td>
                             <td>{{ session.client.full_name }}</td>
-                            <td>{{ session.session_type|title }}</td>
-                            <td>{{ session.status|title }}</td>
+                            <td><span class="badge badge-info">{{ session.session_type|title }}</span></td>
+                            <td><span class="badge badge-success">{{ session.status|title }}</span></td>
                             <td>
-                                <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
+                                <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-sm btn-primary">View</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -103,9 +147,9 @@
     {% if upcoming_sessions %}
     <div class="card">
         <div class="card-header">
-            <h2>Upcoming Sessions</h2>
+            <h2 class="card-title">Upcoming Sessions</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding: 0;">
             <div class="table-container">
                 <table class="table">
                     <thead>
@@ -119,11 +163,11 @@
                     <tbody>
                         {% for session in upcoming_sessions %}
                         <tr>
-                            <td>{{ session.scheduled_start.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td><strong>{{ session.scheduled_start.strftime('%b %d, %H:%M') }}</strong></td>
                             <td>{{ session.client.full_name }}</td>
                             <td>{{ session.title }}</td>
                             <td>
-                                <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
+                                <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-sm btn-outline">View</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -136,11 +180,11 @@
     
     <!-- Recent Clients -->
     {% if recent_clients %}
-    <div class="card">
+    <div class="card" style="margin-top: var(--space-8);">
         <div class="card-header">
-            <h2>Recent Clients</h2>
+            <h2 class="card-title">Recent Clients</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding: 0;">
             <div class="table-container">
                 <table class="table">
                     <thead>
@@ -154,11 +198,11 @@
                     <tbody>
                         {% for client in recent_clients %}
                         <tr>
-                            <td>{{ client.full_name }}</td>
+                            <td><strong>{{ client.full_name }}</strong></td>
                             <td>{{ client.email }}</td>
-                            <td>{{ client.fitness_goal or 'Not specified' }}</td>
+                            <td><span class="badge badge-primary">{{ client.fitness_goal or 'Not specified' }}</span></td>
                             <td>
-                                <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
+                                <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-sm btn-ghost">View Profile</a>
                             </td>
                         </tr>
                         {% endfor %}
