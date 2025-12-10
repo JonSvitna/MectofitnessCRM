@@ -12,12 +12,34 @@ import {
 } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
 
+import {
+  HomeIcon,
+  UsersIcon,
+  CalendarIcon,
+  DocumentTextIcon,
+  Cog6ToothIcon,
+  ArrowRightOnRectangleIcon,
+  Bars3Icon,
+  XMarkIcon,
+  ChatBubbleLeftRightIcon,
+  UserGroupIcon,
+  TrophyIcon,
+  CreditCardIcon,
+  BookOpenIcon,
+  BellIcon,
+} from '@heroicons/react/24/outline';
+
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+  { name: 'Overview', href: '/dashboard', icon: HomeIcon },
+  { name: 'Messages', href: '/messages', icon: ChatBubbleLeftRightIcon },
+  { name: 'Groups', href: '/groups', icon: UserGroupIcon },
+  { name: 'Challenges', href: '/challenges', icon: TrophyIcon },
   { name: 'Clients', href: '/clients', icon: UsersIcon },
-  { name: 'Sessions', href: '/sessions', icon: CalendarIcon },
-  { name: 'Programs', href: '/programs', icon: DocumentTextIcon },
-  { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
+  { name: 'Team', href: '/team', icon: UserGroupIcon },
+  { name: 'Payments', href: '/payments', icon: CreditCardIcon },
+  { name: 'Master Libraries', href: '/master-libraries', icon: BookOpenIcon },
+  { name: 'Scheduling', href: '/scheduling', icon: CalendarIcon },
+  { name: 'Announcements', href: '/announcements', icon: BellIcon },
 ];
 
 export default function Layout() {
@@ -51,18 +73,28 @@ export default function Layout() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Sidebar for desktop */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
+      <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col">
         <div className="flex min-h-0 flex-1 flex-col bg-white border-r border-gray-200">
-          <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
+          <div className="flex flex-col pt-6 pb-4 h-full">
             {/* Logo */}
-            <div className="flex flex-shrink-0 items-center px-6">
+            <div className="flex flex-shrink-0 items-center px-6 mb-4">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-teal-500 bg-clip-text text-transparent">
-                MectoFitness
+                Mectofitness
               </h1>
             </div>
 
+            {/* Search bar */}
+            <div className="px-6 mb-6">
+              <input
+                type="text"
+                placeholder="Find a client"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                // TODO: Wire up search logic
+              />
+            </div>
+
             {/* Navigation */}
-            <nav className="mt-8 flex-1 space-y-1 px-3">
+            <nav className="flex-1 space-y-1 px-3">
               {navigation.map((item) => {
                 const isActive = location.pathname.startsWith(item.href);
                 return (
@@ -74,7 +106,7 @@ export default function Layout() {
                       min-h-[44px] tap-highlight-none
                       ${
                         isActive
-                          ? 'bg-primary-50 text-primary-700 shadow-sm'
+                          ? 'bg-yellow-400 text-gray-900 shadow-sm font-bold'
                           : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                       }
                     `}

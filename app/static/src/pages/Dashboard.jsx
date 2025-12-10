@@ -70,14 +70,78 @@ export default function Dashboard() {
     }
   };
 
-  const statCards = [
-    {
-      name: 'Active Clients',
-      value: stats.totalClients,
-      icon: UsersIcon,
-      color: 'from-primary-500 to-primary-600',
-      bgColor: 'bg-primary-50',
-      textColor: 'text-primary-700',
+  // Onboarding, upgrade, referral, and auto-tagged clients
+  const onboardingCard = (
+    <div className="bg-white rounded-xl shadow p-6 mb-6 flex items-center justify-between">
+      <div>
+        <div className="text-xs font-bold text-blue-600 mb-1">LIVE Q&A</div>
+        <h2 className="text-lg font-bold mb-2">Join a Live Getting Started Masterclass Session</h2>
+        <p className="text-sm text-gray-600 mb-2">Get ready to master the essentials. We'll guide you through account setup, creating programs, and setting up new clients with ease.</p>
+        <Link to="/register" className="bg-blue-500 text-white px-4 py-2 rounded font-semibold">REGISTER</Link>
+      </div>
+      <img src="/static/img/masterclass-phone.png" alt="Masterclass" className="h-24 hidden md:block" />
+    </div>
+  );
+
+  const upgradeCTA = (
+    <div className="bg-pink-100 rounded-xl shadow p-4 mb-6 flex items-center justify-between">
+      <span className="font-bold text-pink-700">Your Free plan has limited client seats and features. Upgrade today to unlock more.</span>
+      <Link to="/settings/billing" className="bg-pink-500 text-white px-4 py-2 rounded font-semibold">UPGRADE PLAN</Link>
+    </div>
+  );
+
+  const referralCard = (
+    <div className="bg-white rounded-xl shadow p-4 mb-6 flex items-center justify-between">
+      <span>Share the love and your next month could be free! Invite other trainers to the platform and you can earn credits for your subscription.</span>
+      <button className="bg-blue-100 text-blue-700 px-4 py-2 rounded font-semibold">EARN NOW</button>
+    </div>
+  );
+
+  // Example dynamic tagging logic (replace with real API data)
+  const needNewPhase = recentClients.filter(c => c.last_program_date && (Date.now() - new Date(c.last_program_date).getTime()) > 1000 * 60 * 60 * 24 * 30);
+  const notMessagedLately = recentClients.filter(c => c.last_message_date && (Date.now() - new Date(c.last_message_date).getTime()) > 1000 * 60 * 60 * 24 * 14);
+
+  const autoTaggedClients = (
+    <div className="bg-white rounded-xl shadow p-4 mb-6">
+      <div className="font-bold mb-2">We've auto-tagged your clients based on their needs.</div>
+      <div className="flex gap-8">
+        <div>
+          <div className="flex items-center gap-2 mb-2"><span className="text-red-500">●</span> Need new training phases</div>
+          <div className="flex gap-2">
+            {needNewPhase.length === 0 && <span className="text-xs text-gray-400">All up to date!</span>}
+            {needNewPhase.map(c => (
+              <div key={c.id} className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500" title={c.first_name + ' ' + c.last_name}>
+                {c.first_name?.charAt(0)}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="flex items-center gap-2 mb-2"><span className="text-orange-500">●</span> Not messaged lately</div>
+          <div className="flex gap-2">
+            {notMessagedLately.length === 0 && <span className="text-xs text-gray-400">All engaged!</span>}
+            {notMessagedLately.map(c => (
+              <div key={c.id} className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500" title={c.first_name + ' ' + c.last_name}>
+                {c.first_name?.charAt(0)}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Recent activities feed (mock data for now)
+  const recentActivities = [
+    { name: 'Tiffany Gosnell', activity: 'completed a 0.34 mile walk in 15m 49s.', date: '21 Oct 2025' },
+    { name: 'Donavan Weston', activity: 'completed a functional strength training session in 44m 43s.', date: '16 Oct 2025' },
+    { name: 'Donavan Weston', activity: 'completed a functional strength training session in 46m 39s.', date: '16 Oct 2025' },
+    { name: 'Rob Walker', activity: 'completed Full Body - Lunges, Abs, & Accessories and rated it as RPE 9/10 (extremely hard). Rob set 1 new personal best and added 1 comment.', date: '12 Oct 2025' },
+    { name: 'Donavan Weston', activity: 'completed a functional strength training session in 35m 50s.', date: '10 Oct 2025' },
+    { name: 'Rob Walker', activity: 'completed Full Body - Deadlift & Pull and rated it as RPE 8/10 (really hard). Rob set 2 new personal bests and added 1 comment.', date: '3 Oct 2025' },
+  ];
+
+  // ...existing code...
       href: '/clients',
     },
     {
@@ -95,82 +159,109 @@ export default function Dashboard() {
       icon: CalendarIcon,
       color: 'from-accent-500 to-accent-600',
       bgColor: 'bg-accent-50',
-      textColor: 'text-accent-700',
-      href: '/sessions',
-    },
-    {
-      name: 'Upcoming Sessions',
-      value: stats.upcomingSessions,
-      icon: ChartBarIcon,
-      color: 'from-purple-500 to-purple-600',
-      bgColor: 'bg-purple-50',
-      textColor: 'text-purple-700',
-      href: '/sessions',
-    },
-  ];
+      return (
+        <div className="max-w-7xl mx-auto py-10 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main dashboard left (2/3) */}
+          <div className="col-span-2">
+            {onboardingCard}
+            {upgradeCTA}
+            {referralCard}
+            {autoTaggedClients}
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </div>
-    );
-  }
+            <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+            {/* Stat cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+              {statCards.map((card) => (
+                <div
+                  key={card.name}
+                  className={`rounded-xl shadow ${card.bgColor} p-6 flex flex-col items-start justify-between`}
+                >
+                  <card.icon className={`h-8 w-8 mb-2 text-transparent bg-gradient-to-r ${card.color} bg-clip-text`} />
+                  <div className={`text-2xl font-bold ${card.textColor}`}>{card.value}</div>
+                  <div className="text-sm text-gray-500 font-medium mt-1">{card.name}</div>
+                </div>
+              ))}
+            </div>
 
-  return (
-    <div className="space-y-8">
-      {/* Welcome Header */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          Welcome back, {user?.name}! 👋
-        </h1>
-        {organization && (
-          <p className="mt-2 text-base text-gray-600">{organization.name}</p>
-        )}
-      </div>
+            {/* Quick actions */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              <Link
+                to="/clients/add"
+                className="bg-primary-600 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-primary-700 transition-colors"
+              >
+                <PlusIcon className="h-6 w-6" /> Add Client
+              </Link>
+              <Link
+                to="/sessions/add"
+                className="bg-teal-500 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-teal-600 transition-colors"
+              >
+                <CalendarIcon className="h-6 w-6" /> Schedule Session
+              </Link>
+              <Link
+                to="/programs/add"
+                className="bg-orange-500 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-orange-600 transition-colors"
+              >
+                <DocumentTextIcon className="h-6 w-6" /> Create Program
+              </Link>
+            </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 gap-5 xs:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((stat) => (
-          <Link
-            key={stat.name}
-            to={stat.href}
-            className={`group relative overflow-hidden rounded-xl bg-white px-5 py-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all duration-200 ${stat.bgColor}/30`}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600 mb-1">
-                  {stat.name}
-                </p>
-                <p className={`text-3xl font-bold ${stat.textColor}`}>
-                  {stat.value}
-                </p>
-              </div>
-              <div className={`rounded-lg bg-gradient-to-br ${stat.color} p-3 shadow-sm`}>
-                <stat.icon className="h-6 w-6 text-white" aria-hidden="true" />
+            {/* Recent clients */}
+            <div className="mb-10">
+              <h2 className="text-xl font-bold mb-4">Recent Clients</h2>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+                {recentClients.map((client) => (
+                  <Link
+                    key={client.id}
+                    to={`/clients/${client.id}`}
+                    className="bg-white rounded-xl shadow p-4 flex flex-col items-center hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary-500 to-teal-500 flex items-center justify-center text-white font-bold text-lg mb-2">
+                      {client.first_name?.charAt(0) || 'C'}
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900 mb-1">{client.first_name} {client.last_name}</div>
+                    <div className="text-xs text-gray-500">{client.fitness_goal}</div>
+                  </Link>
+                ))}
               </div>
             </div>
-            <div className="mt-3 text-xs text-gray-500 flex items-center group-hover:text-gray-700 transition-colors">
-              View all <span className="ml-1">→</span>
-            </div>
-          </Link>
-        ))}
-      </div>
 
-      {/* Quick Actions */}
-      <div className="bg-white shadow-sm border border-gray-100 rounded-xl p-6 sm:p-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Link
-            to="/clients?action=add"
-            className="group flex items-center justify-center px-5 py-3.5 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 transition-all duration-200 min-h-[44px]"
-          >
-            <PlusIcon className="h-5 w-5 mr-2" />
-            Add New Client
-          </Link>
-          <Link
-            to="/sessions?action=add"
-            className="group flex items-center justify-center px-5 py-3.5 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-600 transition-all duration-200 min-h-[44px]"
+            {/* Upcoming sessions */}
+            <div className="mb-10">
+              <h2 className="text-xl font-bold mb-4">Upcoming Sessions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+                {upcomingSessions.map((session) => (
+                  <div key={session.id} className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-orange-500 to-primary-500 flex items-center justify-center text-white font-bold text-lg mb-2">
+                      <CalendarIcon className="h-6 w-6" />
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900 mb-1">{session.title}</div>
+                    <div className="text-xs text-gray-500">{new Date(session.scheduled_start).toLocaleString()}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Recent activities feed (right panel) */}
+          <div className="col-span-1">
+            <div className="bg-white rounded-xl shadow p-6 mb-6">
+              <h2 className="text-lg font-bold mb-4">Recent Activities</h2>
+              <div className="space-y-4">
+                {recentActivities.map((act, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500">{act.name.charAt(0)}</div>
+                    <div>
+                      <div className="text-sm font-semibold text-gray-900">{act.name}</div>
+                      <div className="text-xs text-gray-600">{act.activity}</div>
+                      <div className="text-xs text-gray-400 mt-1">{act.date}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
           >
             <PlusIcon className="h-5 w-5 mr-2" />
             Schedule Session
