@@ -80,7 +80,7 @@ def create_app(config_name='default'):
     
     # Register blueprints
     from app.routes import (auth, main, clients, sessions, programs, calendar_sync, api,
-                           intake, marketing, workflow, settings, exercise_library)
+                           intake, marketing, workflow, settings, exercise_library, api_chatbot)
     from app.routes import (api_clients_bp, api_sessions_bp, api_exercises_bp, api_programs_bp,
                            api_progress_bp, api_nutrition_bp, api_booking_bp, api_payments_bp,
                            api_dashboard_bp, api_organization_bp)
@@ -107,6 +107,9 @@ def create_app(config_name='default'):
     app.register_blueprint(workflow.bp)
     app.register_blueprint(settings.bp)
     app.register_blueprint(exercise_library.bp)
+    app.register_blueprint(api_chatbot.bp)  # AI Chatbot API
+    app.register_blueprint(api_chatbot.bp)  # AI Chatbot API
+    app.register_blueprint(api_chatbot.bp)  # AI Chatbot API
     
     # User loader
     from app.models.user import User
