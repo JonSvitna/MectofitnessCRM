@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Your Fitness Journey!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1AE5BE 0%, #FFD700 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .success-container {
+            max-width: 700px;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 100px;
+            background: linear-gradient(135deg, #1AE5BE, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            animation: scaleIn 0.5s ease-out;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #FF6B35;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+        @keyframes confetti-fall {
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-trophy"></i>
+        </div>
+        
+        <h1 class="mb-4">🎉 Intake Complete!</h1>
+        
+        <p class="lead mb-4">
+            Congratulations, <strong>{{ intake.client.full_name }}</strong>!<br>
+            You've completed the entire onboarding process.
+        </p>
+        
+        <div class="alert alert-success mb-4">
+            <h5><i class="fas fa-check-double me-2"></i>All Steps Completed</h5>
+            <div class="text-start">
+                <div class="mb-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Health Assessment</strong> - Submitted
+                </div>
+                <div class="mb-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Documents Signed</strong> - Completed
+                </div>
+                <div>
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Progress Photos</strong> - Uploaded
+                </div>
+            </div>
+        </div>
+        
+        <hr class="my-4">
+        
+        <div class="mb-4">
+            <h4 class="mb-3">What Happens Next?</h4>
+            
+            <div class="row text-start">
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded h-100">
+                        <h6 class="pro-color-primary mb-2">
+                            <i class="fas fa-user-md me-2"></i>Trainer Review
+                        </h6>
+                        <p class="small mb-0">
+                            Your trainer will review your assessment and create a personalized program tailored to your goals
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded h-100">
+                        <h6 class="pro-color-secondary mb-2">
+                            <i class="fas fa-robot me-2"></i>AI-Powered Program
+                        </h6>
+                        <p class="small mb-0">
+                            Advanced AI will help design workouts based on your experience, equipment, and schedule
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded h-100">
+                        <h6 class="pro-color-accent mb-2">
+                            <i class="fas fa-envelope me-2"></i>Email Notification
+                        </h6>
+                        <p class="small mb-0">
+                            You'll receive an email when your program is ready to start (usually within 24-48 hours)
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded h-100">
+                        <h6 class="pro-color-gold mb-2">
+                            <i class="fas fa-rocket me-2"></i>Begin Training
+                        </h6>
+                        <p class="small mb-0">
+                            Access your personalized program and start your transformation journey!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="alert alert-info">
+            <h6><i class="fas fa-clock me-2"></i>Expected Timeline</h6>
+            <p class="mb-0 small">
+                Your trainer typically reviews and creates programs within <strong>24-48 hours</strong>.
+                You'll receive an email notification as soon as your program is ready!
+            </p>
+        </div>
+        
+        <hr class="my-4">
+        
+        <div class="mb-4">
+            <h6 class="mb-3">In the meantime...</h6>
+            <ul class="text-start small">
+                <li>Stay hydrated and get adequate rest</li>
+                <li>Think about your training schedule and preferred workout times</li>
+                <li>Prepare your workout space or gym bag</li>
+                <li>Set reminders for your training sessions</li>
+                <li>Stay motivated and excited for your journey!</li>
+            </ul>
+        </div>
+        
+        <div class="p-4 bg-light rounded">
+            <h5 class="mb-3">Questions or Need Help?</h5>
+            <p class="mb-3 small">
+                Contact your trainer directly if you have any questions about your intake or upcoming program.
+            </p>
+            <p class="mb-0">
+                <strong>Email:</strong> {{ intake.client.trainer.email if intake.client.trainer else 'support@mectofitness.com' }}
+            </p>
+        </div>
+        
+        <div class="mt-4">
+            <p class="text-muted small mb-0">
+                <i class="fas fa-heart me-1"></i>
+                Thank you for choosing us for your fitness journey. We're excited to help you achieve your goals!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Create confetti effect
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.backgroundColor = ['#FF6B35', '#004E89', '#1AE5BE', '#FFD700'][Math.floor(Math.random() * 4)];
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+        
+        // Trigger confetti on page load
+        window.addEventListener('load', createConfetti);
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Start Intake Workflow - {{ client.full_name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Start Intake Workflow</h1>
+            <p class="page-subtitle">Automated onboarding for {{ client.full_name }}</p>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-6);">
+                📋 Automated Client Onboarding
+            </h2>
+            
+            <p style="margin-bottom: var(--space-6); color: var(--text-secondary); line-height: var(--leading-relaxed);">
+                This automated workflow will send {{ client.full_name }} a series of professional emails to guide them through the onboarding process.
+            </p>
+            
+            <div style="background: var(--surface-tertiary); padding: var(--space-6); border-radius: var(--radius-lg); margin-bottom: var(--space-8);">
+                <h3 style="font-size: var(--text-lg); font-weight: var(--font-semibold); margin-bottom: var(--space-4);">
+                    What will be sent:
+                </h3>
+                <div style="display: grid; gap: var(--space-4);">
+                    <div style="display: flex; gap: var(--space-3); align-items: start;">
+                        <span style="font-size: 1.5rem;">✉️</span>
+                        <div>
+                            <strong>Welcome Email</strong>
+                            <p style="color: var(--text-secondary); margin-top: var(--space-1);">Introduces your training services and explains next steps</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-3); align-items: start;">
+                        <span style="font-size: 1.5rem;">📋</span>
+                        <div>
+                            <strong>Intake Form Request</strong>
+                            <p style="color: var(--text-secondary); margin-top: var(--space-1);">Link to complete fitness assessment and health questionnaire</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-3); align-items: start;">
+                        <span style="font-size: 1.5rem;">📄</span>
+                        <div>
+                            <strong>Document Signing</strong>
+                            <p style="color: var(--text-secondary); margin-top: var(--space-1);">Liability waiver and training agreement (send separately)</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-3); align-items: start;">
+                        <span style="font-size: 1.5rem;">📸</span>
+                        <div>
+                            <strong>Photo Upload</strong>
+                            <p style="color: var(--text-secondary); margin-top: var(--space-1);">Request for progress/before photos (send separately)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <form method="POST">
+                <div class="form-group">
+                    <label for="custom_message" style="font-weight: var(--font-semibold);">
+                        Personal Message (Optional)
+                    </label>
+                    <textarea 
+                        id="custom_message" 
+                        name="custom_message" 
+                        class="form-control" 
+                        rows="4"
+                        placeholder="Add a personal message to the welcome email..."
+                        style="resize: vertical;"
+                    ></textarea>
+                    <p style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-2);">
+                        This message will appear in the welcome email to make it more personal.
+                    </p>
+                </div>
+                
+                <div style="padding: var(--space-4); background: #E3F2FD; border-left: 4px solid #2196F3; border-radius: var(--radius-md); margin-bottom: var(--space-6);">
+                    <p style="font-size: var(--text-sm); color: var(--text-primary); margin: 0;">
+                        <strong>📧 Note:</strong> Email automation requires SendGrid API key to be configured. 
+                        If not set up, you can still manually send these documents from the client profile page.
+                    </p>
+                </div>
+                
+                <div style="display: flex; gap: var(--space-3); justify-content: flex-end;">
+                    <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-ghost">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        🚀 Start Onboarding
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

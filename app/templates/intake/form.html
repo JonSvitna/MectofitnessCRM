@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Assessment - {{ client.trainer.full_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="background: #f8f9fa;">
+    <div class="container" style="max-width: 800px; margin: 0 auto; padding: var(--space-8);">
+        <!-- Header -->
+        <div style="text-align: center; margin-bottom: var(--space-8);">
+            <h1 style="color: var(--brand-primary); font-size: 2.5rem; margin-bottom: var(--space-2);">
+                🏋️ Fitness Assessment
+            </h1>
+            <p style="color: var(--text-secondary); font-size: var(--text-lg);">
+                Training with {{ client.trainer.full_name }}
+            </p>
+        </div>
+        
+        <div class="card">
+            <div class="card-body" style="padding: var(--space-8);">
+                <p style="margin-bottom: var(--space-8); color: var(--text-secondary); line-height: var(--leading-relaxed);">
+                    Welcome, <strong>{{ client.full_name }}</strong>! This questionnaire helps us create a personalized training program tailored to your goals, experience, and needs. Please answer honestly - all information is confidential.
+                </p>
+                
+                <form method="POST">
+                    <!-- Personal Stats -->
+                    <div style="margin-bottom: var(--space-8);">
+                        <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--brand-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--border-light);">
+                            📊 Personal Information
+                        </h2>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4);">
+                            <div class="form-group">
+                                <label for="age">Age *</label>
+                                <input type="number" id="age" name="age" class="form-control" required min="13" max="120" value="{{ intake.age if intake else '' }}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="current_weight">Current Weight (kg)</label>
+                                <input type="number" step="0.1" id="current_weight" name="current_weight" class="form-control" value="{{ intake.current_weight if intake else '' }}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="target_weight">Target Weight (kg)</label>
+                                <input type="number" step="0.1" id="target_weight" name="target_weight" class="form-control" value="{{ intake.target_weight if intake else '' }}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="height_cm">Height (cm)</label>
+                                <input type="number" id="height_cm" name="height_cm" class="form-control" value="{{ intake.height_cm if intake else '' }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Fitness Background -->
+                    <div style="margin-bottom: var(--space-8);">
+                        <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--brand-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--border-light);">
+                            💪 Fitness Background
+                        </h2>
+                        
+                        <div class="form-group">
+                            <label for="fitness_experience">Fitness Experience *</label>
+                            <select id="fitness_experience" name="fitness_experience" class="form-control" required>
+                                <option value="">Select your experience level</option>
+                                <option value="beginner" {% if intake and intake.fitness_experience == 'beginner' %}selected{% endif %}>Beginner - New to fitness</option>
+                                <option value="intermediate" {% if intake and intake.fitness_experience == 'intermediate' %}selected{% endif %}>Intermediate - Regular exercise (1-2 years)</option>
+                                <option value="advanced" {% if intake and intake.fitness_experience == 'advanced' %}selected{% endif %}>Advanced - Experienced (3+ years)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="current_activity_level">Current Activity Level *</label>
+                            <select id="current_activity_level" name="current_activity_level" class="form-control" required>
+                                <option value="">Select activity level</option>
+                                <option value="sedentary" {% if intake and intake.current_activity_level == 'sedentary' %}selected{% endif %}>Sedentary - Little to no exercise</option>
+                                <option value="lightly_active" {% if intake and intake.current_activity_level == 'lightly_active' %}selected{% endif %}>Lightly Active - 1-2 days/week</option>
+                                <option value="moderately_active" {% if intake and intake.current_activity_level == 'moderately_active' %}selected{% endif %}>Moderately Active - 3-4 days/week</option>
+                                <option value="very_active" {% if intake and intake.current_activity_level == 'very_active' %}selected{% endif %}>Very Active - 5+ days/week</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Goals -->
+                    <div style="margin-bottom: var(--space-8);">
+                        <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--brand-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--border-light);">
+                            🎯 Your Goals
+                        </h2>
+                        
+                        <div class="form-group">
+                            <label for="primary_goal">Primary Goal *</label>
+                            <input type="text" id="primary_goal" name="primary_goal" class="form-control" required 
+                                   placeholder="e.g., Lose 10kg, Build muscle, Improve endurance"
+                                   value="{{ intake.primary_goal if intake else '' }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="target_timeline">Timeline *</label>
+                            <select id="target_timeline" name="target_timeline" class="form-control" required>
+                                <option value="">How soon do you want to achieve this?</option>
+                                <option value="4_weeks" {% if intake and intake.target_timeline == '4_weeks' %}selected{% endif %}>4 weeks</option>
+                                <option value="8_weeks" {% if intake and intake.target_timeline == '8_weeks' %}selected{% endif %}>8 weeks</option>
+                                <option value="12_weeks" {% if intake and intake.target_timeline == '12_weeks' %}selected{% endif %}>12 weeks (3 months)</option>
+                                <option value="6_months" {% if intake and intake.target_timeline == '6_months' %}selected{% endif %}>6 months</option>
+                                <option value="1_year" {% if intake and intake.target_timeline == '1_year' %}selected{% endif %}>1 year</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Availability -->
+                    <div style="margin-bottom: var(--space-8);">
+                        <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--brand-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--border-light);">
+                            📅 Availability & Preferences
+                        </h2>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
+                            <div class="form-group">
+                                <label for="sessions_per_week">Training Sessions Per Week *</label>
+                                <select id="sessions_per_week" name="sessions_per_week" class="form-control" required>
+                                    <option value="">Select frequency</option>
+                                    <option value="1" {% if intake and intake.sessions_per_week == 1 %}selected{% endif %}>1 session/week</option>
+                                    <option value="2" {% if intake and intake.sessions_per_week == 2 %}selected{% endif %}>2 sessions/week</option>
+                                    <option value="3" {% if intake and intake.sessions_per_week == 3 %}selected{% endif %}>3 sessions/week</option>
+                                    <option value="4" {% if intake and intake.sessions_per_week == 4 %}selected{% endif %}>4 sessions/week</option>
+                                    <option value="5" {% if intake and intake.sessions_per_week == 5 %}selected{% endif %}>5+ sessions/week</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="preferred_session_duration">Preferred Session Length</label>
+                                <select id="preferred_session_duration" name="preferred_session_duration" class="form-control">
+                                    <option value="">Select duration</option>
+                                    <option value="30" {% if intake and intake.preferred_session_duration == 30 %}selected{% endif %}>30 minutes</option>
+                                    <option value="45" {% if intake and intake.preferred_session_duration == 45 %}selected{% endif %}>45 minutes</option>
+                                    <option value="60" {% if intake and intake.preferred_session_duration == 60 %}selected{% endif %}>60 minutes</option>
+                                    <option value="90" {% if intake and intake.preferred_session_duration == 90 %}selected{% endif %}>90 minutes</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
+                            <div class="form-group">
+                                <label for="preferred_training_time">Preferred Training Time</label>
+                                <select id="preferred_training_time" name="preferred_training_time" class="form-control">
+                                    <option value="">Select time</option>
+                                    <option value="morning" {% if intake and intake.preferred_training_time == 'morning' %}selected{% endif %}>Morning (6am-12pm)</option>
+                                    <option value="afternoon" {% if intake and intake.preferred_training_time == 'afternoon' %}selected{% endif %}>Afternoon (12pm-5pm)</option>
+                                    <option value="evening" {% if intake and intake.preferred_training_time == 'evening' %}selected{% endif %}>Evening (5pm-9pm)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="training_location">Preferred Location</label>
+                                <select id="training_location" name="training_location" class="form-control">
+                                    <option value="">Select location</option>
+                                    <option value="gym" {% if intake and intake.training_location == 'gym' %}selected{% endif %}>Gym</option>
+                                    <option value="home" {% if intake and intake.training_location == 'home' %}selected{% endif %}>Home</option>
+                                    <option value="outdoor" {% if intake and intake.training_location == 'outdoor' %}selected{% endif %}>Outdoor</option>
+                                    <option value="flexible" {% if intake and intake.training_location == 'flexible' %}selected{% endif %}>Flexible</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Health & Medical -->
+                    <div style="margin-bottom: var(--space-8);">
+                        <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--brand-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--border-light);">
+                            🏥 Health & Medical Information
+                        </h2>
+                        
+                        <div style="padding: var(--space-4); background: #FFF3CD; border-left: 4px solid #FFC107; border-radius: var(--radius-md); margin-bottom: var(--space-4);">
+                            <p style="margin: 0; font-size: var(--text-sm);">
+                                <strong>Important:</strong> This information helps ensure your safety during training. Please be thorough and honest.
+                            </p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="medical_conditions">Medical Conditions</label>
+                            <textarea id="medical_conditions" name="medical_conditions" class="form-control" rows="3"
+                                      placeholder="List any medical conditions (heart disease, diabetes, asthma, etc.) or write 'None'">{{ intake.medical_conditions if intake else '' }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="injuries">Current or Past Injuries</label>
+                            <textarea id="injuries" name="injuries" class="form-control" rows="3"
+                                      placeholder="List any injuries, surgeries, or areas of concern">{{ intake.injuries if intake else '' }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="medications">Medications</label>
+                            <textarea id="medications" name="medications" class="form-control" rows="2"
+                                      placeholder="List any medications you're currently taking">{{ intake.medications if intake else '' }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="limitations">Physical Limitations</label>
+                            <textarea id="limitations" name="limitations" class="form-control" rows="3"
+                                      placeholder="Any movements or exercises you cannot or should not do?">{{ intake.limitations if intake else '' }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Nutrition -->
+                    <div style="margin-bottom: var(--space-8);">
+                        <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--brand-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--border-light);">
+                            🥗 Nutrition
+                        </h2>
+                        
+                        <div class="form-group">
+                            <label for="dietary_restrictions">Dietary Restrictions or Preferences</label>
+                            <textarea id="dietary_restrictions" name="dietary_restrictions" class="form-control" rows="2"
+                                      placeholder="Vegetarian, allergies, food preferences, etc.">{{ intake.dietary_restrictions if intake else '' }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Nutrition Plan Interest</label>
+                            <div style="display: flex; gap: var(--space-4); align-items: center;">
+                                <label style="display: flex; align-items: center; cursor: pointer;">
+                                    <input type="radio" name="nutrition_plan_interest" value="yes" {% if intake and intake.nutrition_plan_interest %}checked{% endif %} style="margin-right: var(--space-2);">
+                                    <span>Yes, I'd like nutrition guidance</span>
+                                </label>
+                                <label style="display: flex; align-items: center; cursor: pointer;">
+                                    <input type="radio" name="nutrition_plan_interest" value="no" {% if intake and not intake.nutrition_plan_interest %}checked{% endif %} style="margin-right: var(--space-2);">
+                                    <span>No, just training please</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Motivation -->
+                    <div style="margin-bottom: var(--space-8);">
+                        <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--brand-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--border-light);">
+                            🔥 Motivation & Mindset
+                        </h2>
+                        
+                        <div class="form-group">
+                            <label for="motivation_level">Motivation Level (1-10)</label>
+                            <input type="range" id="motivation_level" name="motivation_level" min="1" max="10" value="{{ intake.motivation_level if intake else 7 }}" 
+                                   oninput="this.nextElementSibling.textContent = this.value"
+                                   style="width: 100%;">
+                            <output style="display: block; text-align: center; font-size: var(--text-lg); font-weight: var(--font-semibold); color: var(--brand-primary); margin-top: var(--space-2);">{{ intake.motivation_level if intake else 7 }}</output>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="previous_challenges">What challenges have you faced with fitness in the past?</label>
+                            <textarea id="previous_challenges" name="previous_challenges" class="form-control" rows="3"
+                                      placeholder="e.g., Lack of time, staying consistent, injuries, etc.">{{ intake.previous_challenges if intake else '' }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit -->
+                    <div style="text-align: center; padding-top: var(--space-6); border-top: 2px solid var(--border-light);">
+                        <button type="submit" class="btn btn-primary" style="padding: var(--space-4) var(--space-8); font-size: var(--text-lg);">
+                            ✅ Submit Assessment
+                        </button>
+                        <p style="margin-top: var(--space-4); color: var(--text-secondary); font-size: var(--text-sm);">
+                            Your information is confidential and will only be used to create your training program.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style="text-align: center; padding: var(--space-8); color: var(--text-secondary); font-size: var(--text-sm);">
+            <p>Powered by MectoFitness CRM</p>
+        </div>
+    </div>
+</body>
+</html>

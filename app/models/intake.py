@@ -61,8 +61,21 @@ class ClientIntake(db.Model):
     ai_generated_program_id = db.Column(db.Integer, db.ForeignKey('programs.id'))
     ai_recommendations = db.Column(db.Text)  # JSON object with AI insights
     
+    # Document Signing
+    documents_signed = db.Column(db.Boolean, default=False)
+    signature_data = db.Column(db.Text)  # Base64 encoded signature image
+    signed_at = db.Column(db.DateTime)
+    
+    # Progress Photos
+    photos_uploaded = db.Column(db.Boolean, default=False)
+    photo_front = db.Column(db.String(500))  # File path or URL
+    photo_side_left = db.Column(db.String(500))
+    photo_side_right = db.Column(db.String(500))
+    photo_back = db.Column(db.String(500))
+    photos_uploaded_at = db.Column(db.DateTime)
+    
     # Status
-    status = db.Column(db.String(20), default='pending')  # pending, reviewed, program_assigned
+    status = db.Column(db.String(20), default='pending')  # pending, form_completed, documents_signed, completed, reviewed, program_assigned
     completed_at = db.Column(db.DateTime)
     reviewed_at = db.Column(db.DateTime)
     
