@@ -142,42 +142,7 @@ export default function Dashboard() {
   ];
 
   // ...existing code...
-      href: '/clients',
-    },
-    {
-      name: 'Active Programs',
-      value: stats.totalPrograms,
-      icon: DocumentTextIcon,
-      color: 'from-teal-500 to-teal-600',
-      bgColor: 'bg-teal-50',
-      textColor: 'text-teal-700',
-      href: '/programs',
-    },
-    {
-      name: "Today's Sessions",
-      value: stats.todaySessions,
-      icon: CalendarIcon,
-      color: 'from-accent-500 to-accent-600',
-      bgColor: 'bg-accent-50',
-      return (
-        <div className="max-w-7xl mx-auto py-10 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main dashboard left (2/3) */}
-          <div className="col-span-2">
-            {onboardingCard}
-            {upgradeCTA}
-            {referralCard}
-            {autoTaggedClients}
-
-            <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
-            {/* Stat cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-              {statCards.map((card) => (
-                <div
-                  key={card.name}
-                  className={`rounded-xl shadow ${card.bgColor} p-6 flex flex-col items-start justify-between`}
-                >
-                  <card.icon className={`h-8 w-8 mb-2 text-transparent bg-gradient-to-r ${card.color} bg-clip-text`} />
-                  <div className={`text-2xl font-bold ${card.textColor}`}>{card.value}</div>
+  // statCards array should be defined above the return statement, not inside another object or misplaced
                   <div className="text-sm text-gray-500 font-medium mt-1">{card.name}</div>
                 </div>
               ))}
