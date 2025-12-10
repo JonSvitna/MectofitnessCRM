@@ -5,7 +5,7 @@ import openai
 import os
 from datetime import datetime
 
-bp = Blueprint('chatbot_api', __name__, url_prefix='/api')
+bp = Blueprint('ai_chatbot', __name__, url_prefix='/api/chatbot')
 
 # Initialize OpenAI
 openai.api_key = os.environ.get('OPENAI_API_KEY')
@@ -34,7 +34,7 @@ Available MectoFitness features:
 If asked about features not listed above, let the user know it may be coming in future updates."""
 
 
-@bp.route('/chatbot', methods=['POST'])
+@bp.route('/', methods=['POST'])
 @login_required
 def chatbot():
     """Handle chatbot messages with OpenAI."""
@@ -123,7 +123,7 @@ def log_chatbot_interaction(user_id, user_message, ai_response):
         print(f"Error logging chatbot interaction: {e}")
 
 
-@bp.route('/chatbot/suggestions', methods=['GET'])
+@bp.route('/suggestions', methods=['GET'])
 @login_required
 def get_suggestions():
     """Get contextual suggestions based on user's current page."""
