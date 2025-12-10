@@ -75,28 +75,36 @@ export default function Dashboard() {
       name: 'Active Clients',
       value: stats.totalClients,
       icon: UsersIcon,
-      color: 'bg-blue-500',
+      color: 'from-primary-500 to-primary-600',
+      bgColor: 'bg-primary-50',
+      textColor: 'text-primary-700',
       href: '/clients',
     },
     {
       name: 'Active Programs',
       value: stats.totalPrograms,
       icon: DocumentTextIcon,
-      color: 'bg-green-500',
+      color: 'from-teal-500 to-teal-600',
+      bgColor: 'bg-teal-50',
+      textColor: 'text-teal-700',
       href: '/programs',
     },
     {
       name: "Today's Sessions",
       value: stats.todaySessions,
       icon: CalendarIcon,
-      color: 'bg-orange-500',
+      color: 'from-accent-500 to-accent-600',
+      bgColor: 'bg-accent-50',
+      textColor: 'text-accent-700',
       href: '/sessions',
     },
     {
       name: 'Upcoming Sessions',
       value: stats.upcomingSessions,
       icon: ChartBarIcon,
-      color: 'bg-purple-500',
+      color: 'from-purple-500 to-purple-600',
+      bgColor: 'bg-purple-50',
+      textColor: 'text-purple-700',
       href: '/sessions',
     },
   ];
@@ -104,67 +112,72 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Welcome Header */}
-      <div>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
         <h1 className="text-3xl font-bold text-gray-900">
-          Welcome back, {user?.name}!
+          Welcome back, {user?.name}! 👋
         </h1>
         {organization && (
-          <p className="mt-1 text-sm text-gray-500">{organization.name}</p>
+          <p className="mt-2 text-base text-gray-600">{organization.name}</p>
         )}
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-5 xs:grid-cols-2 lg:grid-cols-4">
         {statCards.map((stat) => (
           <Link
             key={stat.name}
             to={stat.href}
-            className="relative overflow-hidden rounded-lg bg-white px-4 py-5 shadow hover:shadow-md transition-shadow sm:px-6"
+            className={`group relative overflow-hidden rounded-xl bg-white px-5 py-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all duration-200 ${stat.bgColor}/30`}
           >
-            <dt>
-              <div className={`absolute rounded-md p-3 ${stat.color}`}>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-600 mb-1">
+                  {stat.name}
+                </p>
+                <p className={`text-3xl font-bold ${stat.textColor}`}>
+                  {stat.value}
+                </p>
+              </div>
+              <div className={`rounded-lg bg-gradient-to-br ${stat.color} p-3 shadow-sm`}>
                 <stat.icon className="h-6 w-6 text-white" aria-hidden="true" />
               </div>
-              <p className="ml-16 truncate text-sm font-medium text-gray-500">
-                {stat.name}
-              </p>
-            </dt>
-            <dd className="ml-16 flex items-baseline">
-              <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
-            </dd>
+            </div>
+            <div className="mt-3 text-xs text-gray-500 flex items-center group-hover:text-gray-700 transition-colors">
+              View all <span className="ml-1">→</span>
+            </div>
           </Link>
         ))}
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
+      <div className="bg-white shadow-sm border border-gray-100 rounded-xl p-6 sm:p-8">
+        <h2 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <Link
             to="/clients?action=add"
-            className="flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 transition-colors"
+            className="group flex items-center justify-center px-5 py-3.5 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 transition-all duration-200 min-h-[44px]"
           >
             <PlusIcon className="h-5 w-5 mr-2" />
             Add New Client
           </Link>
           <Link
             to="/sessions?action=add"
-            className="flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+            className="group flex items-center justify-center px-5 py-3.5 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-600 transition-all duration-200 min-h-[44px]"
           >
             <PlusIcon className="h-5 w-5 mr-2" />
             Schedule Session
           </Link>
           <Link
             to="/programs?action=add"
-            className="flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors"
+            className="group flex items-center justify-center px-5 py-3.5 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 transition-all duration-200 min-h-[44px]"
           >
             <PlusIcon className="h-5 w-5 mr-2" />
             Create Program
@@ -175,11 +188,11 @@ export default function Dashboard() {
       {/* Two Column Layout */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Recent Clients */}
-        <div className="bg-white shadow rounded-lg">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Recent Clients</h2>
+        <div className="bg-white shadow-sm border border-gray-100 rounded-xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-100">
+            <h2 className="text-lg font-semibold text-gray-900">Recent Clients</h2>
           </div>
-          <ul className="divide-y divide-gray-200">
+          <ul className="divide-y divide-gray-100">
             {recentClients.length > 0 ? (
               recentClients.map((client) => (
                 <li key={client.id}>
@@ -191,14 +204,14 @@ export default function Dashboard() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center min-w-0 flex-1">
                           <div className="flex-shrink-0">
-                            <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
-                              <span className="text-orange-600 font-medium">
+                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-teal-500 flex items-center justify-center shadow-sm">
+                              <span className="text-white font-semibold text-sm">
                                 {client.full_name?.charAt(0) || 'C'}
                               </span>
                             </div>
                           </div>
                           <div className="ml-4 min-w-0 flex-1">
-                            <p className="text-sm font-medium text-gray-900 truncate">
+                            <p className="text-sm font-semibold text-gray-900 truncate">
                               {client.full_name}
                             </p>
                             <p className="text-sm text-gray-500 truncate">
@@ -207,7 +220,7 @@ export default function Dashboard() {
                           </div>
                         </div>
                         <div className="ml-4 flex-shrink-0">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-success-50 text-success-700 border border-success-100">
                             Active
                           </span>
                         </div>
@@ -217,35 +230,35 @@ export default function Dashboard() {
                 </li>
               ))
             ) : (
-              <li className="px-6 py-8 text-center">
-                <p className="text-sm text-gray-500">No clients yet</p>
+              <li className="px-6 py-12 text-center">
+                <p className="text-sm text-gray-500 mb-3">No clients yet</p>
                 <Link
                   to="/clients?action=add"
-                  className="mt-2 inline-block text-sm text-orange-600 hover:text-orange-700"
+                  className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-700"
                 >
-                  Add your first client
+                  Add your first client <span className="ml-1">→</span>
                 </Link>
               </li>
             )}
           </ul>
           {recentClients.length > 0 && (
-            <div className="px-6 py-3 border-t border-gray-200">
+            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
               <Link
                 to="/clients"
-                className="text-sm font-medium text-orange-600 hover:text-orange-700"
+                className="text-sm font-medium text-primary-600 hover:text-primary-700 flex items-center"
               >
-                View all clients →
+                View all clients <span className="ml-1">→</span>
               </Link>
             </div>
           )}
         </div>
 
         {/* Upcoming Sessions */}
-        <div className="bg-white shadow rounded-lg">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Upcoming Sessions</h2>
+        <div className="bg-white shadow-sm border border-gray-100 rounded-xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-100">
+            <h2 className="text-lg font-semibold text-gray-900">Upcoming Sessions</h2>
           </div>
-          <ul className="divide-y divide-gray-200">
+          <ul className="divide-y divide-gray-100">
             {upcomingSessions.length > 0 ? (
               upcomingSessions.map((session) => (
                 <li key={session.id}>
@@ -254,20 +267,28 @@ export default function Dashboard() {
                     className="block hover:bg-gray-50 transition-colors"
                   >
                     <div className="px-6 py-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-start justify-between">
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium text-gray-900">
+                          <p className="text-sm font-semibold text-gray-900 mb-1">
                             {session.title || 'Training Session'}
                           </p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-600 mb-2">
                             {session.client?.full_name}
                           </p>
-                          <p className="mt-1 text-xs text-gray-400">
-                            {new Date(session.scheduled_start).toLocaleString()}
-                          </p>
+                          <div className="flex items-center text-xs text-gray-500">
+                            <CalendarIcon className="h-4 w-4 mr-1.5" />
+                            {new Date(session.scheduled_start).toLocaleString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              hour: 'numeric',
+                              minute: '2-digit',
+                            })}
+                          </div>
                         </div>
                         <div className="ml-4 flex-shrink-0">
-                          <CalendarIcon className="h-5 w-5 text-gray-400" />
+                          <div className="h-10 w-10 rounded-lg bg-teal-50 flex items-center justify-center">
+                            <CalendarIcon className="h-5 w-5 text-teal-600" />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -275,24 +296,24 @@ export default function Dashboard() {
                 </li>
               ))
             ) : (
-              <li className="px-6 py-8 text-center">
-                <p className="text-sm text-gray-500">No upcoming sessions</p>
+              <li className="px-6 py-12 text-center">
+                <p className="text-sm text-gray-500 mb-3">No upcoming sessions</p>
                 <Link
                   to="/sessions?action=add"
-                  className="mt-2 inline-block text-sm text-orange-600 hover:text-orange-700"
+                  className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-700"
                 >
-                  Schedule a session
+                  Schedule a session <span className="ml-1">→</span>
                 </Link>
               </li>
             )}
           </ul>
           {upcomingSessions.length > 0 && (
-            <div className="px-6 py-3 border-t border-gray-200">
+            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
               <Link
                 to="/sessions"
-                className="text-sm font-medium text-orange-600 hover:text-orange-700"
+                className="text-sm font-medium text-primary-600 hover:text-primary-700 flex items-center"
               >
-                View all sessions →
+                View all sessions <span className="ml-1">→</span>
               </Link>
             </div>
           )}
