@@ -242,11 +242,9 @@ export default function Layout() {
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-64 flex flex-col flex-1">
-        <main className="flex-1">
-          <div className="py-4 px-4 xs:py-6 sm:px-6 lg:px-8 safe-area-inset-bottom">
-            <Outlet />
-          </div>
+      <div className="lg:pl-72 flex flex-col h-screen">
+        <main className="flex-1 overflow-hidden">
+          <Outlet />
         </main>
       </div>
     </div>
