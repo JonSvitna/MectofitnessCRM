@@ -108,8 +108,6 @@ def create_app(config_name='default'):
     app.register_blueprint(settings.bp)
     app.register_blueprint(exercise_library.bp)
     app.register_blueprint(api_chatbot.bp)  # AI Chatbot API
-    app.register_blueprint(api_chatbot.bp)  # AI Chatbot API
-    app.register_blueprint(api_chatbot.bp)  # AI Chatbot API
     
     # User loader
     from app.models.user import User
