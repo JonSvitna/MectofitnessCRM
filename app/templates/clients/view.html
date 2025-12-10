@@ -14,6 +14,7 @@
             <p class="page-subtitle">Client profile and training history</p>
         </div>
         <div style="display: flex; gap: var(--space-3);">
+            <a href="{{ url_for('intake.start_intake', client_id=client.id) }}" class="btn btn-success">📋 Start Intake Flow</a>
             <a href="{{ url_for('clients.edit_client', client_id=client.id) }}" class="btn btn-outline">✏️ Edit Client</a>
             <a href="{{ url_for('sessions.add_session') }}?client_id={{ client.id }}" class="btn btn-primary">📅 Schedule Session</a>
         </div>
