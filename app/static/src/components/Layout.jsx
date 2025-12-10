@@ -1,17 +1,6 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import {
-  HomeIcon,
-  UsersIcon,
-  CalendarIcon,
-  DocumentTextIcon,
-  Cog6ToothIcon,
-  ArrowRightOnRectangleIcon,
-  Bars3Icon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
-
 import {
   HomeIcon,
   UsersIcon,

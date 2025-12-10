@@ -141,103 +141,105 @@ export default function Dashboard() {
     { name: 'Rob Walker', activity: 'completed Full Body - Deadlift & Pull and rated it as RPE 8/10 (really hard). Rob set 2 new personal bests and added 1 comment.', date: '3 Oct 2025' },
   ];
 
-  // ...existing code...
-  // statCards array should be defined above the return statement, not inside another object or misplaced
-                  <div className="text-sm text-gray-500 font-medium mt-1">{card.name}</div>
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-gray-900">
+          Welcome back, {user?.full_name || 'Trainer'}
+        </h1>
+        <p className="text-sm text-gray-600 mt-1">
+          Here's what's happening with your clients today
+        </p>
+      </div>
+
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+        <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-xl">
+          <div className="px-6 py-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 rounded-lg bg-primary-50 flex items-center justify-center">
+                  <UsersIcon className="h-6 w-6 text-primary-600" />
                 </div>
-              ))}
-            </div>
-
-            {/* Quick actions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-              <Link
-                to="/clients/add"
-                className="bg-primary-600 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-primary-700 transition-colors"
-              >
-                <PlusIcon className="h-6 w-6" /> Add Client
-              </Link>
-              <Link
-                to="/sessions/add"
-                className="bg-teal-500 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-teal-600 transition-colors"
-              >
-                <CalendarIcon className="h-6 w-6" /> Schedule Session
-              </Link>
-              <Link
-                to="/programs/add"
-                className="bg-orange-500 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-orange-600 transition-colors"
-              >
-                <DocumentTextIcon className="h-6 w-6" /> Create Program
-              </Link>
-            </div>
-
-            {/* Recent clients */}
-            <div className="mb-10">
-              <h2 className="text-xl font-bold mb-4">Recent Clients</h2>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-                {recentClients.map((client) => (
-                  <Link
-                    key={client.id}
-                    to={`/clients/${client.id}`}
-                    className="bg-white rounded-xl shadow p-4 flex flex-col items-center hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary-500 to-teal-500 flex items-center justify-center text-white font-bold text-lg mb-2">
-                      {client.first_name?.charAt(0) || 'C'}
-                    </div>
-                    <div className="text-sm font-semibold text-gray-900 mb-1">{client.first_name} {client.last_name}</div>
-                    <div className="text-xs text-gray-500">{client.fitness_goal}</div>
-                  </Link>
-                ))}
               </div>
-            </div>
-
-            {/* Upcoming sessions */}
-            <div className="mb-10">
-              <h2 className="text-xl font-bold mb-4">Upcoming Sessions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-                {upcomingSessions.map((session) => (
-                  <div key={session.id} className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-orange-500 to-primary-500 flex items-center justify-center text-white font-bold text-lg mb-2">
-                      <CalendarIcon className="h-6 w-6" />
-                    </div>
-                    <div className="text-sm font-semibold text-gray-900 mb-1">{session.title}</div>
-                    <div className="text-xs text-gray-500">{new Date(session.scheduled_start).toLocaleString()}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Recent activities feed (right panel) */}
-          <div className="col-span-1">
-            <div className="bg-white rounded-xl shadow p-6 mb-6">
-              <h2 className="text-lg font-bold mb-4">Recent Activities</h2>
-              <div className="space-y-4">
-                {recentActivities.map((act, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500">{act.name.charAt(0)}</div>
-                    <div>
-                      <div className="text-sm font-semibold text-gray-900">{act.name}</div>
-                      <div className="text-xs text-gray-600">{act.activity}</div>
-                      <div className="text-xs text-gray-400 mt-1">{act.date}</div>
-                    </div>
-                  </div>
-                ))}
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Total Clients
+                  </dt>
+                  <dd className="text-2xl font-semibold text-gray-900">
+                    {stats.totalClients}
+                  </dd>
+                </dl>
               </div>
             </div>
           </div>
         </div>
-      );
-          >
-            <PlusIcon className="h-5 w-5 mr-2" />
-            Schedule Session
-          </Link>
-          <Link
-            to="/programs?action=add"
-            className="group flex items-center justify-center px-5 py-3.5 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-700 hover:to-accent-600 transition-all duration-200 min-h-[44px]"
-          >
-            <PlusIcon className="h-5 w-5 mr-2" />
-            Create Program
-          </Link>
+
+        <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-xl">
+          <div className="px-6 py-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 rounded-lg bg-success-50 flex items-center justify-center">
+                  <CalendarIcon className="h-6 w-6 text-success-600" />
+                </div>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Today's Sessions
+                  </dt>
+                  <dd className="text-2xl font-semibold text-gray-900">
+                    {stats.todaySessions}
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-xl">
+          <div className="px-6 py-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 rounded-lg bg-warning-50 flex items-center justify-center">
+                  <DocumentTextIcon className="h-6 w-6 text-warning-600" />
+                </div>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Active Programs
+                  </dt>
+                  <dd className="text-2xl font-semibold text-gray-900">
+                    {stats.totalPrograms}
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-xl">
+          <div className="px-6 py-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 rounded-lg bg-accent-50 flex items-center justify-center">
+                  <ChartBarIcon className="h-6 w-6 text-accent-600" />
+                </div>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Upcoming Sessions
+                  </dt>
+                  <dd className="text-2xl font-semibold text-gray-900">
+                    {stats.upcomingSessions}
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
