@@ -10,6 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { clientsApi, sessionsApi, programsApi } from '../api/client';
 
+// Trainerize-style dashboard with promotional cards and activity feed
 export default function Dashboard() {
   const { user, organization } = useAuthStore();
   const [stats, setStats] = useState({
