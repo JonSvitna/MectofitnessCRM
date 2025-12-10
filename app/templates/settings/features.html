@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Feature Settings - MectoFitness CRM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+    <div style="margin-bottom: var(--space-6);">
+        <a href="{{ url_for('settings.index') }}" class="btn btn-ghost">&larr; Back to Settings</a>
+    </div>
+    
+    <div class="page-header">
+        <h1 class="page-title">Feature Settings</h1>
+        <p class="page-subtitle">Enable or disable platform features</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div style="margin-bottom: var(--space-4); padding: var(--space-4); border-radius: var(--radius-lg); {% if category == 'error' %}background: #FEE2E2; color: #991B1B;{% else %}background: #D1FAE5; color: #065F46;{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" style="display: flex; flex-direction: column; gap: var(--space-6);">
+                <!-- Feature Toggles -->
+                <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+                    <!-- AI Programs -->
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <input type="checkbox" id="enable_ai_programs" name="enable_ai_programs" {% if settings.enable_ai_programs %}checked{% endif %}
+                               style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <label for="enable_ai_programs" style="display: block; font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); cursor: pointer;">
+                                🤖 AI-Powered Programs
+                            </label>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                                Enable AI-generated workout programs for clients
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Marketing -->
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <input type="checkbox" id="enable_email_marketing" name="enable_email_marketing" {% if settings.enable_email_marketing %}checked{% endif %}
+                               style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <label for="enable_email_marketing" style="display: block; font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); cursor: pointer;">
+                                📧 Email Marketing
+                            </label>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                                Enable email campaigns and automated sequences
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- SMS Marketing -->
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <input type="checkbox" id="enable_sms_marketing" name="enable_sms_marketing" {% if settings.enable_sms_marketing %}checked{% endif %}
+                               style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <label for="enable_sms_marketing" style="display: block; font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); cursor: pointer;">
+                                💬 SMS Marketing
+                            </label>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                                Send SMS messages and reminders to clients
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Calendar Sync -->
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <input type="checkbox" id="enable_calendar_sync" name="enable_calendar_sync" {% if settings.enable_calendar_sync %}checked{% endif %}
+                               style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <label for="enable_calendar_sync" style="display: block; font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); cursor: pointer;">
+                                📅 Calendar Sync
+                            </label>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                                Sync with Google Calendar and other calendar services
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Workflow Automation -->
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <input type="checkbox" id="enable_workflow_automation" name="enable_workflow_automation" {% if settings.enable_workflow_automation %}checked{% endif %}
+                               style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <label for="enable_workflow_automation" style="display: block; font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); cursor: pointer;">
+                                ⚡ Workflow Automation
+                            </label>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                                Automate client intake, follow-ups, and task management
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Save Button -->
+                <div style="padding-top: var(--space-6); border-top: 2px solid var(--border-light);">
+                    <button type="submit" class="btn btn-primary" style="padding: var(--space-3) var(--space-8);">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

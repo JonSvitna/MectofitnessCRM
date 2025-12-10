@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}API Settings - MectoFitness CRM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+    <div style="margin-bottom: var(--space-6);">
+        <a href="{{ url_for('settings.index') }}" class="btn btn-ghost">&larr; Back to Settings</a>
+    </div>
+    
+    <div class="page-header">
+        <h1 class="page-title">API Settings</h1>
+        <p class="page-subtitle">Configure API access and rate limits</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div style="margin-bottom: var(--space-4); padding: var(--space-4); border-radius: var(--radius-lg); {% if category == 'error' %}background: #FEE2E2; color: #991B1B;{% else %}background: #D1FAE5; color: #065F46;{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" style="display: flex; flex-direction: column; gap: var(--space-8);">
+                <!-- Rate Limiting -->
+                <div>
+                    <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-4); color: var(--text-primary);">Rate Limiting</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-6); font-size: var(--text-base);">
+                        Control how many API calls can be made per day to prevent abuse and ensure fair usage.
+                    </p>
+                    
+                    <div>
+                        <label for="api_calls_per_day" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">
+                            Maximum API Calls Per Day
+                        </label>
+                        <input type="number" id="api_calls_per_day" name="api_calls_per_day" value="{{ settings.api_calls_per_day or 1000 }}" min="100" max="100000"
+                               style="width: 100%; max-width: 300px; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base);">
+                        <p style="margin-top: var(--space-2); font-size: var(--text-sm); color: var(--text-secondary);">
+                            Recommended: 1000-5000 for normal usage
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- API Information -->
+                <div style="padding-top: var(--space-8); border-top: 2px solid var(--border-light);">
+                    <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-4); color: var(--text-primary);">API Information</h2>
+                    
+                    <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+                        <!-- API Endpoint -->
+                        <div style="padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                            <h3 style="font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-2);">
+                                🌐 API Endpoint
+                            </h3>
+                            <code style="display: block; padding: var(--space-3); background: var(--surface-primary); border: 2px solid var(--border-light); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--brand-secondary); font-family: monospace;">
+                                {{ request.url_root }}api/v1/
+                            </code>
+                        </div>
+                        
+                        <!-- Authentication -->
+                        <div style="padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                            <h3 style="font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-2);">
+                                🔐 Authentication
+                            </h3>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed);">
+                                API requests require authentication using session cookies. You must be logged in to make API calls.
+                            </p>
+                        </div>
+                        
+                        <!-- Documentation -->
+                        <div style="padding: var(--space-5); background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 78, 137, 0.1)); border-radius: var(--radius-lg); border-left: 4px solid var(--brand-primary);">
+                            <h3 style="font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-2);">
+                                📚 API Documentation
+                            </h3>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); margin-bottom: var(--space-3);">
+                                Complete API documentation with examples and endpoint references:
+                            </p>
+                            <ul style="margin-left: var(--space-6); font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed);">
+                                <li><strong>Programs API:</strong> /api/v1/programs</li>
+                                <li><strong>Clients API:</strong> /api/v1/clients</li>
+                                <li><strong>Sessions API:</strong> /api/v1/sessions</li>
+                                <li><strong>Exercises API:</strong> /api/v1/exercises</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Save Button -->
+                <div style="padding-top: var(--space-6); border-top: 2px solid var(--border-light);">
+                    <button type="submit" class="btn btn-primary" style="padding: var(--space-3) var(--space-8);">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

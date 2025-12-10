@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Branding Settings - MectoFitness CRM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+    <div style="margin-bottom: var(--space-6);">
+        <a href="{{ url_for('settings.index') }}" class="btn btn-ghost">&larr; Back to Settings</a>
+    </div>
+    
+    <div class="page-header">
+        <h1 class="page-title">Branding Settings</h1>
+        <p class="page-subtitle">Customize the look and feel of your platform</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div style="margin-bottom: var(--space-4); padding: var(--space-4); border-radius: var(--radius-lg); {% if category == 'error' %}background: #FEE2E2; color: #991B1B;{% else %}background: #D1FAE5; color: #065F46;{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" style="display: flex; flex-direction: column; gap: var(--space-8);">
+                <!-- Brand Colors -->
+                <div>
+                    <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-4); color: var(--text-primary);">Brand Colors</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-6); font-size: var(--text-base);">
+                        Customize your brand colors to match your business identity. These colors will be used throughout the platform.
+                    </p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6);">
+                        <!-- Primary Color -->
+                        <div>
+                            <label for="primary_color" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">
+                                Primary Color
+                            </label>
+                            <div style="display: flex; gap: var(--space-3); align-items: center;">
+                                <input type="color" id="primary_color" name="primary_color" value="{{ settings.primary_color or '#2ECC71' }}"
+                                       style="width: 60px; height: 60px; border: 2px solid var(--border-light); border-radius: var(--radius-lg); cursor: pointer;">
+                                <input type="text" value="{{ settings.primary_color or '#2ECC71' }}"
+                                       style="flex: 1; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base); font-family: monospace;"
+                                       readonly>
+                            </div>
+                            <p style="margin-top: var(--space-2); font-size: var(--text-sm); color: var(--text-secondary);">
+                                Used for buttons, links, and primary actions
+                            </p>
+                        </div>
+                        
+                        <!-- Secondary Color -->
+                        <div>
+                            <label for="secondary_color" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">
+                                Secondary Color
+                            </label>
+                            <div style="display: flex; gap: var(--space-3); align-items: center;">
+                                <input type="color" id="secondary_color" name="secondary_color" value="{{ settings.secondary_color or '#27AE60' }}"
+                                       style="width: 60px; height: 60px; border: 2px solid var(--border-light); border-radius: var(--radius-lg); cursor: pointer;">
+                                <input type="text" value="{{ settings.secondary_color or '#27AE60' }}"
+                                       style="flex: 1; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base); font-family: monospace;"
+                                       readonly>
+                            </div>
+                            <p style="margin-top: var(--space-2); font-size: var(--text-sm); color: var(--text-secondary);">
+                                Used for accents and secondary elements
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Brand Logo -->
+                <div style="padding-top: var(--space-8); border-top: 2px solid var(--border-light);">
+                    <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-4); color: var(--text-primary);">Brand Logo</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-6); font-size: var(--text-base);">
+                        Add your business logo to personalize the platform. The logo will appear in the navigation bar and on client-facing pages.
+                    </p>
+                    
+                    <div>
+                        <label for="business_logo_url" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">
+                            Logo URL
+                        </label>
+                        <input type="url" id="business_logo_url" name="business_logo_url" value="{{ settings.business_logo_url or '' }}"
+                               style="width: 100%; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base);"
+                               placeholder="https://yourbusiness.com/logo.png">
+                        <p style="margin-top: var(--space-2); font-size: var(--text-sm); color: var(--text-secondary);">
+                            Recommended size: 200x60 pixels (PNG or SVG format)
+                        </p>
+                    </div>
+                    
+                    {% if settings.business_logo_url %}
+                    <div style="margin-top: var(--space-6); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <p style="font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-3);">Logo Preview:</p>
+                        <img src="{{ settings.business_logo_url }}" alt="Business Logo" style="max-width: 200px; max-height: 60px; display: block;">
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Brand Preview -->
+                <div style="padding-top: var(--space-8); border-top: 2px solid var(--border-light);">
+                    <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-4); color: var(--text-primary);">Preview</h2>
+                    
+                    <div style="padding: var(--space-8); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
+                            <button type="button" style="padding: var(--space-3) var(--space-6); background: {{ settings.primary_color or '#2ECC71' }}; color: white; border: none; border-radius: var(--radius-lg); font-weight: var(--font-semibold); cursor: default;">
+                                Primary Button
+                            </button>
+                            <button type="button" style="padding: var(--space-3) var(--space-6); background: {{ settings.secondary_color or '#27AE60' }}; color: white; border: none; border-radius: var(--radius-lg); font-weight: var(--font-semibold); cursor: default;">
+                                Secondary Button
+                            </button>
+                            <a href="#" style="color: {{ settings.primary_color or '#2ECC71' }}; font-weight: var(--font-semibold); text-decoration: none;" onclick="return false;">Sample Link</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Save Button -->
+                <div style="padding-top: var(--space-6); border-top: 2px solid var(--border-light);">
+                    <button type="submit" class="btn btn-primary" style="padding: var(--space-3) var(--space-8);">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Update color input text fields when color picker changes
+document.getElementById('primary_color').addEventListener('input', function(e) {
+    this.nextElementSibling.value = e.target.value;
+});
+document.getElementById('secondary_color').addEventListener('input', function(e) {
+    this.nextElementSibling.value = e.target.value;
+});
+</script>
+{% endblock %}
