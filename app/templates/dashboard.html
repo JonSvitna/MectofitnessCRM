@@ -8,122 +8,57 @@
 
 {% block content %}
 <div class="container" style="padding-top: 2rem;">
-    <!-- Welcome Header with Gamification -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-        <div>
-            <h1 style="color: #0F172A; margin-bottom: 0.5rem; font-size: 2.5rem;">
-                Welcome Back, {{ current_user.full_name }}! 👋
-            </h1>
-            <p style="color: #64748B; font-size: 1.1rem;">Let's crush today's goals together!</p>
-        </div>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <div class="level-indicator">
-                <span>Level</span>
-                <span class="level-number">{{ current_user.level or 12 }}</span>
-            </div>
-            <div class="streak-counter">
-                <span class="streak-flame">🔥</span>
-                <span>{{ current_user.streak or 7 }} Day Streak!</span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- XP Progress Bar -->
-    <div class="xp-bar-container" style="margin-bottom: 2rem;">
-        <div class="xp-bar-fill" style="width: {{ ((current_user.xp or 2450) / 3000 * 100)|round }}%;"></div>
-        <div class="xp-bar-text">{{ current_user.xp or 2450 }} / 3000 XP to Level {{ (current_user.level or 12) + 1 }}</div>
-    </div>
-    
-    <!-- Enhanced Statistics Dashboard -->
-    <div class="dashboard-grid" style="margin-bottom: 2.5rem;">
-        <div class="dashboard-stat-card">
-            <div class="stat-icon blue">
-                👥
-            </div>
-            <div class="stat-value-large" style="color: #0066FF;">{{ total_clients }}</div>
-            <div class="stat-label">Active Clients</div>
-            <small style="color: #10B981; font-weight: 600;">↑ 3 this week</small>
-        </div>
-        
-        <div class="dashboard-stat-card">
-            <div class="stat-icon green">
-                💪
-            </div>
-            <div class="stat-value-large" style="color: #10B981;">{{ total_programs }}</div>
-            <div class="stat-label">Active Programs</div>
-            <small style="color: #F59E0B; font-weight: 600;">→ Same as last week</small>
-        </div>
-        
-        <div class="dashboard-stat-card">
-            <div class="stat-icon orange">
-                🔥
-            </div>
-            <div class="stat-value-large" style="color: #F59E0B;">{{ today_sessions|length }}</div>
-            <div class="stat-label">Today's Sessions</div>
-            <small style="color: #8B5CF6; font-weight: 600;">Next in 2 hours</small>
-        </div>
-        
-        <div class="dashboard-stat-card">
-            <div class="stat-icon red">
-                📅
-            </div>
-            <div class="stat-value-large" style="color: #EF4444;">{{ upcoming_sessions|length }}</div>
-            <div class="stat-label">Upcoming (7 Days)</div>
-            <small style="color: #0066FF; font-weight: 600;">Mon-Fri peak</small>
-        </div>
-    </div>
-    
-    <!-- Quick Links Grid -->
+    <!-- Professional Welcome Header -->
     <div style="margin-bottom: 2.5rem;">
-        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: #0F172A;">⚡ Quick Actions</h2>
-        <div class="quick-links-grid">
-            <a href="{{ url_for('clients.add_client') }}" class="quick-link-card">
-                <div class="quick-link-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    👤
-                </div>
-                <h3 class="quick-link-title">Add Client</h3>
-                <p style="font-size: 0.875rem; color: #64748B; margin-top: 0.5rem;">Onboard new clients</p>
-            </a>
-            
-            <a href="{{ url_for('sessions.add_session') }}" class="quick-link-card">
-                <div class="quick-link-icon" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);">
-                    📅
-                </div>
-                <h3 class="quick-link-title">Schedule Session</h3>
-                <p style="font-size: 0.875rem; color: #64748B; margin-top: 0.5rem;">Book training time</p>
-            </a>
-            
-            <a href="{{ url_for('programs.add_program') }}" class="quick-link-card">
-                <div class="quick-link-icon" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
-                    💪
-                </div>
-                <h3 class="quick-link-title">Create Program</h3>
-                <p style="font-size: 0.875rem; color: #64748B; margin-top: 0.5rem;">Build workouts</p>
-            </a>
-            
-            <a href="{{ url_for('exercise_library.index') }}" class="quick-link-card">
-                <div class="quick-link-icon" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);">
-                    📚
-                </div>
-                <h3 class="quick-link-title">Exercise Library</h3>
-                <p style="font-size: 0.875rem; color: #64748B; margin-top: 0.5rem;">Browse 750+ exercises</p>
-            </a>
-            
-            <a href="{{ url_for('clients.list_clients') }}" class="quick-link-card">
-                <div class="quick-link-icon" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);">
-                    👥
-                </div>
-                <h3 class="quick-link-title">View Clients</h3>
-                <p style="font-size: 0.875rem; color: #64748B; margin-top: 0.5rem;">Manage your roster</p>
-            </a>
-            
-            <a href="{{ url_for('settings.index') }}" class="quick-link-card">
-                <div class="quick-link-icon" style="background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);">
-                    ⚙️
-                </div>
-                <h3 class="quick-link-title">Settings</h3>
-                <p style="font-size: 0.875rem; color: #64748B; margin-top: 0.5rem;">Configure your CRM</p>
-            </a>
+        <h1 style="color: #1E293B; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 600;">
+            Welcome Back, {{ current_user.full_name }}
+        </h1>
+        <p style="color: #64748B; font-size: 1rem;">Here's your training overview for today</p>
+    </div>
+    
+    <!-- Professional Statistics Dashboard -->
+    <div class="dashboard-grid" style="margin-bottom: 2.5rem;">
+        <div class="stat-card" style="border-left: 4px solid #367588;">
+            <h3 style="color: #64748B; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Active Clients</h3>
+            <div class="stat-value" style="color: #367588; font-size: 2.5rem; font-weight: 700;">{{ total_clients }}</div>
+        </div>
+        
+        <div class="stat-card" style="border-left: 4px solid #10B981;">
+            <h3 style="color: #64748B; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Active Programs</h3>
+            <div class="stat-value" style="color: #10B981; font-size: 2.5rem; font-weight: 700;">{{ total_programs }}</div>
+        </div>
+        
+        <div class="stat-card" style="border-left: 4px solid #F59E0B;">
+            <h3 style="color: #64748B; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Today's Sessions</h3>
+            <div class="stat-value" style="color: #F59E0B; font-size: 2.5rem; font-weight: 700;">{{ today_sessions|length }}</div>
+        </div>
+        
+        <div class="stat-card" style="border-left: 4px solid #6366F1;">
+            <h3 style="color: #64748B; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Upcoming Sessions</h3>
+            <div class="stat-value" style="color: #6366F1; font-size: 2.5rem; font-weight: 700;">{{ upcoming_sessions|length }}</div>
+        </div>
+    </div>
+    
+    <!-- Professional Quick Actions -->
+    <div class="card" style="margin-bottom: 2.5rem;">
+        <div class="card-header">
+            <h2 style="font-size: 1.25rem; font-weight: 600; color: #1E293B;">Quick Actions</h2>
+        </div>
+        <div class="card-body">
+            <div class="action-buttons" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary" style="padding: 0.875rem 1.5rem; text-align: center;">
+                    <span style="margin-right: 0.5rem;">➕</span> Add Client
+                </a>
+                <a href="{{ url_for('sessions.add_session') }}" class="btn btn-primary" style="padding: 0.875rem 1.5rem; text-align: center;">
+                    <span style="margin-right: 0.5rem;">📅</span> Schedule Session
+                </a>
+                <a href="{{ url_for('programs.add_program') }}" class="btn btn-primary" style="padding: 0.875rem 1.5rem; text-align: center;">
+                    <span style="margin-right: 0.5rem;">📋</span> Create Program
+                </a>
+                <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary" style="padding: 0.875rem 1.5rem; text-align: center;">
+                    <span style="margin-right: 0.5rem;">💪</span> Exercise Library
+                </a>
+            </div>
         </div>
     </div>
     
@@ -238,17 +173,4 @@
 
 {% block extra_js %}
 <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
-<script>
-    // Initialize gamification elements
-    document.addEventListener('DOMContentLoaded', () => {
-        // Animate stat values
-        document.querySelectorAll('.stat-value-large').forEach(stat => {
-            const target = parseInt(stat.textContent);
-            if (!isNaN(target)) {
-                stat.textContent = '0';
-                animateCountUp(stat, target, 1500);
-            }
-        });
-    });
-</script>
 {% endblock %}
