@@ -70,7 +70,7 @@ export default function Layout() {
                     key={item.name}
                     to={item.href}
                     className={`
-                      group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200
+                      group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors
                       min-h-[44px] tap-highlight-none
                       ${
                         isActive
@@ -79,12 +79,7 @@ export default function Layout() {
                       }
                     `}
                   >
-                    <item.icon
-                      className={`mr-3 h-5 w-5 flex-shrink-0 transition-colors ${
-                        isActive ? 'text-primary-600' : 'text-gray-400 group-hover:text-gray-600'
-                      }`}
-                      aria-hidden="true"
-                    />
+                    <item.icon className="mr-3 h-6 w-6 flex-shrink-0" aria-hidden="true" />
                     {item.name}
                   </Link>
                 );
@@ -107,11 +102,11 @@ export default function Layout() {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="ml-auto flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none rounded-lg hover:bg-gray-100"
+                  className="ml-auto flex-shrink-0 text-orange-200 hover:text-white transition-colors p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none"
                   title="Logout"
                   aria-label="Logout"
                 >
-                  <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                  <ArrowRightOnRectangleIcon className="h-6 w-6" />
                 </button>
               </div>
               {organization && (
@@ -126,20 +121,18 @@ export default function Layout() {
 
       {/* Mobile menu */}
       <div className="lg:hidden safe-area-inset-top">
-        <div className="flex items-center justify-between bg-white border-b border-gray-200 px-4 py-3 sm:px-6 shadow-sm">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-primary-600 to-teal-500 bg-clip-text text-transparent xs:text-2xl">
-            MectoFitness
-          </h1>
+        <div className="flex items-center justify-between bg-orange-600 px-4 py-3 sm:px-6">
+          <h1 className="text-xl font-bold text-white xs:text-2xl">MectoFitness</h1>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-gray-600 hover:text-gray-900 p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none rounded-lg hover:bg-gray-100"
+            className="text-white hover:text-orange-100 p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
-              <XMarkIcon className="h-6 w-6" />
+              <XMarkIcon className="h-7 w-7" />
             ) : (
-              <Bars3Icon className="h-6 w-6" />
+              <Bars3Icon className="h-7 w-7" />
             )}
           </button>
         </div>
@@ -147,11 +140,11 @@ export default function Layout() {
         {/* Mobile menu panel */}
         {mobileMenuOpen && (
           <div
-            className="fixed inset-0 z-40 bg-gray-900 bg-opacity-50 lg:hidden"
+            className="fixed inset-0 z-40 bg-gray-900 bg-opacity-75 lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
           >
             <div
-              className="fixed inset-y-0 left-0 flex w-full max-w-xs xs:max-w-sm flex-col bg-white safe-area-inset-top safe-area-inset-bottom shadow-xl"
+              className="fixed inset-y-0 left-0 flex w-full max-w-xs xs:max-w-sm flex-col bg-gradient-to-b from-orange-600 to-orange-700 safe-area-inset-top safe-area-inset-bottom"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-1 flex-col overflow-y-auto smooth-scroll pt-5 pb-4">
@@ -161,14 +154,14 @@ export default function Layout() {
                   </h1>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-gray-600 hover:text-gray-900 p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none rounded-lg hover:bg-gray-100"
+                    className="text-white hover:text-orange-100 p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none"
                     aria-label="Close menu"
                   >
-                    <XMarkIcon className="h-6 w-6" />
+                    <XMarkIcon className="h-7 w-7" />
                   </button>
                 </div>
 
-                <nav className="mt-8 flex-1 space-y-1 px-3">
+                <nav className="mt-8 flex-1 space-y-2 px-3">
                   {navigation.map((item) => {
                     const isActive = location.pathname.startsWith(item.href);
                     return (
@@ -177,20 +170,16 @@ export default function Layout() {
                         to={item.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={`
-                          group flex items-center px-4 py-3.5 text-base font-medium rounded-lg transition-all duration-200
+                          group flex items-center px-4 py-3.5 text-base font-medium rounded-lg transition-colors
                           min-h-[48px] tap-highlight-none
                           ${
                             isActive
-                              ? 'bg-primary-50 text-primary-700 shadow-sm'
-                              : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                              ? 'bg-orange-800 text-white'
+                              : 'text-orange-100 hover:bg-orange-800/50 hover:text-white active:bg-orange-800/70'
                           }
                         `}
                       >
-                        <item.icon
-                          className={`mr-4 h-5 w-5 flex-shrink-0 ${
-                            isActive ? 'text-primary-600' : 'text-gray-400 group-hover:text-gray-600'
-                          }`}
-                        />
+                        <item.icon className="mr-4 h-6 w-6 flex-shrink-0" />
                         {item.name}
                       </Link>
                     );
@@ -202,21 +191,21 @@ export default function Layout() {
                 <div className="w-full">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary-500 to-teal-500 flex items-center justify-center text-white font-semibold text-lg shadow-sm">
+                      <div className="h-12 w-12 rounded-full bg-orange-800 flex items-center justify-center text-white font-semibold text-lg">
                         {user?.name?.charAt(0) || 'U'}
                       </div>
                     </div>
-                    <div className="ml-3 flex-1 min-w-0">
-                      <p className="text-base font-medium text-gray-900 truncate">{user?.name}</p>
-                      <p className="text-sm text-gray-500 capitalize">{user?.role}</p>
+                    <div className="ml-3 flex-1">
+                      <p className="text-base font-medium text-white">{user?.name}</p>
+                      <p className="text-sm text-orange-200 capitalize">{user?.role}</p>
                     </div>
                     <button
                       onClick={handleLogout}
-                      className="ml-auto flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none rounded-lg hover:bg-gray-100"
+                      className="ml-auto flex-shrink-0 text-orange-200 hover:text-white transition-colors p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none"
                       aria-label="Logout"
                       title="Logout"
                     >
-                      <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                      <ArrowRightOnRectangleIcon className="h-6 w-6" />
                     </button>
                   </div>
                   {organization && (
