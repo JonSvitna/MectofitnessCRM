@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}Create Intake - {{ client.full_name }} - MectoFitness CRM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">
+                <i class="fas fa-clipboard-check me-2"></i>Create Intake Form
+            </h1>
+            <p class="page-subtitle">Manual intake form creation for {{ client.full_name }}</p>
+        </div>
+        <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-outline">
+            <i class="fas fa-arrow-left me-2"></i>Back
+        </a>
+    </div>
+
+    <div class="alert alert-info mb-4">
+        <h6><i class="fas fa-lightbulb me-2"></i>Tip: Use Automated Flow</h6>
+        <p class="mb-0">
+            Instead of manually creating an intake, use the 
+            <a href="{{ url_for('intake.start_intake', client_id=client.id) }}" class="alert-link">
+                automated intake flow
+            </a> 
+            which emails the client to complete their assessment online.
+        </p>
+    </div>
+
+    <form method="POST">
+        <!-- Personal Information -->
+        <div class="pro-card mb-4">
+            <div class="pro-card-header">
+                <h3><i class="fas fa-user me-2"></i>Personal Information</h3>
+            </div>
+            <div class="pro-card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Age *</label>
+                        <input type="number" name="age" class="form-control" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Gender</label>
+                        <select name="gender" class="form-select">
+                            <option value="">Select...</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Height (cm) *</label>
+                        <input type="number" step="0.1" name="height_cm" class="form-control" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Weight (kg) *</label>
+                        <input type="number" step="0.1" name="weight_kg" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fitness Background -->
+        <div class="pro-card mb-4">
+            <div class="pro-card-header">
+                <h3><i class="fas fa-trophy me-2"></i>Fitness Background</h3>
+            </div>
+            <div class="pro-card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Fitness Experience *</label>
+                        <select name="fitness_experience" class="form-select" required>
+                            <option value="">Select...</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Primary Goal *</label>
+                        <select name="primary_goal" class="form-select" required>
+                            <option value="">Select...</option>
+                            <option value="weight_loss">Weight Loss</option>
+                            <option value="muscle_gain">Muscle Gain</option>
+                            <option value="strength">Strength</option>
+                            <option value="endurance">Endurance</option>
+                            <option value="flexibility">Flexibility</option>
+                            <option value="general_fitness">General Fitness</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Target Timeline</label>
+                        <select name="target_timeline" class="form-select">
+                            <option value="">Select...</option>
+                            <option value="4_weeks">4 weeks</option>
+                            <option value="8_weeks">8 weeks</option>
+                            <option value="12_weeks">12 weeks</option>
+                            <option value="6_months">6 months</option>
+                            <option value="ongoing">Ongoing</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Motivation Level (1-5)</label>
+                        <select name="motivation_level" class="form-select">
+                            <option value="">Select...</option>
+                            <option value="1">1 - Low</option>
+                            <option value="2">2</option>
+                            <option value="3">3 - Moderate</option>
+                            <option value="4">4</option>
+                            <option value="5">5 - Very High</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Training Preferences -->
+        <div class="pro-card mb-4">
+            <div class="pro-card-header">
+                <h3><i class="fas fa-calendar-alt me-2"></i>Training Preferences</h3>
+            </div>
+            <div class="pro-card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Sessions Per Week</label>
+                        <input type="number" name="sessions_per_week" class="form-control" min="1" max="7">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Session Duration (min)</label>
+                        <input type="number" name="session_duration" class="form-control">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Preferred Time</label>
+                        <select name="preferred_workout_time" class="form-select">
+                            <option value="">Select...</option>
+                            <option value="early_morning">Early Morning</option>
+                            <option value="morning">Morning</option>
+                            <option value="midday">Midday</option>
+                            <option value="afternoon">Afternoon</option>
+                            <option value="evening">Evening</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Workout Location</label>
+                        <select name="workout_location" class="form-select">
+                            <option value="">Select...</option>
+                            <option value="gym">Gym</option>
+                            <option value="home_full">Home - Full Equipment</option>
+                            <option value="home_minimal">Home - Minimal Equipment</option>
+                            <option value="outdoor">Outdoor</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Information -->
+        <div class="pro-card mb-4">
+            <div class="pro-card-header">
+                <h3><i class="fas fa-heartbeat me-2"></i>Health Information</h3>
+            </div>
+            <div class="pro-card-body">
+                <div class="mb-3">
+                    <label class="form-label">Medical Conditions</label>
+                    <textarea name="medical_conditions" class="form-control" rows="3" 
+                              placeholder="Any medical conditions to be aware of..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Previous Injuries</label>
+                    <textarea name="injuries" class="form-control" rows="3" 
+                              placeholder="Any previous or current injuries..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Dietary Restrictions</label>
+                    <textarea name="dietary_restrictions" class="form-control" rows="2" 
+                              placeholder="Any dietary restrictions or allergies..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="d-flex justify-content-between">
+            <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-secondary">
+                <i class="fas fa-times me-2"></i>Cancel
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Save Intake Form
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
