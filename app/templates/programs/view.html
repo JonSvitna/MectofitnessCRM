@@ -16,9 +16,9 @@
         <div style="display: flex; gap: var(--space-3);">
             <a href="{{ url_for('programs.edit_program', program_id=program.id) }}" class="btn btn-outline">✏️ Edit Program</a>
             {% if not program.is_ai_generated %}
-            <form method="POST" action="{{ url_for('programs.generate_ai_program', program_id=program.id) }}" style="display: inline;">
-                <button type="submit" class="btn btn-primary">🤖 Generate AI Program</button>
-            </form>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('ai-modal').style.display='flex'">🤖 Generate AI Program</button>
+            {% else %}
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('ai-modal').style.display='flex'">🔄 Regenerate Program</button>
             {% endif %}
         </div>
     </div>
@@ -129,9 +129,58 @@
     <div class="card" style="margin-top: var(--space-8);">
         <div class="card-body" style="text-align: center; padding: var(--space-16);">
             <div style="font-size: 4rem; margin-bottom: var(--space-4);">🏋️</div>
-            <p style="color: var(--text-secondary); font-size: var(--text-lg);">No exercises added yet. Add exercises to this program to get started.</p>
+            <p style="color: var(--text-secondary); font-size: var(--text-lg); margin-bottom: var(--space-6);">No exercises added yet.</p>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('ai-modal').style.display='flex'">
+                🤖 Generate Program with AI
+            </button>
         </div>
     </div>
     {% endif %}
 </div>
+
+<!-- AI Generation Modal -->
+<div id="ai-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+    <div class="card" style="max-width: 500px; margin: var(--space-4);">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold);">🤖 AI Program Generation</h2>
+            <button onclick="document.getElementById('ai-modal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary);">&times;</button>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('programs.generate_ai_program', program_id=program.id) }}">
+                <p style="margin-bottom: var(--space-6); color: var(--text-secondary);">
+                    AI will generate a complete {{ program.duration_weeks }}-week training program based on:
+                </p>
+                <ul style="margin-bottom: var(--space-6); margin-left: var(--space-6); color: var(--text-secondary);">
+                    <li>Client: {{ program.client.full_name }}</li>
+                    <li>Goal: {{ program.goal or 'General fitness' }}</li>
+                    <li>Level: {{ program.difficulty_level|title }}</li>
+                    <li>722 exercises from your library</li>
+                </ul>
+                
+                <div class="form-group">
+                    <label for="training_frequency" style="font-weight: var(--font-semibold);">Training Frequency (sessions/week)</label>
+                    <select id="training_frequency" name="training_frequency" class="form-control">
+                        <option value="2">2 days per week</option>
+                        <option value="3" selected>3 days per week</option>
+                        <option value="4">4 days per week</option>
+                        <option value="5">5 days per week</option>
+                        <option value="6">6 days per week</option>
+                    </select>
+                </div>
+                
+                <div style="padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg); margin-bottom: var(--space-6);">
+                    <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                        ⚡ <strong>Note:</strong> Generation takes 10-20 seconds. The AI will create exercises with sets, reps, and form cues.
+                    </p>
+                </div>
+                
+                <div style="display: flex; gap: var(--space-3); justify-content: flex-end;">
+                    <button type="button" class="btn btn-ghost" onclick="document.getElementById('ai-modal').style.display='none'">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Generate Program</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

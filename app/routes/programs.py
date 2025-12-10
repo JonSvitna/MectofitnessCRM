@@ -90,11 +90,49 @@ def edit_program(program_id):
 @login_required
 def generate_ai_program(program_id):
     """Generate AI-based training program."""
+    from app.services.ai_program_generator import AIProgramGenerator
+    
     program = Program.query.filter_by(id=program_id, trainer_id=current_user.id).first_or_404()
     
-    # Placeholder for AI generation
-    # In production, this would call the AI model
-    flash('AI program generation is being implemented. This feature will use your knowledge base to create customized programs.', 'info')
+    # Initialize AI generator
+    ai_generator = AIProgramGenerator()
+    
+    if not ai_generator.is_available():
+        flash('OpenAI API key not configured. Please set OPENAI_API_KEY in your environment variables.', 'error')
+        return redirect(url_for('programs.view_program', program_id=program.id))
+    
+    try:
+        # Prepare client info
+        client_info = {
+            'name': program.client.full_name,
+            'fitness_level': program.client.fitness_level or program.difficulty_level,
+            'medical_conditions': program.client.medical_conditions
+        }
+        
+        # Get training frequency from form or default to 3
+        training_frequency = int(request.form.get('training_frequency', 3))
+        
+        # Generate program
+        flash('Generating AI program... This may take 10-20 seconds.', 'info')
+        
+        result = ai_generator.generate_program(
+            client_info=client_info,
+            program_goal=program.goal or "General fitness",
+            duration_weeks=program.duration_weeks or 12,
+            difficulty_level=program.difficulty_level or 'intermediate',
+            equipment_available=None,  # Full gym access by default
+            training_frequency=training_frequency
+        )
+        
+        if result['success']:
+            # Save to database
+            ai_generator.save_program_to_database(program_id, result['program_data'])
+            flash(f'✨ AI program generated successfully using {result["ai_model"]}!', 'success')
+        else:
+            flash(f'Error generating program: {result.get("message", "Unknown error")}', 'error')
+            
+    except Exception as e:
+        flash(f'Error generating AI program: {str(e)}', 'error')
     
     return redirect(url_for('programs.view_program', program_id=program.id))
 
