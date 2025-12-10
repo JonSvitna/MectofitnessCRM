@@ -1,3 +1,35 @@
+import requests
+@bp.route('/exercises/search', methods=['GET'])
+def api_search_exercises():
+    """Proxy search to WGER API for exercises."""
+    query = request.args.get('q', '')
+    language = request.args.get('language', '2')  # 2 = English
+    page = request.args.get('page', 1)
+    per_page = request.args.get('limit', 20)
+
+    # WGER API endpoint
+    wger_url = f"https://wger.de/api/v2/exercise/"
+    params = {
+        'language': language,
+        'status': '2',  # only public
+        'limit': per_page,
+        'page': page,
+    }
+    if query:
+        params['name'] = query
+
+    try:
+        resp = requests.get(wger_url, params=params, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        # Optionally filter results by query in name/description
+        if query:
+            filtered = [ex for ex in data.get('results', []) if query.lower() in ex['name'].lower() or query.lower() in (ex['description'] or '').lower()]
+        else:
+            filtered = data.get('results', [])
+        return jsonify({'exercises': filtered, 'count': len(filtered)})
+    except Exception as e:
+        return jsonify({'error': str(e), 'exercises': [], 'count': 0}), 500
 """API routes for external integrations."""
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user

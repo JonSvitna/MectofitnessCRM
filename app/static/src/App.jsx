@@ -9,6 +9,7 @@ import ProgramList from './pages/programs/ProgramList';
 import Settings from './pages/settings/Settings';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import ExerciseLibrary from './pages/ExerciseLibrary';
 
 // Protected Route wrapper
 const ProtectedRoute = ({ children }) => {
@@ -23,6 +24,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/exercise-library" element={<ExerciseLibrary />} />
 
         {/* Protected Routes */}
         <Route
