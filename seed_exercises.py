@@ -115,6 +115,25 @@ def get_exercise_description(exercise_id):
 def transform_wger_exercise(exercise_info):
     """Transform WGER exercise data to our ExerciseLibrary model."""
     
+    # Get name and description from translations (English language=2)
+    translations = exercise_info.get('translations', [])
+    name = 'Unknown Exercise'
+    description = ''
+    
+    # Find English translation (language ID = 2)
+    for translation in translations:
+        if translation.get('language') == 2:  # English
+            name = translation.get('name', 'Unknown Exercise')
+            description_html = translation.get('description', '')
+            # Simple HTML tag removal (basic)
+            import re
+            description = re.sub('<[^<]+?>', '', description_html).strip()
+            break
+    
+    # If no English translation, skip this exercise
+    if name == 'Unknown Exercise':
+        return None
+    
     # Get category
     category_id = exercise_info.get('category', {}).get('id')
     category = CATEGORY_MAPPING.get(category_id, 'strength')
@@ -139,15 +158,6 @@ def transform_wger_exercise(exercise_info):
         equip_name = EQUIPMENT_MAPPING.get(equip['id'], equip.get('name', 'unknown'))
         if equip_name and equip_name != 'unknown':
             equipment.append(equip_name)
-    
-    # Process description - WGER stores HTML, clean it
-    description_html = exercise_info.get('description', '')
-    # Simple HTML tag removal (basic)
-    import re
-    description = re.sub('<[^<]+?>', '', description_html).strip()
-    
-    # Get name
-    name = exercise_info.get('name', 'Unknown Exercise')
     
     # Build exercise data
     exercise_data = {
@@ -220,6 +230,10 @@ def seed_exercises():
             try:
                 # Transform data
                 exercise_data = transform_wger_exercise(exercise_info)
+                
+                # Skip if no English translation found
+                if exercise_data is None:
+                    continue
                 
                 # Check if exercise with this name already exists
                 existing = ExerciseLibrary.query.filter_by(
