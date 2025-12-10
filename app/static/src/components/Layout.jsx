@@ -52,11 +52,13 @@ export default function Layout() {
     <div className="min-h-screen bg-gray-50">
       {/* Sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex min-h-0 flex-1 flex-col bg-gradient-to-b from-orange-600 to-orange-700">
+        <div className="flex min-h-0 flex-1 flex-col bg-white border-r border-gray-200">
           <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
             {/* Logo */}
-            <div className="flex flex-shrink-0 items-center px-4">
-              <h1 className="text-2xl font-bold text-white">MectoFitness</h1>
+            <div className="flex flex-shrink-0 items-center px-6">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-teal-500 bg-clip-text text-transparent">
+                MectoFitness
+              </h1>
             </div>
 
             {/* Navigation */}
@@ -72,8 +74,8 @@ export default function Layout() {
                       min-h-[44px] tap-highlight-none
                       ${
                         isActive
-                          ? 'bg-orange-800 text-white'
-                          : 'text-orange-100 hover:bg-orange-800/50 hover:text-white'
+                          ? 'bg-primary-50 text-primary-700 shadow-sm'
+                          : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                       }
                     `}
                   >
@@ -86,17 +88,17 @@ export default function Layout() {
           </div>
 
           {/* User section */}
-          <div className="flex flex-shrink-0 border-t border-orange-800 p-4">
+          <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
             <div className="w-full">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <div className="h-10 w-10 rounded-full bg-orange-800 flex items-center justify-center text-white font-semibold">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-teal-500 flex items-center justify-center text-white font-semibold shadow-sm">
                     {user?.name?.charAt(0) || 'U'}
                   </div>
                 </div>
-                <div className="ml-3 flex-1">
-                  <p className="text-sm font-medium text-white">{user?.name}</p>
-                  <p className="text-xs text-orange-200 capitalize">{user?.role}</p>
+                <div className="ml-3 flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
+                  <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
                 </div>
                 <button
                   onClick={handleLogout}
@@ -108,7 +110,7 @@ export default function Layout() {
                 </button>
               </div>
               {organization && (
-                <div className="mt-2 px-2 py-1 bg-orange-800/30 rounded text-xs text-orange-100">
+                <div className="mt-2 px-2 py-1 bg-gray-100 rounded text-xs text-gray-600 truncate">
                   {organization.name}
                 </div>
               )}
@@ -147,7 +149,9 @@ export default function Layout() {
             >
               <div className="flex flex-1 flex-col overflow-y-auto smooth-scroll pt-5 pb-4">
                 <div className="flex items-center justify-between px-4">
-                  <h1 className="text-2xl font-bold text-white">MectoFitness</h1>
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-teal-500 bg-clip-text text-transparent">
+                    MectoFitness
+                  </h1>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
                     className="text-white hover:text-orange-100 p-2 -mr-2 min-h-[44px] min-w-[44px] flex items-center justify-center tap-highlight-none"
@@ -183,7 +187,7 @@ export default function Layout() {
                 </nav>
               </div>
 
-              <div className="flex flex-shrink-0 border-t border-orange-800 p-4">
+              <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
                 <div className="w-full">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
@@ -204,6 +208,11 @@ export default function Layout() {
                       <ArrowRightOnRectangleIcon className="h-6 w-6" />
                     </button>
                   </div>
+                  {organization && (
+                    <div className="mt-2 px-2 py-1 bg-gray-100 rounded text-xs text-gray-600 truncate">
+                      {organization.name}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

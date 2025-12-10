@@ -15,35 +15,73 @@ export default {
     },
     extend: {
       colors: {
-        // Professional Blue/Teal Theme (TrueCoach/Trainerize inspired)
+        // Professional TrueCoach-inspired color palette
         primary: {
-          50: '#E6F2F5',
-          100: '#CCE5EB',
-          200: '#99CBD7',
-          300: '#66B1C3',
-          400: '#367588', // Main teal blue
-          500: '#2E6577',
-          600: '#1E566C',
-          700: '#174353',
-          800: '#0F2F3A',
-          900: '#081C21',
+          50: '#EBF5FF',
+          100: '#D1E9FF',
+          200: '#B3DDFF',
+          300: '#84CAFF',
+          400: '#53B1FD',
+          500: '#2E90FA', // Main brand blue
+          600: '#1570EF',
+          700: '#175CD3',
+          800: '#1849A9',
+          900: '#194185',
+        },
+        teal: {
+          50: '#F0FDFA',
+          100: '#CCFBF1',
+          200: '#99F6E4',
+          300: '#5EEAD4',
+          400: '#2DD4BF',
+          500: '#14B8A6', // TrueCoach teal
+          600: '#0D9488',
+          700: '#0F766E',
+          800: '#115E59',
+          900: '#134E4A',
         },
         accent: {
-          50: '#FFF9E6',
-          100: '#FFF3CC',
-          200: '#FFE799',
-          300: '#FFDB66',
-          400: '#FFC107', // Energetic yellow
-          500: '#FFB84D',
-          600: '#FF9500', // Orange
-          700: '#CC7700',
-          800: '#995900',
-          900: '#663B00',
+          50: '#FFF7ED',
+          100: '#FFEDD5',
+          200: '#FED7AA',
+          300: '#FDBA74',
+          400: '#FB923C',
+          500: '#F97316', // Modern orange accent
+          600: '#EA580C',
+          700: '#C2410C',
+          800: '#9A3412',
+          900: '#7C2D12',
         },
-        success: '#28A745',
-        danger: '#DC3545',
-        warning: '#FFC107',
-        info: '#17A2B8',
+        success: {
+          50: '#F0FDF4',
+          100: '#DCFCE7',
+          500: '#22C55E',
+          700: '#15803D',
+        },
+        danger: {
+          50: '#FEF2F2',
+          100: '#FEE2E2',
+          500: '#EF4444',
+          700: '#B91C1C',
+        },
+        warning: {
+          50: '#FEFCE8',
+          100: '#FEF9C3',
+          500: '#EAB308',
+          700: '#A16207',
+        },
+        gray: {
+          50: '#F9FAFB',
+          100: '#F3F4F6',
+          200: '#E5E7EB',
+          300: '#D1D5DB',
+          400: '#9CA3AF',
+          500: '#6B7280',
+          600: '#4B5563',
+          700: '#374151',
+          800: '#1F2937',
+          900: '#111827',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'Segoe UI', 'system-ui', 'sans-serif'],
