@@ -2,19 +2,32 @@
 
 {% block title %}Exercise Library - MectoFitness{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--primary-green);">Exercise Library</h1>
-        <a href="{{ url_for('exercise_library.create_exercise') }}" class="btn btn-primary">Create Custom Exercise</a>
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+                <h1 class="page-title">Exercise Library</h1>
+                <p class="page-subtitle">722 professional exercises to build the perfect workout</p>
+            </div>
+            <a href="{{ url_for('exercise_library.create_exercise') }}" class="btn btn-primary">
+                <span style="font-size: 1.25rem;">➕</span>
+                <span>Create Custom Exercise</span>
+            </a>
+        </div>
     </div>
     
     <!-- Search and Filter Section -->
-    <div class="card" style="margin-bottom: 2rem;">
+    <div class="card" style="margin-bottom: var(--space-8);">
         <div class="card-body">
-            <form method="GET" action="{{ url_for('exercise_library.index') }}" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 1rem; align-items: end;">
+            <form method="GET" action="{{ url_for('exercise_library.index') }}" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: var(--space-4); align-items: end;">
                 <div>
-                    <label for="search" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Search</label>
+                    <label for="search" class="text-overline" style="display: block; margin-bottom: var(--space-2);">Search</label>
                     <input 
                         type="text" 
                         id="search" 
@@ -22,12 +35,13 @@
                         placeholder="Search exercises..."
                         value="{{ request.args.get('search', '') }}"
                         class="form-control"
+                        style="padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base);"
                     >
                 </div>
                 
                 <div>
-                    <label for="category" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Category</label>
-                    <select id="category" name="category" class="form-control">
+                    <label for="category" class="text-overline" style="display: block; margin-bottom: var(--space-2);">Category</label>
+                    <select id="category" name="category" class="form-control" style="padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base);">
                         <option value="">All Categories</option>
                         <option value="strength" {% if request.args.get('category') == 'strength' %}selected{% endif %}>Strength</option>
                         <option value="cardio" {% if request.args.get('category') == 'cardio' %}selected{% endif %}>Cardio</option>
@@ -38,8 +52,8 @@
                 </div>
                 
                 <div>
-                    <label for="difficulty" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Difficulty</label>
-                    <select id="difficulty" name="difficulty" class="form-control">
+                    <label for="difficulty" class="text-overline" style="display: block; margin-bottom: var(--space-2);">Difficulty</label>
+                    <select id="difficulty" name="difficulty" class="form-control" style="padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base);">
                         <option value="">All Levels</option>
                         <option value="beginner" {% if request.args.get('difficulty') == 'beginner' %}selected{% endif %}>Beginner</option>
                         <option value="intermediate" {% if request.args.get('difficulty') == 'intermediate' %}selected{% endif %}>Intermediate</option>
@@ -48,8 +62,8 @@
                 </div>
                 
                 <div>
-                    <label for="equipment" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Equipment</label>
-                    <select id="equipment" name="equipment" class="form-control">
+                    <label for="equipment" class="text-overline" style="display: block; margin-bottom: var(--space-2);">Equipment</label>
+                    <select id="equipment" name="equipment" class="form-control" style="padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base);">
                         <option value="">All Equipment</option>
                         <option value="Barbell" {% if request.args.get('equipment') == 'Barbell' %}selected{% endif %}>Barbell</option>
                         <option value="Dumbbell" {% if request.args.get('equipment') == 'Dumbbell' %}selected{% endif %}>Dumbbells</option>
@@ -60,44 +74,39 @@
                     </select>
                 </div>
                 
-                <div style="display: flex; gap: 0.5rem;">
+                <div style="display: flex; gap: var(--space-2);">
                     <button type="submit" class="btn btn-primary">Filter</button>
-                    <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary">Clear</a>
+                    <a href="{{ url_for('exercise_library.index') }}" class="btn btn-ghost">Clear</a>
                 </div>
             </form>
         </div>
     </div>
     
     <!-- Exercise Count -->
-    <div style="margin-bottom: 1.5rem;">
-        <p style="color: #666; font-size: 1rem;">
-            Showing <strong>{{ exercises.items|length }}</strong> of <strong>{{ exercises.total }}</strong> exercises
+    <div style="margin-bottom: var(--space-6);">
+        <p style="color: var(--text-secondary); font-size: var(--text-base);">
+            Showing <strong style="color: var(--brand-primary);">{{ exercises.items|length }}</strong> of <strong style="color: var(--brand-primary);">{{ exercises.total }}</strong> exercises
         </p>
     </div>
     
     <!-- Exercises Grid -->
     {% if exercises.items %}
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--space-6); margin-bottom: var(--space-8);">
         {% for exercise in exercises.items %}
-        <div class="card" style="cursor: pointer; transition: transform 0.2s;" onclick="window.location='{{ url_for('exercise_library.view_exercise', exercise_id=exercise.id) }}'">
+        <div class="card" style="cursor: pointer; transition: all var(--transition-base);" onclick="window.location='{{ url_for('exercise_library.view_exercise', exercise_id=exercise.id) }}'" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
             <div class="card-body">
-                <h3 style="color: var(--dark-orange); margin-bottom: 0.5rem;">{{ exercise.name }}</h3>
+                <h3 style="color: var(--brand-primary); margin-bottom: var(--space-3); font-size: var(--text-xl); font-weight: var(--font-semibold);">{{ exercise.name }}</h3>
                 
                 <!-- Category Badge -->
-                <div style="margin-bottom: 0.75rem;">
+                <div style="margin-bottom: var(--space-4); display: flex; gap: var(--space-2); flex-wrap: wrap;">
                     {% if exercise.category %}
-                    <span class="badge" style="background: var(--primary-green); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; text-transform: uppercase;">
+                    <span class="badge badge-primary">
                         {{ exercise.category }}
                     </span>
                     {% endif %}
                     
                     {% if exercise.difficulty_level %}
-                    <span class="badge" style="background: 
-                        {% if exercise.difficulty_level == 'beginner' %}#4CAF50
-                        {% elif exercise.difficulty_level == 'intermediate' %}#FF9800
-                        {% elif exercise.difficulty_level == 'advanced' %}#F44336
-                        {% endif %}
-                    ; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem;">
+                    <span class="badge {% if exercise.difficulty_level == 'beginner' %}badge-success{% elif exercise.difficulty_level == 'intermediate' %}badge-warning{% elif exercise.difficulty_level == 'advanced' %}badge-danger{% endif %}">
                         {{ exercise.difficulty_level|title }}
                     </span>
                     {% endif %}
@@ -105,17 +114,17 @@
                 
                 <!-- Primary Muscles -->
                 {% if exercise.get_primary_muscles() %}
-                <div style="margin-bottom: 0.75rem;">
-                    <strong style="font-size: 0.875rem; color: #555;">Primary:</strong>
-                    <span style="font-size: 0.875rem; color: #666;">{{ exercise.get_primary_muscles()|join(', ') }}</span>
+                <div style="margin-bottom: var(--space-3);">
+                    <strong style="font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--text-secondary);">Primary Muscles:</strong>
+                    <span style="font-size: var(--text-sm); color: var(--text-primary);">{{ exercise.get_primary_muscles()|join(', ') }}</span>
                 </div>
                 {% endif %}
                 
                 <!-- Equipment -->
                 {% if exercise.get_equipment() %}
-                <div style="margin-bottom: 0.75rem;">
-                    <strong style="font-size: 0.875rem; color: #555;">Equipment:</strong>
-                    <span style="font-size: 0.875rem; color: #666;">
+                <div style="margin-bottom: var(--space-4);">
+                    <strong style="font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--text-secondary);">Equipment:</strong>
+                    <span style="font-size: var(--text-sm); color: var(--text-primary);">
                         {% if exercise.get_equipment()|length == 0 %}
                             Bodyweight
                         {% else %}
@@ -127,13 +136,13 @@
                 
                 <!-- Description Preview -->
                 {% if exercise.description %}
-                <p style="color: #777; font-size: 0.875rem; margin-top: 0.75rem; line-height: 1.5;">
+                <p style="color: var(--text-secondary); font-size: var(--text-sm); line-height: var(--leading-relaxed); margin-bottom: var(--space-4);">
                     {{ exercise.description[:100] }}{% if exercise.description|length > 100 %}...{% endif %}
                 </p>
                 {% endif %}
                 
                 <!-- View Details Button -->
-                <a href="{{ url_for('exercise_library.view_exercise', exercise_id=exercise.id) }}" class="btn btn-secondary" style="margin-top: 1rem; width: 100%;" onclick="event.stopPropagation();">View Details</a>
+                <a href="{{ url_for('exercise_library.view_exercise', exercise_id=exercise.id) }}" class="btn btn-outline" style="width: 100%;" onclick="event.stopPropagation();">View Details</a>
             </div>
         </div>
         {% endfor %}
@@ -141,12 +150,12 @@
     
     <!-- Pagination -->
     {% if exercises.pages > 1 %}
-    <div class="pagination" style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem;">
+    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: var(--space-4); margin-top: var(--space-8);">
         {% if exercises.has_prev %}
             <a href="{{ url_for('exercise_library.index', page=exercises.prev_num, search=request.args.get('search'), category=request.args.get('category'), difficulty=request.args.get('difficulty'), equipment=request.args.get('equipment')) }}" class="btn btn-secondary">&laquo; Previous</a>
         {% endif %}
         
-        <span style="padding: 0.75rem 1.5rem; background: #f5f5f5; border-radius: 4px; display: flex; align-items: center;">
+        <span style="padding: var(--space-3) var(--space-6); background: var(--surface-tertiary); border-radius: var(--radius-lg); font-weight: var(--font-semibold); color: var(--text-primary);">
             Page {{ exercises.page }} of {{ exercises.pages }}
         </span>
         
@@ -158,22 +167,12 @@
     
     {% else %}
     <div class="card">
-        <div class="card-body" style="text-align: center; padding: 3rem;">
-            <p style="color: #999; font-size: 1.125rem;">No exercises found matching your criteria.</p>
-            <a href="{{ url_for('exercise_library.index') }}" class="btn btn-primary" style="margin-top: 1rem;">Clear Filters</a>
+        <div class="card-body" style="text-align: center; padding: var(--space-16);">
+            <div style="font-size: 4rem; margin-bottom: var(--space-4);">🔍</div>
+            <p style="color: var(--text-secondary); font-size: var(--text-lg); margin-bottom: var(--space-6);">No exercises found matching your criteria.</p>
+            <a href="{{ url_for('exercise_library.index') }}" class="btn btn-primary">Clear Filters</a>
         </div>
     </div>
     {% endif %}
 </div>
-
-<style>
-.card {
-    transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transform: translateY(-2px);
-}
-</style>
 {% endblock %}
