@@ -2,15 +2,22 @@
 
 {% block title %}Programs - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--primary-green);">Training Programs</h1>
-        <a href="{{ url_for('programs.add_program') }}" class="btn btn-primary">Create New Program</a>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Training Programs</h1>
+            <p class="page-subtitle">Create and manage custom workout programs for your clients</p>
+        </div>
+        <a href="{{ url_for('programs.add_program') }}" class="btn btn-primary">✨ Create Program</a>
     </div>
     
     {% if programs.items %}
-    <div class="table-container">
+    <div class="card" style="padding: 0;">
         <table class="table">
             <thead>
                 <tr>
@@ -30,12 +37,26 @@
                     <td>{{ program.client.full_name }}</td>
                     <td>{{ program.goal or '-' }}</td>
                     <td>{{ program.duration_weeks }} weeks</td>
-                    <td>{% if program.is_ai_generated %}✓{% else %}-{% endif %}</td>
-                    <td>{{ program.status|title }}</td>
                     <td>
-                        <div class="action-buttons">
-                            <a href="{{ url_for('programs.view_program', program_id=program.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
-                            <a href="{{ url_for('programs.edit_program', program_id=program.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Edit</a>
+                        {% if program.is_ai_generated %}
+                        <span class="badge badge-info">🤖 AI</span>
+                        {% else %}
+                        <span class="badge" style="background: var(--surface-tertiary); color: var(--text-secondary);">Manual</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if program.status == 'active' %}
+                        <span class="badge badge-success">Active</span>
+                        {% elif program.status == 'completed' %}
+                        <span class="badge" style="background: var(--surface-tertiary); color: var(--text-secondary);">Completed</span>
+                        {% else %}
+                        <span class="badge badge-warning">{{ program.status|title }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: var(--space-2);">
+                            <a href="{{ url_for('programs.view_program', program_id=program.id) }}" class="btn btn-secondary btn-sm">View</a>
+                            <a href="{{ url_for('programs.edit_program', program_id=program.id) }}" class="btn btn-outline btn-sm">Edit</a>
                         </div>
                     </td>
                 </tr>
@@ -46,33 +67,26 @@
     
     <!-- Pagination -->
     {% if programs.pages > 1 %}
-    <div class="pagination">
+    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: var(--space-4); margin-top: var(--space-8);">
         {% if programs.has_prev %}
-            <a href="{{ url_for('programs.list_programs', page=programs.prev_num) }}">&laquo; Previous</a>
+            <a href="{{ url_for('programs.list_programs', page=programs.prev_num) }}" class="btn btn-secondary">&laquo; Previous</a>
         {% endif %}
         
-        {% for page_num in programs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-            {% if page_num %}
-                {% if page_num == programs.page %}
-                    <span class="active">{{ page_num }}</span>
-                {% else %}
-                    <a href="{{ url_for('programs.list_programs', page=page_num) }}">{{ page_num }}</a>
-                {% endif %}
-            {% else %}
-                <span>...</span>
-            {% endif %}
-        {% endfor %}
+        <span style="padding: var(--space-3) var(--space-6); background: var(--surface-tertiary); border-radius: var(--radius-lg); font-weight: var(--font-semibold); color: var(--text-primary);">
+            Page {{ programs.page }} of {{ programs.pages }}
+        </span>
         
         {% if programs.has_next %}
-            <a href="{{ url_for('programs.list_programs', page=programs.next_num) }}">Next &raquo;</a>
+            <a href="{{ url_for('programs.list_programs', page=programs.next_num) }}" class="btn btn-secondary">Next &raquo;</a>
         {% endif %}
     </div>
     {% endif %}
     {% else %}
     <div class="card">
-        <div class="card-body" style="text-align: center; padding: 3rem;">
-            <p style="font-size: 1.2rem; color: var(--medium-gray);">No training programs created yet.</p>
-            <a href="{{ url_for('programs.add_program') }}" class="btn btn-primary" style="margin-top: 1rem;">Create Program</a>
+        <div class="card-body" style="text-align: center; padding: var(--space-16);">
+            <div style="font-size: 4rem; margin-bottom: var(--space-4);">📋</div>
+            <p style="color: var(--text-secondary); font-size: var(--text-lg); margin-bottom: var(--space-6);">No training programs created yet.</p>
+            <a href="{{ url_for('programs.add_program') }}" class="btn btn-primary">Create First Program</a>
         </div>
     </div>
     {% endif %}

@@ -2,100 +2,141 @@
 
 {% block title %}{{ client.full_name }} - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--primary-green);">{{ client.full_name }}</h1>
-        <div class="action-buttons">
-            <a href="{{ url_for('clients.edit_client', client_id=client.id) }}" class="btn btn-primary">Edit Client</a>
-            <a href="{{ url_for('sessions.add_session') }}?client_id={{ client.id }}" class="btn btn-primary">Schedule Session</a>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">{{ client.full_name }}</h1>
+            <p class="page-subtitle">Client profile and training history</p>
+        </div>
+        <div style="display: flex; gap: var(--space-3);">
+            <a href="{{ url_for('clients.edit_client', client_id=client.id) }}" class="btn btn-outline">✏️ Edit Client</a>
+            <a href="{{ url_for('sessions.add_session') }}?client_id={{ client.id }}" class="btn btn-primary">📅 Schedule Session</a>
         </div>
     </div>
     
     <div class="card">
         <div class="card-header">
-            <h2>Client Information</h2>
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">Client Information</h2>
         </div>
         <div class="card-body">
-            <p><strong>Email:</strong> {{ client.email }}</p>
-            <p><strong>Phone:</strong> {{ client.phone or 'Not provided' }}</p>
-            <p><strong>Fitness Goal:</strong> {{ client.fitness_goal or 'Not specified' }}</p>
-            <p><strong>Fitness Level:</strong> {{ client.fitness_level or 'Not specified' }}</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6);">
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Email</p>
+                    <p style="font-weight: var(--font-medium);">{{ client.email }}</p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Phone</p>
+                    <p style="font-weight: var(--font-medium);">{{ client.phone or 'Not provided' }}</p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Fitness Goal</p>
+                    <p><span class="badge badge-primary">{{ client.fitness_goal or 'Not specified' }}</span></p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Fitness Level</p>
+                    <p><span class="badge badge-info">{{ client.fitness_level or 'Not specified' }}</span></p>
+                </div>
+            </div>
             {% if client.medical_conditions %}
-            <p><strong>Medical Conditions:</strong> {{ client.medical_conditions }}</p>
+            <div style="margin-top: var(--space-6); padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Medical Conditions</p>
+                <p style="font-weight: var(--font-medium); color: var(--accent-orange);">{{ client.medical_conditions }}</p>
+            </div>
             {% endif %}
             {% if client.notes %}
-            <p><strong>Notes:</strong> {{ client.notes }}</p>
+            <div style="margin-top: var(--space-6); padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Notes</p>
+                <p style="font-weight: var(--font-medium);">{{ client.notes }}</p>
+            </div>
             {% endif %}
         </div>
     </div>
     
     {% if programs %}
-    <div class="card">
+    <div class="card" style="margin-top: var(--space-8);">
         <div class="card-header">
-            <h2>Training Programs</h2>
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">Training Programs</h2>
         </div>
-        <div class="card-body">
-            <div class="table-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Program Name</th>
-                            <th>Goal</th>
-                            <th>Duration</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for program in programs %}
-                        <tr>
-                            <td>{{ program.name }}</td>
-                            <td>{{ program.goal or '-' }}</td>
-                            <td>{{ program.duration_weeks }} weeks</td>
-                            <td>{{ program.status|title }}</td>
-                            <td>
-                                <a href="{{ url_for('programs.view_program', program_id=program.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+        <div class="card-body" style="padding: 0;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Program Name</th>
+                        <th>Goal</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for program in programs %}
+                    <tr>
+                        <td><strong>{{ program.name }}</strong></td>
+                        <td>{{ program.goal or '-' }}</td>
+                        <td>{{ program.duration_weeks }} weeks</td>
+                        <td>
+                            {% if program.status == 'active' %}
+                            <span class="badge badge-success">Active</span>
+                            {% elif program.status == 'completed' %}
+                            <span class="badge" style="background: var(--surface-tertiary); color: var(--text-secondary);">Completed</span>
+                            {% else %}
+                            <span class="badge badge-warning">{{ program.status|title }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('programs.view_program', program_id=program.id) }}" class="btn btn-secondary btn-sm">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     {% endif %}
     
     {% if sessions %}
-    <div class="card">
+    <div class="card" style="margin-top: var(--space-8);">
         <div class="card-header">
-            <h2>Recent Sessions</h2>
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">Recent Sessions</h2>
         </div>
-        <div class="card-body">
-            <div class="table-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Date & Time</th>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for session in sessions %}
-                        <tr>
-                            <td>{{ session.scheduled_start.strftime('%Y-%m-%d %H:%M') }}</td>
-                            <td>{{ session.title }}</td>
-                            <td>{{ session.status|title }}</td>
-                            <td>
-                                <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+        <div class="card-body" style="padding: 0;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in sessions %}
+                    <tr>
+                        <td>{{ session.scheduled_start.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ session.title }}</td>
+                        <td>
+                            {% if session.status == 'completed' %}
+                            <span class="badge badge-success">Completed</span>
+                            {% elif session.status == 'scheduled' %}
+                            <span class="badge badge-info">Scheduled</span>
+                            {% elif session.status == 'cancelled' %}
+                            <span class="badge badge-danger">Cancelled</span>
+                            {% else %}
+                            <span class="badge badge-warning">{{ session.status|title }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-secondary btn-sm">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     {% endif %}

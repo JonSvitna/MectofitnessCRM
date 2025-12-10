@@ -2,9 +2,18 @@
 
 {% block title %}Calendar Settings - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <h1 style="color: var(--primary-green); margin-bottom: 2rem;">Calendar Integration Settings</h1>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Calendar Integration Settings</h1>
+            <p class="page-subtitle">Connect your favorite calendar apps for automatic sync</p>
+        </div>
+    </div>
     
     <div class="card">
         <div class="card-header">

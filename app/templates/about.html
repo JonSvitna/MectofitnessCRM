@@ -2,14 +2,22 @@
 
 {% block title %}About - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <div class="card">
-        <div class="card-header">
-            <h1>About MectoFitness CRM</h1>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">About MectoFitness CRM</h1>
+            <p class="page-subtitle">Professional personal trainer management software</p>
         </div>
+    </div>
+    
+    <div class="card">
         <div class="card-body">
-            <h2 style="color: var(--primary-green); margin-top: 1rem;">Professional Personal Trainer Management Software</h2>
+            <h2 style="color: var(--brand-primary); margin-top: var(--space-4); font-size: var(--text-2xl); font-weight: var(--font-semibold);">Professional Personal Trainer Management Software</h2>
             
             <p style="margin: 1rem 0; font-size: 1.1rem;">
                 MectoFitness CRM is designed specifically for personal trainers, fitness coaches, and gym professionals 

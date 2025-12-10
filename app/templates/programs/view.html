@@ -2,12 +2,19 @@
 
 {% block title %}{{ program.name }} - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--primary-green);">{{ program.name }}</h1>
-        <div class="action-buttons">
-            <a href="{{ url_for('programs.edit_program', program_id=program.id) }}" class="btn btn-primary">Edit Program</a>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">{{ program.name }}</h1>
+            <p class="page-subtitle">Custom training program for {{ program.client.full_name }}</p>
+        </div>
+        <div style="display: flex; gap: var(--space-3);">
+            <a href="{{ url_for('programs.edit_program', program_id=program.id) }}" class="btn btn-outline">✏️ Edit Program</a>
             {% if not program.is_ai_generated %}
             <form method="POST" action="{{ url_for('programs.generate_ai_program', program_id=program.id) }}" style="display: inline;">
                 <button type="submit" class="btn btn-primary">🤖 Generate AI Program</button>
@@ -18,63 +25,111 @@
     
     <div class="card">
         <div class="card-header">
-            <h2>Program Details</h2>
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">Program Details</h2>
         </div>
         <div class="card-body">
-            <p><strong>Client:</strong> <a href="{{ url_for('clients.view_client', client_id=program.client.id) }}" style="color: var(--primary-green);">{{ program.client.full_name }}</a></p>
-            <p><strong>Goal:</strong> {{ program.goal or 'Not specified' }}</p>
-            <p><strong>Duration:</strong> {{ program.duration_weeks }} weeks</p>
-            <p><strong>Difficulty Level:</strong> {{ program.difficulty_level|title }}</p>
-            <p><strong>Status:</strong> {{ program.status|title }}</p>
-            {% if program.is_ai_generated %}
-            <p><strong>AI Generated:</strong> Yes (Model: {{ program.ai_model_version }})</p>
-            {% endif %}
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6);">
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Client</p>
+                    <p><a href="{{ url_for('clients.view_client', client_id=program.client.id) }}" style="color: var(--accent-blue); font-weight: var(--font-semibold);">{{ program.client.full_name }}</a></p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Goal</p>
+                    <p><span class="badge badge-primary">{{ program.goal or 'Not specified' }}</span></p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Duration</p>
+                    <p style="font-weight: var(--font-medium);">{{ program.duration_weeks }} weeks</p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Difficulty</p>
+                    <p>
+                        {% if program.difficulty_level == 'beginner' %}
+                        <span class="badge badge-success">Beginner</span>
+                        {% elif program.difficulty_level == 'intermediate' %}
+                        <span class="badge badge-warning">Intermediate</span>
+                        {% elif program.difficulty_level == 'advanced' %}
+                        <span class="badge badge-danger">Advanced</span>
+                        {% else %}
+                        <span class="badge badge-info">{{ program.difficulty_level|title }}</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Status</p>
+                    <p>
+                        {% if program.status == 'active' %}
+                        <span class="badge badge-success">Active</span>
+                        {% elif program.status == 'completed' %}
+                        <span class="badge" style="background: var(--surface-tertiary); color: var(--text-secondary);">Completed</span>
+                        {% else %}
+                        <span class="badge badge-warning">{{ program.status|title }}</span>
+                        {% endif %}
+                    </p>
+                </div>
+                {% if program.is_ai_generated %}
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">AI Generated</p>
+                    <p><span class="badge badge-info">🤖 {{ program.ai_model_version }}</span></p>
+                </div>
+                {% endif %}
+            </div>
             {% if program.description %}
-            <p><strong>Description:</strong> {{ program.description }}</p>
+            <div style="margin-top: var(--space-6); padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Description</p>
+                <p style="font-weight: var(--font-medium);">{{ program.description }}</p>
+            </div>
             {% endif %}
         </div>
     </div>
     
     {% if exercises %}
-    <div class="card">
+    <div class="card" style="margin-top: var(--space-8);">
         <div class="card-header">
-            <h2>Exercises</h2>
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">Exercises</h2>
         </div>
-        <div class="card-body">
-            <div class="table-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Day</th>
-                            <th>Order</th>
-                            <th>Exercise</th>
-                            <th>Type</th>
-                            <th>Sets</th>
-                            <th>Reps</th>
-                            <th>Muscle Group</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for exercise in exercises %}
-                        <tr>
-                            <td>Day {{ exercise.day_number }}</td>
-                            <td>{{ exercise.order_in_day }}</td>
-                            <td><strong>{{ exercise.name }}</strong></td>
-                            <td>{{ exercise.exercise_type|title }}</td>
-                            <td>{{ exercise.sets or '-' }}</td>
-                            <td>{{ exercise.reps or '-' }}</td>
-                            <td>{{ exercise.muscle_group or '-' }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+        <div class="card-body" style="padding: 0;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Order</th>
+                        <th>Exercise</th>
+                        <th>Type</th>
+                        <th>Sets</th>
+                        <th>Reps</th>
+                        <th>Muscle Group</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exercise in exercises %}
+                    <tr>
+                        <td><span class="badge badge-primary">Day {{ exercise.day_number }}</span></td>
+                        <td>#{{ exercise.order_in_day }}</td>
+                        <td><strong>{{ exercise.name }}</strong></td>
+                        <td>
+                            {% if exercise.exercise_type == 'strength' %}
+                            <span class="badge badge-success">Strength</span>
+                            {% elif exercise.exercise_type == 'cardio' %}
+                            <span class="badge badge-info">Cardio</span>
+                            {% else %}
+                            <span class="badge" style="background: var(--surface-tertiary); color: var(--text-secondary);">{{ exercise.exercise_type|title }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ exercise.sets or '-' }}</td>
+                        <td>{{ exercise.reps or '-' }}</td>
+                        <td>{{ exercise.muscle_group or '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     {% else %}
-    <div class="card">
-        <div class="card-body" style="text-align: center; padding: 2rem;">
-            <p style="color: var(--medium-gray);">No exercises added yet. Add exercises to this program to get started.</p>
+    <div class="card" style="margin-top: var(--space-8);">
+        <div class="card-body" style="text-align: center; padding: var(--space-16);">
+            <div style="font-size: 4rem; margin-bottom: var(--space-4);">🏋️</div>
+            <p style="color: var(--text-secondary); font-size: var(--text-lg);">No exercises added yet. Add exercises to this program to get started.</p>
         </div>
     </div>
     {% endif %}

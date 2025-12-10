@@ -2,15 +2,22 @@
 
 {% block title %}Sessions - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--primary-green);">Training Sessions</h1>
-        <a href="{{ url_for('sessions.add_session') }}" class="btn btn-primary">Schedule New Session</a>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Training Sessions</h1>
+            <p class="page-subtitle">Schedule and manage client training sessions</p>
+        </div>
+        <a href="{{ url_for('sessions.add_session') }}" class="btn btn-primary">📅 Schedule Session</a>
     </div>
     
     {% if sessions.items %}
-    <div class="table-container">
+    <div class="card" style="padding: 0;">
         <table class="table">
             <thead>
                 <tr>
@@ -28,12 +35,30 @@
                     <td>{{ session.scheduled_start.strftime('%Y-%m-%d %H:%M') }}</td>
                     <td><strong>{{ session.client.full_name }}</strong></td>
                     <td>{{ session.title }}</td>
-                    <td>{{ session.session_type|title }}</td>
-                    <td>{{ session.status|title }}</td>
                     <td>
-                        <div class="action-buttons">
-                            <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
-                            <a href="{{ url_for('sessions.edit_session', session_id=session.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Edit</a>
+                        {% if session.session_type == 'personal' %}
+                        <span class="badge badge-primary">Personal</span>
+                        {% elif session.session_type == 'group' %}
+                        <span class="badge badge-info">Group</span>
+                        {% else %}
+                        <span class="badge" style="background: var(--surface-tertiary); color: var(--text-secondary);">{{ session.session_type|title }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if session.status == 'completed' %}
+                        <span class="badge badge-success">Completed</span>
+                        {% elif session.status == 'scheduled' %}
+                        <span class="badge badge-info">Scheduled</span>
+                        {% elif session.status == 'cancelled' %}
+                        <span class="badge badge-danger">Cancelled</span>
+                        {% else %}
+                        <span class="badge badge-warning">{{ session.status|title }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: var(--space-2);">
+                            <a href="{{ url_for('sessions.view_session', session_id=session.id) }}" class="btn btn-secondary btn-sm">View</a>
+                            <a href="{{ url_for('sessions.edit_session', session_id=session.id) }}" class="btn btn-outline btn-sm">Edit</a>
                         </div>
                     </td>
                 </tr>
@@ -44,33 +69,26 @@
     
     <!-- Pagination -->
     {% if sessions.pages > 1 %}
-    <div class="pagination">
+    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: var(--space-4); margin-top: var(--space-8);">
         {% if sessions.has_prev %}
-            <a href="{{ url_for('sessions.list_sessions', page=sessions.prev_num) }}">&laquo; Previous</a>
+            <a href="{{ url_for('sessions.list_sessions', page=sessions.prev_num) }}" class="btn btn-secondary">&laquo; Previous</a>
         {% endif %}
         
-        {% for page_num in sessions.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-            {% if page_num %}
-                {% if page_num == sessions.page %}
-                    <span class="active">{{ page_num }}</span>
-                {% else %}
-                    <a href="{{ url_for('sessions.list_sessions', page=page_num) }}">{{ page_num }}</a>
-                {% endif %}
-            {% else %}
-                <span>...</span>
-            {% endif %}
-        {% endfor %}
+        <span style="padding: var(--space-3) var(--space-6); background: var(--surface-tertiary); border-radius: var(--radius-lg); font-weight: var(--font-semibold); color: var(--text-primary);">
+            Page {{ sessions.page }} of {{ sessions.pages }}
+        </span>
         
         {% if sessions.has_next %}
-            <a href="{{ url_for('sessions.list_sessions', page=sessions.next_num) }}">Next &raquo;</a>
+            <a href="{{ url_for('sessions.list_sessions', page=sessions.next_num) }}" class="btn btn-secondary">Next &raquo;</a>
         {% endif %}
     </div>
     {% endif %}
     {% else %}
     <div class="card">
-        <div class="card-body" style="text-align: center; padding: 3rem;">
-            <p style="font-size: 1.2rem; color: var(--medium-gray);">No sessions scheduled yet.</p>
-            <a href="{{ url_for('sessions.add_session') }}" class="btn btn-primary" style="margin-top: 1rem;">Schedule Session</a>
+        <div class="card-body" style="text-align: center; padding: var(--space-16);">
+            <div style="font-size: 4rem; margin-bottom: var(--space-4);">🏋️</div>
+            <p style="color: var(--text-secondary); font-size: var(--text-lg); margin-bottom: var(--space-6);">No sessions scheduled yet.</p>
+            <a href="{{ url_for('sessions.add_session') }}" class="btn btn-primary">Schedule First Session</a>
         </div>
     </div>
     {% endif %}

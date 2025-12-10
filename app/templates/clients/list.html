@@ -2,75 +2,84 @@
 
 {% block title %}Clients - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--primary-green);">My Clients</h1>
-        <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary">Add New Client</a>
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+    <div class="page-header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+                <h1 class="page-title">My Clients</h1>
+                <p class="page-subtitle">Manage and track your client relationships</p>
+            </div>
+            <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary">
+                <span style="font-size: 1.25rem;">➕</span>
+                <span>Add New Client</span>
+            </a>
+        </div>
     </div>
     
     {% if clients.items %}
-    <div class="table-container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Fitness Goal</th>
-                    <th>Level</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for client in clients.items %}
-                <tr>
-                    <td><strong>{{ client.full_name }}</strong></td>
-                    <td>{{ client.email }}</td>
-                    <td>{{ client.phone or '-' }}</td>
-                    <td>{{ client.fitness_goal or '-' }}</td>
-                    <td>{{ client.fitness_level or '-' }}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">View</a>
-                            <a href="{{ url_for('clients.edit_client', client_id=client.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Edit</a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="card">
+        <div class="card-body" style="padding: 0;">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Fitness Goal</th>
+                            <th>Level</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in clients.items %}
+                        <tr>
+                            <td><strong>{{ client.full_name }}</strong></td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.phone or '-' }}</td>
+                            <td><span class="badge badge-primary">{{ client.fitness_goal or 'Not Set' }}</span></td>
+                            <td><span class="badge badge-info">{{ client.fitness_level or 'Not Set' }}</span></td>
+                            <td>
+                                <div style="display: flex; gap: var(--space-2);">
+                                    <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-sm btn-primary">View</a>
+                                    <a href="{{ url_for('clients.edit_client', client_id=client.id) }}" class="btn btn-sm btn-ghost">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     
     <!-- Pagination -->
     {% if clients.pages > 1 %}
-    <div class="pagination">
+    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: var(--space-4); margin-top: var(--space-8);">
         {% if clients.has_prev %}
-            <a href="{{ url_for('clients.list_clients', page=clients.prev_num) }}">&laquo; Previous</a>
+            <a href="{{ url_for('clients.list_clients', page=clients.prev_num) }}" class="btn btn-secondary">&laquo; Previous</a>
         {% endif %}
         
-        {% for page_num in clients.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-            {% if page_num %}
-                {% if page_num == clients.page %}
-                    <span class="active">{{ page_num }}</span>
-                {% else %}
-                    <a href="{{ url_for('clients.list_clients', page=page_num) }}">{{ page_num }}</a>
-                {% endif %}
-            {% else %}
-                <span>...</span>
-            {% endif %}
-        {% endfor %}
+        <span style="padding: var(--space-3) var(--space-6); background: var(--surface-tertiary); border-radius: var(--radius-lg); font-weight: var(--font-semibold); color: var(--text-primary);">
+            Page {{ clients.page }} of {{ clients.pages }}
+        </span>
         
         {% if clients.has_next %}
-            <a href="{{ url_for('clients.list_clients', page=clients.next_num) }}">Next &raquo;</a>
+            <a href="{{ url_for('clients.list_clients', page=clients.next_num) }}" class="btn btn-secondary">Next &raquo;</a>
         {% endif %}
     </div>
     {% endif %}
     {% else %}
     <div class="card">
-        <div class="card-body" style="text-align: center; padding: 3rem;">
-            <p style="font-size: 1.2rem; color: var(--medium-gray);">No clients yet. Add your first client to get started!</p>
-            <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary" style="margin-top: 1rem;">Add Client</a>
+        <div class="card-body" style="text-align: center; padding: var(--space-16);">
+            <div style="font-size: 4rem; margin-bottom: var(--space-4);">👥</div>
+            <p style="color: var(--text-secondary); font-size: var(--text-lg); margin-bottom: var(--space-6);">No clients yet. Add your first client to get started!</p>
+            <a href="{{ url_for('clients.add_client') }}" class="btn btn-primary">Add First Client</a>
         </div>
     </div>
     {% endif %}

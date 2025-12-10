@@ -2,9 +2,18 @@
 
 {% block title %}Edit {{ client.full_name }} - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <h1 style="color: var(--primary-green); margin-bottom: 2rem;">Edit Client: {{ client.full_name }}</h1>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Edit Client: {{ client.full_name }}</h1>
+            <p class="page-subtitle">Update client information and fitness goals</p>
+        </div>
+    </div>
     
     <div class="card">
         <div class="card-body">

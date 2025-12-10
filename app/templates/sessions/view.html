@@ -2,15 +2,22 @@
 
 {% block title %}{{ session.title }} - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--primary-green);">{{ session.title }}</h1>
-        <div class="action-buttons">
-            <a href="{{ url_for('sessions.edit_session', session_id=session.id) }}" class="btn btn-primary">Edit</a>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">{{ session.title }}</h1>
+            <p class="page-subtitle">{{ session.client.full_name }} • {{ session.scheduled_start.strftime('%B %d, %Y at %I:%M %p') }}</p>
+        </div>
+        <div style="display: flex; gap: var(--space-3);">
+            <a href="{{ url_for('sessions.edit_session', session_id=session.id) }}" class="btn btn-outline">✏️ Edit</a>
             {% if session.status == 'scheduled' %}
             <form method="POST" action="{{ url_for('sessions.complete_session', session_id=session.id) }}" style="display: inline;">
-                <button type="submit" class="btn btn-primary">Mark Complete</button>
+                <button type="submit" class="btn btn-primary">✅ Mark Complete</button>
             </form>
             {% endif %}
         </div>
@@ -18,22 +25,66 @@
     
     <div class="card">
         <div class="card-header">
-            <h2>Session Details</h2>
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">Session Details</h2>
         </div>
         <div class="card-body">
-            <p><strong>Client:</strong> <a href="{{ url_for('clients.view_client', client_id=session.client.id) }}" style="color: var(--primary-green);">{{ session.client.full_name }}</a></p>
-            <p><strong>Session Type:</strong> {{ session.session_type|title }}</p>
-            <p><strong>Status:</strong> {{ session.status|title }}</p>
-            <p><strong>Scheduled Start:</strong> {{ session.scheduled_start.strftime('%Y-%m-%d %H:%M') }}</p>
-            <p><strong>Scheduled End:</strong> {{ session.scheduled_end.strftime('%Y-%m-%d %H:%M') }}</p>
-            {% if session.location %}
-            <p><strong>Location:</strong> {{ session.location }}</p>
-            {% endif %}
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6);">
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Client</p>
+                    <p><a href="{{ url_for('clients.view_client', client_id=session.client.id) }}" style="color: var(--accent-blue); font-weight: var(--font-semibold);">{{ session.client.full_name }}</a></p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Session Type</p>
+                    <p>
+                        {% if session.session_type == 'personal' %}
+                        <span class="badge badge-primary">Personal</span>
+                        {% elif session.session_type == 'group' %}
+                        <span class="badge badge-info">Group</span>
+                        {% else %}
+                        <span class="badge" style="background: var(--surface-tertiary); color: var(--text-secondary);">{{ session.session_type|title }}</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Status</p>
+                    <p>
+                        {% if session.status == 'completed' %}
+                        <span class="badge badge-success">Completed</span>
+                        {% elif session.status == 'scheduled' %}
+                        <span class="badge badge-info">Scheduled</span>
+                        {% elif session.status == 'cancelled' %}
+                        <span class="badge badge-danger">Cancelled</span>
+                        {% else %}
+                        <span class="badge badge-warning">{{ session.status|title }}</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Start Time</p>
+                    <p style="font-weight: var(--font-medium);">{{ session.scheduled_start.strftime('%Y-%m-%d %H:%M') }}</p>
+                </div>
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">End Time</p>
+                    <p style="font-weight: var(--font-medium);">{{ session.scheduled_end.strftime('%Y-%m-%d %H:%M') }}</p>
+                </div>
+                {% if session.location %}
+                <div>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Location</p>
+                    <p style="font-weight: var(--font-medium);">📍 {{ session.location }}</p>
+                </div>
+                {% endif %}
+            </div>
             {% if session.description %}
-            <p><strong>Description:</strong> {{ session.description }}</p>
+            <div style="margin-top: var(--space-6); padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Description</p>
+                <p style="font-weight: var(--font-medium);">{{ session.description }}</p>
+            </div>
             {% endif %}
             {% if session.trainer_notes %}
-            <p><strong>Trainer Notes:</strong> {{ session.trainer_notes }}</p>
+            <div style="margin-top: var(--space-6); padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-2);">Trainer Notes</p>
+                <p style="font-weight: var(--font-medium);">{{ session.trainer_notes }}</p>
+            </div>
             {% endif %}
         </div>
     </div>

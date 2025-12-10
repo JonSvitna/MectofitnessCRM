@@ -2,9 +2,18 @@
 
 {% block title %}Create Program - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <h1 style="color: var(--primary-green); margin-bottom: 2rem;">Create Training Program</h1>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Create Training Program</h1>
+            <p class="page-subtitle">Design a custom workout program for your client</p>
+        </div>
+    </div>
     
     <div class="card">
         <div class="card-body">
@@ -56,10 +65,10 @@
         </div>
     </div>
     
-    <div class="card" style="margin-top: 2rem; background-color: #F0FFF4;">
+    <div class="card" style="margin-top: var(--space-8); background: linear-gradient(135deg, var(--accent-mint) 0%, var(--accent-blue) 100%); color: white;">
         <div class="card-body">
-            <h3 style="color: var(--primary-green);">🤖 AI-Powered Program Generation (Coming Soon)</h3>
-            <p>Soon you'll be able to use AI to generate personalized training programs based on your expertise and client needs. The AI will learn from your training knowledge base to create customized workout plans.</p>
+            <h3 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-3); color: white;">🤖 AI-Powered Program Generation</h3>
+            <p style="color: rgba(255,255,255,0.9); line-height: var(--leading-relaxed);">Use AI to generate personalized training programs based on your expertise and client needs. The AI will learn from your training knowledge base to create customized workout plans.</p>
         </div>
     </div>
 </div>

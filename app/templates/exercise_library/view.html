@@ -2,19 +2,23 @@
 
 {% block title %}{{ exercise.name }} - Exercise Library{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <!-- Back Button -->
-    <div style="margin-bottom: 1.5rem;">
-        <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary">&larr; Back to Exercise Library</a>
+    <div style="margin-bottom: var(--space-6);">
+        <a href="{{ url_for('exercise_library.index') }}" class="btn btn-ghost">&larr; Back to Exercise Library</a>
     </div>
     
     <!-- Exercise Header -->
-    <div class="card" style="margin-bottom: 2rem;">
+    <div class="card" style="margin-bottom: var(--space-8);">
         <div class="card-body">
-            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-4);">
                 <div>
-                    <h1 style="color: var(--dark-orange); margin-bottom: 0.75rem;">{{ exercise.name }}</h1>
+                    <h1 class="page-title" style="margin-bottom: var(--space-3);">{{ exercise.name }}</h1>
                     
                     <!-- Badges -->
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">

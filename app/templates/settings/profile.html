@@ -2,20 +2,26 @@
 
 {% block title %}Profile Settings - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-3xl mx-auto">
-        <div class="mb-6">
-            <a href="{{ url_for('settings.index') }}" class="text-blue-600 hover:text-blue-800 flex items-center">
-                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                Back to Settings
-            </a>
+<div class="container">
+    <div style="margin-bottom: var(--space-6);">
+        <a href="{{ url_for('settings.index') }}" class="btn btn-ghost">&larr; Back to Settings</a>
+    </div>
+    
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Profile Settings</h1>
+            <p class="page-subtitle">Manage your personal information and preferences</p>
         </div>
-        
-        <div class="bg-white rounded-lg shadow-md p-8">
-            <h1 class="text-3xl font-bold mb-6">Profile Settings</h1>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-6);">Profile Settings</h2>
             
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
