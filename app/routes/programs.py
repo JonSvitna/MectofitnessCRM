@@ -113,8 +113,6 @@ def generate_ai_program(program_id):
         training_frequency = int(request.form.get('training_frequency', 3))
         
         # Generate program
-        flash('Generating AI program... This may take 10-20 seconds.', 'info')
-        
         result = ai_generator.generate_program(
             client_info=client_info,
             program_goal=program.goal or "General fitness",
@@ -129,10 +127,18 @@ def generate_ai_program(program_id):
             ai_generator.save_program_to_database(program_id, result['program_data'])
             flash(f'✨ AI program generated successfully using {result["ai_model"]}!', 'success')
         else:
-            flash(f'Error generating program: {result.get("message", "Unknown error")}', 'error')
+            error_msg = result.get("message", "Unknown error")
+            if "API key" in str(error_msg):
+                flash('AI generation requires an OpenAI API key. Please contact your administrator to configure the OPENAI_API_KEY environment variable.', 'error')
+            else:
+                flash(f'Error generating program: {error_msg}', 'error')
             
     except Exception as e:
-        flash(f'Error generating AI program: {str(e)}', 'error')
+        error_msg = str(e)
+        if "API key" in error_msg or "OpenAI" in error_msg:
+            flash('AI generation requires an OpenAI API key. Please contact your administrator to configure the OPENAI_API_KEY environment variable.', 'error')
+        else:
+            flash(f'Error generating AI program: {error_msg}', 'error')
     
     return redirect(url_for('programs.view_program', program_id=program.id))
 

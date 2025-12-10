@@ -106,7 +106,7 @@ class AIProgramGenerator:
         difficulty_level: str
     ) -> List[Dict]:
         """Get relevant exercises from the database."""
-        query = ExerciseLibrary.query
+        query = ExerciseLibrary.query.filter_by(is_active=True)
         
         # Filter by difficulty if needed
         if difficulty_level:

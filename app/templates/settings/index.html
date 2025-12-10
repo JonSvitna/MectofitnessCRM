@@ -64,6 +64,20 @@
                             </svg>
                             <span>Notifications</span>
                         </a>
+                        
+                        <a href="{{ url_for('settings.api_settings') }}" style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); text-decoration: none; color: var(--text-primary); font-weight: var(--font-medium); transition: all var(--transition-base);" onmouseover="this.style.background='var(--surface-tertiary)'" onmouseout="this.style.background='transparent'">
+                            <svg style="width: 20px; height: 20px; color: var(--text-secondary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                            <span>API</span>
+                        </a>
+                        
+                        <a href="{{ url_for('settings.branding') }}" style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); text-decoration: none; color: var(--text-primary); font-weight: var(--font-medium); transition: all var(--transition-base);" onmouseover="this.style.background='var(--surface-tertiary)'" onmouseout="this.style.background='transparent'">
+                            <svg style="width: 20px; height: 20px; color: var(--text-secondary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                            <span>Branding</span>
+                        </a>
                     </nav>
                 </div>
             </div>
@@ -146,6 +160,22 @@
                             <div>
                                 <h4 style="font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1);">Notifications</h4>
                                 <p style="font-size: var(--text-xs); color: var(--text-secondary);">Alert preferences</p>
+                            </div>
+                        </a>
+                        
+                        <a href="{{ url_for('settings.api_settings') }}" style="display: flex; align-items: center; gap: var(--space-4); padding: var(--space-4); border: 2px solid var(--border-light); border-radius: var(--radius-lg); text-decoration: none; transition: all var(--transition-base);" onmouseover="this.style.borderColor='var(--brand-primary)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.borderColor='var(--border-light)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <div style="width: 40px; height: 40px; background: var(--color-info); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem; flex-shrink: 0;">⚙️</div>
+                            <div>
+                                <h4 style="font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1);">API Settings</h4>
+                                <p style="font-size: var(--text-xs); color: var(--text-secondary);">Developer tools</p>
+                            </div>
+                        </a>
+                        
+                        <a href="{{ url_for('settings.branding') }}" style="display: flex; align-items: center; gap: var(--space-4); padding: var(--space-4); border: 2px solid var(--border-light); border-radius: var(--radius-lg); text-decoration: none; transition: all var(--transition-base);" onmouseover="this.style.borderColor='var(--brand-primary)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.borderColor='var(--border-light)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <div style="width: 40px; height: 40px; background: var(--brand-primary); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem; flex-shrink: 0;">🎨</div>
+                            <div>
+                                <h4 style="font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1);">Branding</h4>
+                                <p style="font-size: var(--text-xs); color: var(--text-secondary);">Colors & logo</p>
                             </div>
                         </a>
                     </div>
