@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+
+{% block title %}Create Custom Exercise - MectoFitness{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="margin-bottom: 1.5rem;">
+        <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary">&larr; Back to Exercise Library</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h1>Create Custom Exercise</h1>
+            <p style="color: #666; margin-top: 0.5rem;">Add your own custom exercise to your personal library</p>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('exercise_library.create_exercise') }}">
+                <!-- Basic Information -->
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">Basic Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="name">Exercise Name *</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            class="form-control" 
+                            required
+                            placeholder="e.g., Barbell Bench Press"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea 
+                            id="description" 
+                            name="description" 
+                            class="form-control" 
+                            rows="3"
+                            placeholder="Brief description of the exercise"
+                        ></textarea>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="category">Category *</label>
+                            <select id="category" name="category" class="form-control" required>
+                                <option value="">Select Category</option>
+                                <option value="strength">Strength</option>
+                                <option value="cardio">Cardio</option>
+                                <option value="flexibility">Flexibility</option>
+                                <option value="mobility">Mobility</option>
+                                <option value="balance">Balance</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="difficulty_level">Difficulty Level *</label>
+                            <select id="difficulty_level" name="difficulty_level" class="form-control" required>
+                                <option value="">Select Difficulty</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exercise_type">Exercise Type</label>
+                            <select id="exercise_type" name="exercise_type" class="form-control">
+                                <option value="">Select Type</option>
+                                <option value="compound">Compound</option>
+                                <option value="isolation">Isolation</option>
+                                <option value="bodyweight">Bodyweight</option>
+                                <option value="cardio">Cardio</option>
+                                <option value="plyometric">Plyometric</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Muscle Groups -->
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">Target Muscles</h2>
+                    
+                    <div class="form-group">
+                        <label>Primary Muscle Groups *</label>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 0.5rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Chest">
+                                <span>Chest</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Back">
+                                <span>Back</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Shoulders">
+                                <span>Shoulders</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Legs">
+                                <span>Legs</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Quadriceps">
+                                <span>Quadriceps</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Hamstrings">
+                                <span>Hamstrings</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Glutes">
+                                <span>Glutes</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Calves">
+                                <span>Calves</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Biceps">
+                                <span>Biceps</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Triceps">
+                                <span>Triceps</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Abs">
+                                <span>Abs</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="primary_muscles" value="Core">
+                                <span>Core</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Equipment -->
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">Equipment</h2>
+                    
+                    <div class="form-group">
+                        <label>Equipment Required (select all that apply)</label>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 0.5rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Barbell">
+                                <span>Barbell</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Dumbbells">
+                                <span>Dumbbells</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Kettlebell">
+                                <span>Kettlebell</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Cable Machine">
+                                <span>Cable Machine</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Machine">
+                                <span>Machine</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Bench">
+                                <span>Bench</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Resistance Band">
+                                <span>Resistance Band</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Pull-up Bar">
+                                <span>Pull-up Bar</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Medicine Ball">
+                                <span>Medicine Ball</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="Foam Roller">
+                                <span>Foam Roller</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="equipment" value="None">
+                                <span>None (Bodyweight)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Instructions -->
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">Instructions</h2>
+                    
+                    <div class="form-group">
+                        <label for="setup_instructions">Setup Instructions</label>
+                        <textarea 
+                            id="setup_instructions" 
+                            name="setup_instructions" 
+                            class="form-control" 
+                            rows="3"
+                            placeholder="How to set up for this exercise"
+                        ></textarea>
+                    </div>
+                </div>
+                
+                <!-- Training Parameters -->
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">Recommended Parameters</h2>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="typical_sets">Typical Sets</label>
+                            <input 
+                                type="text" 
+                                id="typical_sets" 
+                                name="typical_sets" 
+                                class="form-control"
+                                placeholder="e.g., 3-4"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="typical_reps">Typical Reps</label>
+                            <input 
+                                type="text" 
+                                id="typical_reps" 
+                                name="typical_reps" 
+                                class="form-control"
+                                placeholder="e.g., 8-12"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="typical_rest_seconds">Rest (seconds)</label>
+                            <input 
+                                type="number" 
+                                id="typical_rest_seconds" 
+                                name="typical_rest_seconds" 
+                                class="form-control"
+                                placeholder="e.g., 90"
+                            >
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Visibility -->
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">Visibility</h2>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="is_public" id="is_public">
+                            <span>Make this exercise public (other trainers can see it)</span>
+                        </label>
+                        <p style="color: #666; font-size: 0.875rem; margin-top: 0.5rem; margin-left: 1.75rem;">
+                            If unchecked, this exercise will only be visible to you.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Submit Buttons -->
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #eee;">
+                    <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Create Exercise</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

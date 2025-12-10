@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+
+{% block title %}{{ exercise.name }} - Exercise Library{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Back Button -->
+    <div style="margin-bottom: 1.5rem;">
+        <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary">&larr; Back to Exercise Library</a>
+    </div>
+    
+    <!-- Exercise Header -->
+    <div class="card" style="margin-bottom: 2rem;">
+        <div class="card-body">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <div>
+                    <h1 style="color: var(--dark-orange); margin-bottom: 0.75rem;">{{ exercise.name }}</h1>
+                    
+                    <!-- Badges -->
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        {% if exercise.category %}
+                        <span class="badge" style="background: var(--primary-green); color: white; padding: 0.5rem 1rem; border-radius: 16px; font-size: 0.875rem; text-transform: uppercase; font-weight: 600;">
+                            {{ exercise.category }}
+                        </span>
+                        {% endif %}
+                        
+                        {% if exercise.difficulty_level %}
+                        <span class="badge" style="background: 
+                            {% if exercise.difficulty_level == 'beginner' %}#4CAF50
+                            {% elif exercise.difficulty_level == 'intermediate' %}#FF9800
+                            {% elif exercise.difficulty_level == 'advanced' %}#F44336
+                            {% endif %}
+                        ; color: white; padding: 0.5rem 1rem; border-radius: 16px; font-size: 0.875rem; font-weight: 600;">
+                            {{ exercise.difficulty_level|title }}
+                        </span>
+                        {% endif %}
+                        
+                        {% if exercise.exercise_type %}
+                        <span class="badge" style="background: #2196F3; color: white; padding: 0.5rem 1rem; border-radius: 16px; font-size: 0.875rem; font-weight: 600;">
+                            {{ exercise.exercise_type|title }}
+                        </span>
+                        {% endif %}
+                        
+                        {% if exercise.is_custom %}
+                        <span class="badge" style="background: #9C27B0; color: white; padding: 0.5rem 1rem; border-radius: 16px; font-size: 0.875rem; font-weight: 600;">
+                            Custom Exercise
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if exercise.created_by_trainer_id == current_user.id %}
+                <a href="{{ url_for('exercise_library.edit_exercise', exercise_id=exercise.id) }}" class="btn btn-primary">Edit Exercise</a>
+                {% endif %}
+            </div>
+            
+            <!-- Description -->
+            {% if exercise.description %}
+            <p style="font-size: 1.125rem; color: #555; line-height: 1.7; margin-top: 1.5rem;">
+                {{ exercise.description }}
+            </p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Main Content Grid -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <!-- Left Column -->
+        <div>
+            <!-- Muscle Groups -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h2>Target Muscles</h2>
+                </div>
+                <div class="card-body">
+                    {% if exercise.get_primary_muscles() %}
+                    <div style="margin-bottom: 1rem;">
+                        <strong style="color: var(--dark-orange);">Primary Muscles:</strong>
+                        <div style="margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            {% for muscle in exercise.get_primary_muscles() %}
+                            <span style="background: #E8F5E9; color: #2E7D32; padding: 0.5rem 1rem; border-radius: 12px; font-size: 0.875rem;">
+                                {{ muscle }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if exercise.secondary_muscle_groups %}
+                    {% set secondary = exercise.secondary_muscle_groups | fromjson %}
+                    {% if secondary %}
+                    <div>
+                        <strong style="color: #666;">Secondary Muscles:</strong>
+                        <div style="margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            {% for muscle in secondary %}
+                            <span style="background: #F5F5F5; color: #666; padding: 0.5rem 1rem; border-radius: 12px; font-size: 0.875rem;">
+                                {{ muscle }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Equipment -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h2>Equipment Required</h2>
+                </div>
+                <div class="card-body">
+                    {% if exercise.get_equipment() %}
+                        {% if exercise.get_equipment()|length == 0 %}
+                            <p style="color: #4CAF50; font-weight: 600; font-size: 1.125rem;">✓ No equipment needed (Bodyweight)</p>
+                        {% else %}
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                {% for equip in exercise.get_equipment() %}
+                                <li style="padding: 0.75rem 0; border-bottom: 1px solid #eee; color: #555; font-size: 1rem;">
+                                    • {{ equip }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% else %}
+                        <p style="color: #999;">Equipment information not available</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Training Parameters -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Training Parameters</h2>
+                </div>
+                <div class="card-body">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        {% if exercise.typical_sets %}
+                        <div>
+                            <div style="font-size: 0.875rem; color: #999; margin-bottom: 0.25rem;">Sets</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green);">{{ exercise.typical_sets }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if exercise.typical_reps %}
+                        <div>
+                            <div style="font-size: 0.875rem; color: #999; margin-bottom: 0.25rem;">Reps</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green);">{{ exercise.typical_reps }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if exercise.typical_rest_seconds %}
+                        <div>
+                            <div style="font-size: 0.875rem; color: #999; margin-bottom: 0.25rem;">Rest</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green);">{{ exercise.typical_rest_seconds }}s</div>
+                        </div>
+                        {% endif %}
+                        
+                        <div>
+                            <div style="font-size: 0.875rem; color: #999; margin-bottom: 0.25rem;">Times Used</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--warm-amber);">{{ exercise.usage_count or 0 }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column -->
+        <div>
+            <!-- Setup Instructions -->
+            {% if exercise.setup_instructions %}
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h2>Setup</h2>
+                </div>
+                <div class="card-body">
+                    <p style="line-height: 1.7; color: #555;">{{ exercise.setup_instructions }}</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Execution Steps -->
+            {% if exercise.get_execution_steps() %}
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h2>How to Perform</h2>
+                </div>
+                <div class="card-body">
+                    <ol style="margin: 0; padding-left: 1.5rem;">
+                        {% for step in exercise.get_execution_steps() %}
+                        <li style="padding: 0.75rem 0; color: #555; line-height: 1.6;">{{ step }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Common Mistakes -->
+            {% if exercise.common_mistakes %}
+            {% set mistakes = exercise.common_mistakes | fromjson %}
+            {% if mistakes %}
+            <div class="card" style="margin-bottom: 1.5rem; border-left: 4px solid #F44336;">
+                <div class="card-header" style="background: #FFEBEE;">
+                    <h2 style="color: #C62828;">Common Mistakes to Avoid</h2>
+                </div>
+                <div class="card-body">
+                    <ul style="margin: 0; padding-left: 1.5rem;">
+                        {% for mistake in mistakes %}
+                        <li style="padding: 0.5rem 0; color: #555;">{{ mistake }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            
+            <!-- Tips and Cues -->
+            {% if exercise.tips_and_cues %}
+            {% set tips = exercise.tips_and_cues | fromjson %}
+            {% if tips %}
+            <div class="card" style="border-left: 4px solid #4CAF50;">
+                <div class="card-header" style="background: #E8F5E9;">
+                    <h2 style="color: #2E7D32;">Pro Tips</h2>
+                </div>
+                <div class="card-body">
+                    <ul style="margin: 0; padding-left: 1.5rem;">
+                        {% for tip in tips %}
+                        <li style="padding: 0.5rem 0; color: #555;">{{ tip }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Media Section -->
+    {% if exercise.image_url or exercise.video_url %}
+    <div class="card" style="margin-bottom: 2rem;">
+        <div class="card-header">
+            <h2>Media</h2>
+        </div>
+        <div class="card-body">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                {% if exercise.image_url %}
+                <div>
+                    <h3 style="margin-bottom: 0.75rem; color: #666;">Image</h3>
+                    <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                </div>
+                {% endif %}
+                
+                {% if exercise.video_url %}
+                <div>
+                    <h3 style="margin-bottom: 0.75rem; color: #666;">Video Tutorial</h3>
+                    <a href="{{ exercise.video_url }}" target="_blank" class="btn btn-primary" style="width: 100%;">Watch Video →</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Tags -->
+    {% if exercise.get_tags() %}
+    <div class="card">
+        <div class="card-header">
+            <h2>Tags</h2>
+        </div>
+        <div class="card-body">
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                {% for tag in exercise.get_tags() %}
+                <span style="background: #F5F5F5; color: #666; padding: 0.5rem 1rem; border-radius: 12px; font-size: 0.875rem;">
+                    #{{ tag }}
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Action Buttons -->
+    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+        <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary">Back to Library</a>
+        {% if current_user.is_authenticated %}
+        <button class="btn btn-primary" onclick="addToProgram({{ exercise.id }})">Add to Program</button>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function addToProgram(exerciseId) {
+    // TODO: Implement add to program functionality
+    alert('Add to program feature coming soon!');
+}
+</script>
+{% endblock %}

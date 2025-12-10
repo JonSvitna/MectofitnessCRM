@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Exercise Library - MectoFitness{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--primary-green);">Exercise Library</h1>
+        <a href="{{ url_for('exercise_library.create_exercise') }}" class="btn btn-primary">Create Custom Exercise</a>
+    </div>
+    
+    <!-- Search and Filter Section -->
+    <div class="card" style="margin-bottom: 2rem;">
+        <div class="card-body">
+            <form method="GET" action="{{ url_for('exercise_library.index') }}" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 1rem; align-items: end;">
+                <div>
+                    <label for="search" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Search</label>
+                    <input 
+                        type="text" 
+                        id="search" 
+                        name="search" 
+                        placeholder="Search exercises..."
+                        value="{{ request.args.get('search', '') }}"
+                        class="form-control"
+                    >
+                </div>
+                
+                <div>
+                    <label for="category" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Category</label>
+                    <select id="category" name="category" class="form-control">
+                        <option value="">All Categories</option>
+                        <option value="strength" {% if request.args.get('category') == 'strength' %}selected{% endif %}>Strength</option>
+                        <option value="cardio" {% if request.args.get('category') == 'cardio' %}selected{% endif %}>Cardio</option>
+                        <option value="flexibility" {% if request.args.get('category') == 'flexibility' %}selected{% endif %}>Flexibility</option>
+                        <option value="mobility" {% if request.args.get('category') == 'mobility' %}selected{% endif %}>Mobility</option>
+                        <option value="balance" {% if request.args.get('category') == 'balance' %}selected{% endif %}>Balance</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="difficulty" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Difficulty</label>
+                    <select id="difficulty" name="difficulty" class="form-control">
+                        <option value="">All Levels</option>
+                        <option value="beginner" {% if request.args.get('difficulty') == 'beginner' %}selected{% endif %}>Beginner</option>
+                        <option value="intermediate" {% if request.args.get('difficulty') == 'intermediate' %}selected{% endif %}>Intermediate</option>
+                        <option value="advanced" {% if request.args.get('difficulty') == 'advanced' %}selected{% endif %}>Advanced</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="equipment" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Equipment</label>
+                    <select id="equipment" name="equipment" class="form-control">
+                        <option value="">All Equipment</option>
+                        <option value="Barbell" {% if request.args.get('equipment') == 'Barbell' %}selected{% endif %}>Barbell</option>
+                        <option value="Dumbbell" {% if request.args.get('equipment') == 'Dumbbell' %}selected{% endif %}>Dumbbells</option>
+                        <option value="Kettlebell" {% if request.args.get('equipment') == 'Kettlebell' %}selected{% endif %}>Kettlebell</option>
+                        <option value="Cable" {% if request.args.get('equipment') == 'Cable' %}selected{% endif %}>Cable Machine</option>
+                        <option value="Machine" {% if request.args.get('equipment') == 'Machine' %}selected{% endif %}>Machine</option>
+                        <option value="Bodyweight" {% if 'Bodyweight' in request.args.get('equipment', '') %}selected{% endif %}>Bodyweight</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem;">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a href="{{ url_for('exercise_library.index') }}" class="btn btn-secondary">Clear</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Exercise Count -->
+    <div style="margin-bottom: 1.5rem;">
+        <p style="color: #666; font-size: 1rem;">
+            Showing <strong>{{ exercises.items|length }}</strong> of <strong>{{ exercises.total }}</strong> exercises
+        </p>
+    </div>
+    
+    <!-- Exercises Grid -->
+    {% if exercises.items %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        {% for exercise in exercises.items %}
+        <div class="card" style="cursor: pointer; transition: transform 0.2s;" onclick="window.location='{{ url_for('exercise_library.view_exercise', exercise_id=exercise.id) }}'">
+            <div class="card-body">
+                <h3 style="color: var(--dark-orange); margin-bottom: 0.5rem;">{{ exercise.name }}</h3>
+                
+                <!-- Category Badge -->
+                <div style="margin-bottom: 0.75rem;">
+                    {% if exercise.category %}
+                    <span class="badge" style="background: var(--primary-green); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; text-transform: uppercase;">
+                        {{ exercise.category }}
+                    </span>
+                    {% endif %}
+                    
+                    {% if exercise.difficulty_level %}
+                    <span class="badge" style="background: 
+                        {% if exercise.difficulty_level == 'beginner' %}#4CAF50
+                        {% elif exercise.difficulty_level == 'intermediate' %}#FF9800
+                        {% elif exercise.difficulty_level == 'advanced' %}#F44336
+                        {% endif %}
+                    ; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem;">
+                        {{ exercise.difficulty_level|title }}
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <!-- Primary Muscles -->
+                {% if exercise.get_primary_muscles() %}
+                <div style="margin-bottom: 0.75rem;">
+                    <strong style="font-size: 0.875rem; color: #555;">Primary:</strong>
+                    <span style="font-size: 0.875rem; color: #666;">{{ exercise.get_primary_muscles()|join(', ') }}</span>
+                </div>
+                {% endif %}
+                
+                <!-- Equipment -->
+                {% if exercise.get_equipment() %}
+                <div style="margin-bottom: 0.75rem;">
+                    <strong style="font-size: 0.875rem; color: #555;">Equipment:</strong>
+                    <span style="font-size: 0.875rem; color: #666;">
+                        {% if exercise.get_equipment()|length == 0 %}
+                            Bodyweight
+                        {% else %}
+                            {{ exercise.get_equipment()|join(', ') }}
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                
+                <!-- Description Preview -->
+                {% if exercise.description %}
+                <p style="color: #777; font-size: 0.875rem; margin-top: 0.75rem; line-height: 1.5;">
+                    {{ exercise.description[:100] }}{% if exercise.description|length > 100 %}...{% endif %}
+                </p>
+                {% endif %}
+                
+                <!-- View Details Button -->
+                <a href="{{ url_for('exercise_library.view_exercise', exercise_id=exercise.id) }}" class="btn btn-secondary" style="margin-top: 1rem; width: 100%;" onclick="event.stopPropagation();">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    {% if exercises.pages > 1 %}
+    <div class="pagination" style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem;">
+        {% if exercises.has_prev %}
+            <a href="{{ url_for('exercise_library.index', page=exercises.prev_num, search=request.args.get('search'), category=request.args.get('category'), difficulty=request.args.get('difficulty'), equipment=request.args.get('equipment')) }}" class="btn btn-secondary">&laquo; Previous</a>
+        {% endif %}
+        
+        <span style="padding: 0.75rem 1.5rem; background: #f5f5f5; border-radius: 4px; display: flex; align-items: center;">
+            Page {{ exercises.page }} of {{ exercises.pages }}
+        </span>
+        
+        {% if exercises.has_next %}
+            <a href="{{ url_for('exercise_library.index', page=exercises.next_num, search=request.args.get('search'), category=request.args.get('category'), difficulty=request.args.get('difficulty'), equipment=request.args.get('equipment')) }}" class="btn btn-secondary">Next &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <div class="card">
+        <div class="card-body" style="text-align: center; padding: 3rem;">
+            <p style="color: #999; font-size: 1.125rem;">No exercises found matching your criteria.</p>
+            <a href="{{ url_for('exercise_library.index') }}" class="btn btn-primary" style="margin-top: 1rem;">Clear Filters</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.card {
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}
