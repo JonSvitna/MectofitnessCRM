@@ -142,239 +142,129 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Welcome back, {user?.full_name || 'Trainer'}
-        </h1>
-        <p className="text-sm text-gray-600 mt-1">
-          Here's what's happening with your clients today
-        </p>
+    <div className="flex h-full bg-gray-50">
+      {/* Main content area (left side - takes most space) */}
+      <div className="flex-1 overflow-y-auto p-6">
+        {/* Onboarding masterclass banner */}
+        {onboardingCard}
+
+        {/* Upgrade CTA */}
+        {upgradeCTA}
+
+        {/* Referral card */}
+        {referralCard}
+
+        {/* Auto-tagged clients */}
+        {autoTaggedClients}
+
+        {/* Stats Overview - 4 cards in a row */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+          <div className="bg-white rounded-xl shadow p-6">
+            <div className="flex items-center justify-between mb-2">
+              <UsersIcon className="h-8 w-8 text-primary-600" />
+            </div>
+            <div className="text-3xl font-bold text-gray-900">{stats.totalClients}</div>
+            <div className="text-sm text-gray-500 font-medium mt-1">Total Clients</div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow p-6">
+            <div className="flex items-center justify-between mb-2">
+              <CalendarIcon className="h-8 w-8 text-teal-600" />
+            </div>
+            <div className="text-3xl font-bold text-gray-900">{stats.todaySessions}</div>
+            <div className="text-sm text-gray-500 font-medium mt-1">Today's Sessions</div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow p-6">
+            <div className="flex items-center justify-between mb-2">
+              <DocumentTextIcon className="h-8 w-8 text-orange-600" />
+            </div>
+            <div className="text-3xl font-bold text-gray-900">{stats.totalPrograms}</div>
+            <div className="text-sm text-gray-500 font-medium mt-1">Active Programs</div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow p-6">
+            <div className="flex items-center justify-between mb-2">
+              <ChartBarIcon className="h-8 w-8 text-purple-600" />
+            </div>
+            <div className="text-3xl font-bold text-gray-900">{stats.upcomingSessions}</div>
+            <div className="text-sm text-gray-500 font-medium mt-1">Upcoming Sessions</div>
+          </div>
+        </div>
+
+        {/* Quick actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <Link
+            to="/clients/add"
+            className="bg-primary-600 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-primary-700 transition-colors"
+          >
+            <PlusIcon className="h-6 w-6" /> Add Client
+          </Link>
+          <Link
+            to="/sessions/add"
+            className="bg-teal-500 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-teal-600 transition-colors"
+          >
+            <CalendarIcon className="h-6 w-6" /> Schedule Session
+          </Link>
+          <Link
+            to="/programs/add"
+            className="bg-orange-500 text-white rounded-xl shadow px-6 py-4 flex items-center gap-3 font-semibold hover:bg-orange-600 transition-colors"
+          >
+            <DocumentTextIcon className="h-6 w-6" /> Create Program
+          </Link>
+        </div>
+
+        {/* Recent clients */}
+        <div className="mb-10">
+          <h2 className="text-xl font-bold mb-4">Recent Clients</h2>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            {recentClients.map((client) => (
+              <Link
+                key={client.id}
+                to={`/clients/${client.id}`}
+                className="bg-white rounded-xl shadow p-4 flex flex-col items-center hover:bg-gray-50 transition-colors"
+              >
+                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary-500 to-teal-500 flex items-center justify-center text-white font-bold text-lg mb-2">
+                  {client.first_name?.charAt(0) || 'C'}
+                </div>
+                <div className="text-sm font-semibold text-gray-900 mb-1">{client.first_name} {client.last_name}</div>
+                <div className="text-xs text-gray-500">{client.fitness_goal}</div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Upcoming sessions */}
+        <div className="mb-10">
+          <h2 className="text-xl font-bold mb-4">Upcoming Sessions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            {upcomingSessions.map((session) => (
+              <div key={session.id} className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
+                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-orange-500 to-primary-500 flex items-center justify-center text-white font-bold text-lg mb-2">
+                  <CalendarIcon className="h-6 w-6" />
+                </div>
+                <div className="text-sm font-semibold text-gray-900 mb-1">{session.title}</div>
+                <div className="text-xs text-gray-500">{new Date(session.scheduled_start).toLocaleString()}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-        <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-xl">
-          <div className="px-6 py-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-12 w-12 rounded-lg bg-primary-50 flex items-center justify-center">
-                  <UsersIcon className="h-6 w-6 text-primary-600" />
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Total Clients
-                  </dt>
-                  <dd className="text-2xl font-semibold text-gray-900">
-                    {stats.totalClients}
-                  </dd>
-                </dl>
+      {/* Recent activities feed (right sidebar) */}
+      <div className="w-80 bg-white border-l border-gray-200 overflow-y-auto p-6">
+        <h2 className="text-lg font-bold mb-4">Recent Activities</h2>
+        <div className="space-y-4">
+          {recentActivities.map((act, idx) => (
+            <div key={idx} className="flex items-start gap-3">
+              <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500">{act.name.charAt(0)}</div>
+              <div>
+                <div className="text-sm font-semibold text-gray-900">{act.name}</div>
+                <div className="text-xs text-gray-600">{act.activity}</div>
+                <div className="text-xs text-gray-400 mt-1">{act.date}</div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-xl">
-          <div className="px-6 py-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-12 w-12 rounded-lg bg-success-50 flex items-center justify-center">
-                  <CalendarIcon className="h-6 w-6 text-success-600" />
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Today's Sessions
-                  </dt>
-                  <dd className="text-2xl font-semibold text-gray-900">
-                    {stats.todaySessions}
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-xl">
-          <div className="px-6 py-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-12 w-12 rounded-lg bg-warning-50 flex items-center justify-center">
-                  <DocumentTextIcon className="h-6 w-6 text-warning-600" />
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Active Programs
-                  </dt>
-                  <dd className="text-2xl font-semibold text-gray-900">
-                    {stats.totalPrograms}
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-xl">
-          <div className="px-6 py-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-12 w-12 rounded-lg bg-accent-50 flex items-center justify-center">
-                  <ChartBarIcon className="h-6 w-6 text-accent-600" />
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Upcoming Sessions
-                  </dt>
-                  <dd className="text-2xl font-semibold text-gray-900">
-                    {stats.upcomingSessions}
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Two Column Layout */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Recent Clients */}
-        <div className="bg-white shadow-sm border border-gray-100 rounded-xl overflow-hidden">
-          <div className="px-6 py-5 border-b border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-900">Recent Clients</h2>
-          </div>
-          <ul className="divide-y divide-gray-100">
-            {recentClients.length > 0 ? (
-              recentClients.map((client) => (
-                <li key={client.id}>
-                  <Link
-                    to={`/clients/${client.id}`}
-                    className="block hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="px-6 py-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center min-w-0 flex-1">
-                          <div className="flex-shrink-0">
-                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-teal-500 flex items-center justify-center shadow-sm">
-                              <span className="text-white font-semibold text-sm">
-                                {client.full_name?.charAt(0) || 'C'}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="ml-4 min-w-0 flex-1">
-                            <p className="text-sm font-semibold text-gray-900 truncate">
-                              {client.full_name}
-                            </p>
-                            <p className="text-sm text-gray-500 truncate">
-                              {client.email}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="ml-4 flex-shrink-0">
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-success-50 text-success-700 border border-success-100">
-                            Active
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              ))
-            ) : (
-              <li className="px-6 py-12 text-center">
-                <p className="text-sm text-gray-500 mb-3">No clients yet</p>
-                <Link
-                  to="/clients?action=add"
-                  className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-700"
-                >
-                  Add your first client <span className="ml-1">→</span>
-                </Link>
-              </li>
-            )}
-          </ul>
-          {recentClients.length > 0 && (
-            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
-              <Link
-                to="/clients"
-                className="text-sm font-medium text-primary-600 hover:text-primary-700 flex items-center"
-              >
-                View all clients <span className="ml-1">→</span>
-              </Link>
-            </div>
-          )}
-        </div>
-
-        {/* Upcoming Sessions */}
-        <div className="bg-white shadow-sm border border-gray-100 rounded-xl overflow-hidden">
-          <div className="px-6 py-5 border-b border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-900">Upcoming Sessions</h2>
-          </div>
-          <ul className="divide-y divide-gray-100">
-            {upcomingSessions.length > 0 ? (
-              upcomingSessions.map((session) => (
-                <li key={session.id}>
-                  <Link
-                    to={`/sessions/${session.id}`}
-                    className="block hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="px-6 py-4">
-                      <div className="flex items-start justify-between">
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-semibold text-gray-900 mb-1">
-                            {session.title || 'Training Session'}
-                          </p>
-                          <p className="text-sm text-gray-600 mb-2">
-                            {session.client?.full_name}
-                          </p>
-                          <div className="flex items-center text-xs text-gray-500">
-                            <CalendarIcon className="h-4 w-4 mr-1.5" />
-                            {new Date(session.scheduled_start).toLocaleString('en-US', {
-                              month: 'short',
-                              day: 'numeric',
-                              hour: 'numeric',
-                              minute: '2-digit',
-                            })}
-                          </div>
-                        </div>
-                        <div className="ml-4 flex-shrink-0">
-                          <div className="h-10 w-10 rounded-lg bg-teal-50 flex items-center justify-center">
-                            <CalendarIcon className="h-5 w-5 text-teal-600" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              ))
-            ) : (
-              <li className="px-6 py-12 text-center">
-                <p className="text-sm text-gray-500 mb-3">No upcoming sessions</p>
-                <Link
-                  to="/sessions?action=add"
-                  className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-700"
-                >
-                  Schedule a session <span className="ml-1">→</span>
-                </Link>
-              </li>
-            )}
-          </ul>
-          {upcomingSessions.length > 0 && (
-            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
-              <Link
-                to="/sessions"
-                className="text-sm font-medium text-primary-600 hover:text-primary-700 flex items-center"
-              >
-                View all sessions <span className="ml-1">→</span>
-              </Link>
-            </div>
-          )}
+          ))}
         </div>
       </div>
     </div>
