@@ -32,7 +32,6 @@
                 <a href="{{ url_for('clients.list_clients') }}" class="nav-link">Clients</a>
                 <a href="{{ url_for('sessions.list_sessions') }}" class="nav-link">Sessions</a>
                 <a href="{{ url_for('programs.list_programs') }}" class="nav-link">Programs</a>
-                <a href="{{ url_for('exercise_library.index') }}" class="nav-link">Exercises</a>
                 <a href="{{ url_for('calendar.calendar_settings') }}" class="nav-link">Calendar</a>
                 <div class="nav-dropdown">
                     <span class="nav-link">{{ current_user.name or current_user.full_name or current_user.email }}</span>
