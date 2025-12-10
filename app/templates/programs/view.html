@@ -139,27 +139,27 @@
 </div>
 
 <!-- AI Generation Modal -->
-<div id="ai-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
-    <div class="card" style="max-width: 500px; margin: var(--space-4);">
-        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold);">🤖 AI Program Generation</h2>
+<div id="ai-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 1000;">
+    <div class="card" style="max-width: 500px; margin: var(--space-4); background: white;">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; background: white; padding: var(--space-5);">
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">🤖 AI Program Generation</h2>
             <button onclick="document.getElementById('ai-modal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary);">&times;</button>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="background: white; padding: var(--space-5);">
             <form method="POST" action="{{ url_for('programs.generate_ai_program', program_id=program.id) }}">
-                <p style="margin-bottom: var(--space-6); color: var(--text-secondary);">
+                <p style="margin-bottom: var(--space-6); color: var(--text-primary); font-size: var(--text-base);">
                     AI will generate a complete {{ program.duration_weeks }}-week training program based on:
                 </p>
-                <ul style="margin-bottom: var(--space-6); margin-left: var(--space-6); color: var(--text-secondary);">
+                <ul style="margin-bottom: var(--space-6); margin-left: var(--space-6); color: var(--text-primary); font-size: var(--text-base);">
                     <li>Client: {{ program.client.full_name }}</li>
                     <li>Goal: {{ program.goal or 'General fitness' }}</li>
                     <li>Level: {{ program.difficulty_level|title }}</li>
                     <li>722 exercises from your library</li>
                 </ul>
                 
-                <div class="form-group">
-                    <label for="training_frequency" style="font-weight: var(--font-semibold);">Training Frequency (sessions/week)</label>
-                    <select id="training_frequency" name="training_frequency" class="form-control">
+                <div class="form-group" style="margin-bottom: var(--space-6);">
+                    <label for="training_frequency" style="display: block; font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-2); font-size: var(--text-base);">Training Frequency (sessions/week)</label>
+                    <select id="training_frequency" name="training_frequency" class="form-control" style="width: 100%; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base); background: white; color: var(--text-primary);">
                         <option value="2">2 days per week</option>
                         <option value="3" selected>3 days per week</option>
                         <option value="4">4 days per week</option>
@@ -168,14 +168,14 @@
                     </select>
                 </div>
                 
-                <div style="padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg); margin-bottom: var(--space-6);">
-                    <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                <div style="padding: var(--space-4); background: #FFF7ED; border-radius: var(--radius-lg); margin-bottom: var(--space-6); border-left: 4px solid #F59E0B;">
+                    <p style="font-size: var(--text-sm); color: #92400E;">
                         ⚡ <strong>Note:</strong> Generation takes 10-20 seconds. The AI will create exercises with sets, reps, and form cues.
                     </p>
                 </div>
                 
                 <div style="display: flex; gap: var(--space-3); justify-content: flex-end;">
-                    <button type="button" class="btn btn-ghost" onclick="document.getElementById('ai-modal').style.display='none'">Cancel</button>
+                    <button type="button" class="btn btn-ghost" onclick="document.getElementById('ai-modal').style.display='none'" style="color: var(--text-primary);">Cancel</button>
                     <button type="submit" class="btn btn-primary">Generate Program</button>
                 </div>
             </form>

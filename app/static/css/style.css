@@ -54,9 +54,9 @@ body {
 
 /* Navigation */
 .navbar {
-    background-color: var(--black);
+    background: linear-gradient(135deg, #1A1A2E 0%, #004E89 100%);
     padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     margin-bottom: 0;
 }
 
@@ -73,11 +73,11 @@ body {
 }
 
 .brand-name {
-    color: var(--primary-blue);
+    color: #FF6B35;
 }
 
 .brand-tag {
-    color: var(--white);
+    color: #1AE5BE;
 }
 
 .nav-menu {

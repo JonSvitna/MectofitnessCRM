@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Notification Settings - MectoFitness CRM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+    <div style="margin-bottom: var(--space-6);">
+        <a href="{{ url_for('settings.index') }}" class="btn btn-ghost">&larr; Back to Settings</a>
+    </div>
+    
+    <div class="page-header">
+        <h1 class="page-title">Notification Settings</h1>
+        <p class="page-subtitle">Control when and how you receive notifications</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div style="margin-bottom: var(--space-4); padding: var(--space-4); border-radius: var(--radius-lg); {% if category == 'error' %}background: #FEE2E2; color: #991B1B;{% else %}background: #D1FAE5; color: #065F46;{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" style="display: flex; flex-direction: column; gap: var(--space-6);">
+                <p style="color: var(--text-secondary); font-size: var(--text-base);">
+                    Choose which notifications you want to receive. These settings help you stay informed without being overwhelmed.
+                </p>
+                
+                <!-- Notification Preferences -->
+                <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+                    <!-- New Client -->
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <input type="checkbox" id="notify_new_client" name="notify_new_client" {% if settings.notify_new_client %}checked{% endif %}
+                               style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <label for="notify_new_client" style="display: block; font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); cursor: pointer;">
+                                👤 New Client Registration
+                            </label>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                                Get notified when a new client registers or is added to your roster
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Session Reminders -->
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <input type="checkbox" id="notify_session_reminder" name="notify_session_reminder" {% if settings.notify_session_reminder %}checked{% endif %}
+                               style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <label for="notify_session_reminder" style="display: block; font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); cursor: pointer;">
+                                🔔 Session Reminders
+                            </label>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                                Receive reminders before scheduled training sessions
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Intake Complete -->
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-5); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                        <input type="checkbox" id="notify_intake_complete" name="notify_intake_complete" {% if settings.notify_intake_complete %}checked{% endif %}
+                               style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <label for="notify_intake_complete" style="display: block; font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); cursor: pointer;">
+                                📋 Client Intake Completed
+                            </label>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">
+                                Get notified when a client completes their intake questionnaire
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notification Channels Info -->
+                <div style="padding: var(--space-5); background: linear-gradient(135deg, rgba(26, 229, 190, 0.1), rgba(0, 78, 137, 0.1)); border-radius: var(--radius-lg); border-left: 4px solid var(--brand-accent);">
+                    <h3 style="font-size: var(--text-lg); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-3);">📬 Notification Channels</h3>
+                    <p style="font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed);">
+                        Notifications will be sent to your registered email address. To receive SMS notifications, enable the Twilio integration in the Integrations settings.
+                    </p>
+                </div>
+                
+                <!-- Save Button -->
+                <div style="padding-top: var(--space-6); border-top: 2px solid var(--border-light);">
+                    <button type="submit" class="btn btn-primary" style="padding: var(--space-3) var(--space-8);">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

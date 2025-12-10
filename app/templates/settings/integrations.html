@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Integration Settings - MectoFitness CRM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+    <div style="margin-bottom: var(--space-6);">
+        <a href="{{ url_for('settings.index') }}" class="btn btn-ghost">&larr; Back to Settings</a>
+    </div>
+    
+    <div class="page-header">
+        <h1 class="page-title">Integration Settings</h1>
+        <p class="page-subtitle">Connect third-party services to enhance your workflow</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div style="margin-bottom: var(--space-4); padding: var(--space-4); border-radius: var(--radius-lg); {% if category == 'error' %}background: #FEE2E2; color: #991B1B;{% else %}background: #D1FAE5; color: #065F46;{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" style="display: flex; flex-direction: column; gap: var(--space-8);">
+                <!-- Twilio (SMS) Integration -->
+                <div>
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #F22F46, #D91926); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">📱</div>
+                        <div>
+                            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">Twilio SMS</h2>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">Send SMS messages and reminders to clients</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+                        <div style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                            <input type="checkbox" id="twilio_enabled" name="twilio_enabled" {% if settings.twilio_enabled %}checked{% endif %}
+                                   style="width: 20px; height: 20px; cursor: pointer;">
+                            <label for="twilio_enabled" style="font-size: var(--text-base); font-weight: var(--font-medium); color: var(--text-primary); cursor: pointer;">
+                                Enable Twilio Integration
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <label for="twilio_account_sid" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">Account SID</label>
+                            <input type="text" id="twilio_account_sid" name="twilio_account_sid" value="{{ settings.twilio_account_sid or '' }}"
+                                   style="width: 100%; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base); font-family: monospace;"
+                                   placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                        </div>
+                        
+                        <div>
+                            <label for="twilio_auth_token" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">Auth Token</label>
+                            <input type="password" id="twilio_auth_token" name="twilio_auth_token" value="{{ settings.twilio_auth_token or '' }}"
+                                   style="width: 100%; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base); font-family: monospace;"
+                                   placeholder="••••••••••••••••••••••••••••••••">
+                        </div>
+                        
+                        <div>
+                            <label for="twilio_phone_number" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">Phone Number</label>
+                            <input type="tel" id="twilio_phone_number" name="twilio_phone_number" value="{{ settings.twilio_phone_number or '' }}"
+                                   style="width: 100%; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base);"
+                                   placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SendGrid (Email) Integration -->
+                <div style="padding-top: var(--space-8); border-top: 2px solid var(--border-light);">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #3CAADC, #2890C5); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">📧</div>
+                        <div>
+                            <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); color: var(--text-primary);">SendGrid Email</h2>
+                            <p style="font-size: var(--text-sm); color: var(--text-secondary);">Send professional emails and marketing campaigns</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+                        <div style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); background: var(--surface-tertiary); border-radius: var(--radius-lg);">
+                            <input type="checkbox" id="sendgrid_enabled" name="sendgrid_enabled" {% if settings.sendgrid_enabled %}checked{% endif %}
+                                   style="width: 20px; height: 20px; cursor: pointer;">
+                            <label for="sendgrid_enabled" style="font-size: var(--text-base); font-weight: var(--font-medium); color: var(--text-primary); cursor: pointer;">
+                                Enable SendGrid Integration
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <label for="sendgrid_api_key" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">API Key</label>
+                            <input type="password" id="sendgrid_api_key" name="sendgrid_api_key" value="{{ settings.sendgrid_api_key or '' }}"
+                                   style="width: 100%; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base); font-family: monospace;"
+                                   placeholder="SG.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                        </div>
+                        
+                        <div>
+                            <label for="sendgrid_from_email" style="display: block; font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--text-secondary); margin-bottom: var(--space-2);">From Email Address</label>
+                            <input type="email" id="sendgrid_from_email" name="sendgrid_from_email" value="{{ settings.sendgrid_from_email or '' }}"
+                                   style="width: 100%; padding: var(--space-3); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--text-base);"
+                                   placeholder="noreply@yourbusiness.com">
+                            <p style="margin-top: var(--space-2); font-size: var(--text-sm); color: var(--text-secondary);">This email must be verified in your SendGrid account</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Save Button -->
+                <div style="padding-top: var(--space-6); border-top: 2px solid var(--border-light);">
+                    <button type="submit" class="btn btn-primary" style="padding: var(--space-3) var(--space-8);">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
