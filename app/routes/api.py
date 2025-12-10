@@ -1,4 +1,8 @@
 import requests
+bp = Blueprint('api', __name__, url_prefix='/api/v1')
+
+# ...existing code...
+
 @bp.route('/exercises/search', methods=['GET'])
 def api_search_exercises():
     """Proxy search to WGER API for exercises."""
