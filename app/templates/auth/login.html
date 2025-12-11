@@ -2,56 +2,206 @@
 
 {% block title %}Login - MectoFitness CRM{% endblock %}
 
+{% block extra_css %}
+<style>
+    body {
+        background: var(--theme-bg-secondary);
+    }
+    
+    .login-container {
+        max-width: 480px;
+        margin: 4rem auto;
+        padding: 0 1.5rem;
+    }
+    
+    .login-card {
+        background: var(--theme-card-bg);
+        padding: 3rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        border: 1px solid var(--theme-card-border);
+    }
+    
+    .login-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+    
+    .login-title {
+        color: #FF6B35;
+        margin-bottom: 0.75rem;
+        font-size: 2.2rem;
+        font-weight: 800;
+    }
+    
+    .login-subtitle {
+        color: var(--theme-text-secondary);
+        font-size: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: var(--theme-text-primary);
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+        border: 2px solid var(--theme-input-border);
+        border-radius: 8px;
+        color: var(--theme-input-text);
+        background-color: var(--theme-input-bg);
+        transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: #FF6B35;
+        box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    }
+    
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: var(--theme-text-secondary);
+        font-size: 0.9rem;
+    }
+    
+    .checkbox-label input {
+        margin-right: 0.5rem;
+    }
+    
+    .forgot-link {
+        font-size: 0.9rem;
+        color: #FF6B35;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    
+    .forgot-link:hover {
+        color: #e55a2b;
+    }
+    
+    .login-button {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.05rem;
+        font-weight: 700;
+        background: #FF6B35;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+    
+    .login-button:hover {
+        background: #e55a2b;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+    }
+    
+    .divider {
+        text-align: center;
+        margin: 2rem 0;
+        padding-top: 2rem;
+        border-top: 1px solid var(--theme-border-light);
+    }
+    
+    .signup-text {
+        color: var(--theme-text-secondary);
+        font-size: 0.95rem;
+    }
+    
+    .signup-link {
+        color: #FF6B35;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .signup-link:hover {
+        color: #e55a2b;
+    }
+    
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--theme-text-tertiary);
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .back-link:hover {
+        color: var(--theme-text-secondary);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="form-container" style="max-width: 450px; margin: 3rem auto;">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <h2 style="color: #FF6B35; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 700;">Welcome Back</h2>
-            <p style="color: #666; font-size: 0.95rem;">Log in to your trainer account</p>
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h2 class="login-title">Welcome Back</h2>
+            <p class="login-subtitle">Log in to your trainer account</p>
         </div>
         
         <form method="POST">
             <div class="form-group">
-                <label for="username" style="font-weight: 600; color: #333;">Username</label>
-                <input type="text" id="username" name="username" class="form-control" required 
-                       placeholder="Enter your username" 
-                       style="padding: 0.75rem; font-size: 1rem; border: 2px solid #e5e7eb; border-radius: 8px; color: #1A1A2E; background-color: #FFFFFF;">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-input" required 
+                       placeholder="Enter your username">
             </div>
             
             <div class="form-group">
-                <label for="password" style="font-weight: 600; color: #333;">Password</label>
-                <input type="password" id="password" name="password" class="form-control" required 
-                       placeholder="Enter your password"
-                       style="padding: 0.75rem; font-size: 1rem; border: 2px solid #e5e7eb; border-radius: 8px; color: #1A1A2E; background-color: #FFFFFF;">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-input" required 
+                       placeholder="Enter your password">
             </div>
             
-            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                <label style="display: flex; align-items: center; cursor: pointer;">
-                    <input type="checkbox" name="remember" style="margin-right: 0.5rem;"> 
-                    <span style="font-size: 0.9rem; color: #666;">Remember me</span>
+            <div class="form-row">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="remember"> 
+                    <span>Remember me</span>
                 </label>
-                <a href="#" style="font-size: 0.9rem; color: #FF6B35; text-decoration: none;">Forgot password?</a>
+                <a href="#" class="forgot-link">Forgot password?</a>
             </div>
             
-            <button type="submit" class="btn btn-primary" 
-                    style="width: 100%; padding: 0.75rem; font-size: 1.05rem; font-weight: 600; background: #FF6B35; border: none; border-radius: 8px; margin-top: 1rem;">
+            <button type="submit" class="login-button">
                 Log In
             </button>
         </form>
         
-        <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
-            <p style="color: #666; font-size: 0.95rem;">
+        <div class="divider">
+            <p class="signup-text">
                 Don't have an account? 
-                <a href="{{ url_for('auth.register') }}" 
-                   style="color: #FF6B35; font-weight: 600; text-decoration: none;">Sign up free</a>
+                <a href="{{ url_for('auth.register') }}" class="signup-link">Sign up free</a>
             </p>
         </div>
         
-        <div style="text-align: center; margin-top: 1.5rem;">
-            <a href="{{ url_for('main.index') }}" style="color: #999; font-size: 0.9rem; text-decoration: none;">
-                ← Back to homepage
-            </a>
-        </div>
+        <a href="{{ url_for('main.index') }}" class="back-link">
+            ← Back to homepage
+        </a>
     </div>
 </div>
 {% endblock %}
