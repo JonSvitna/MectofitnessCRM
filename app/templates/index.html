@@ -4,167 +4,388 @@
 
 {% block meta_description %}Professional personal training software for fitness coaches. Manage clients, build custom programs, track progress, and grow your business - all in one simple platform.{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Hero Video Section */
+    .video-hero-section {
+        position: relative;
+        height: 90vh;
+        min-height: 600px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .video-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+    
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(0, 78, 137, 0.75) 100%);
+        z-index: 1;
+    }
+    
+    .video-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .video-hero-title {
+        font-size: 3.5rem;
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+        color: white;
+        text-shadow: 2px 4px 8px rgba(0,0,0,0.3);
+        line-height: 1.2;
+    }
+    
+    .video-hero-subtitle {
+        font-size: 1.4rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.95;
+        line-height: 1.6;
+    }
+    
+    .hero-cta-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+    
+    .cta-primary {
+        background: #FF6B35;
+        color: white;
+        padding: 1.2rem 3rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .cta-primary:hover {
+        background: #e55a2b;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(255, 107, 53, 0.5);
+    }
+    
+    .cta-secondary {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        padding: 1.2rem 3rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+    
+    .cta-secondary:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: white;
+    }
+    
+    .hero-features-list {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 1rem;
+        opacity: 0.95;
+    }
+    
+    @media (max-width: 768px) {
+        .video-hero-section {
+            height: 100vh;
+        }
+        .video-hero-title {
+            font-size: 2.5rem;
+        }
+        .video-hero-subtitle {
+            font-size: 1.1rem;
+        }
+        .cta-primary, .cta-secondary {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="hero-section" style="background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); padding: 5rem 0; color: white; text-align: center;">
-    <div class="container">
-        <h1 class="hero-title" style="font-size: 3rem; font-weight: 800; margin-bottom: 1.5rem; color: white;">
-            All-in-One Software for<br>Personal Trainers
+<!-- Hero Section with Video Background -->
+<div class="video-hero-section">
+    <!-- Placeholder for video - Using gradient background as fallback -->
+    <!-- To add actual video: <video class="video-background" autoplay muted loop playsinline>
+        <source src="{{ url_for('static', filename='videos/fitness-training.mp4') }}" type="video/mp4">
+    </video> -->
+    <div class="video-background" style="background: linear-gradient(135deg, #1A1A2E 0%, #004E89 50%, #FF6B35 100%); background-size: 200% 200%; animation: gradientShift 15s ease infinite;">
+        <style>
+            @keyframes gradientShift {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+            }
+        </style>
+    </div>
+    <div class="video-overlay"></div>
+    <div class="video-content">
+        <h1 class="video-hero-title">
+            Transform Your Fitness Business
         </h1>
-        <p class="hero-subtitle" style="font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.95; max-width: 700px; margin-left: auto; margin-right: auto;">
-            Manage clients, create programs, track progress, and grow your fitness business. 
-            Everything you need in one powerful platform.
+        <p class="video-hero-subtitle">
+            The complete platform for personal trainers, fitness coaches, and gym owners. 
+            Manage clients, programs, sessions, and payments—all in one place.
         </p>
-        <div class="hero-cta" style="margin-bottom: 2rem;">
-            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-large" 
-               style="background: white; color: #FF6B35; padding: 1rem 2.5rem; font-size: 1.2rem; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,0.2); border: none;">
-                Start Free Trial →
+        <div class="hero-cta-buttons">
+            <a href="{{ url_for('auth.register') }}" class="cta-primary">
+                Start Free Trial
+            </a>
+            <a href="{{ url_for('auth.login') }}" class="cta-secondary">
+                Sign In
             </a>
         </div>
-        <p style="font-size: 0.95rem; opacity: 0.9;">✓ No credit card required  ✓ 14-day free trial  ✓ Cancel anytime</p>
-    </div>
-</div>
-
-<div style="padding: 3rem 0; background: #f8f9fa; text-align: center;">
-    <div class="container">
-        <p style="color: #666; margin-bottom: 1rem; font-weight: 600;">TRUSTED BY FITNESS PROFESSIONALS</p>
-        <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; align-items: center;">
-            <div style="font-size: 2rem; font-weight: 800; color: #FF6B35;">1000+<br><span style="font-size: 0.9rem; font-weight: 400; color: #666;">Active Trainers</span></div>
-            <div style="font-size: 2rem; font-weight: 800; color: #FF6B35;">15K+<br><span style="font-size: 0.9rem; font-weight: 400; color: #666;">Clients Trained</span></div>
-            <div style="font-size: 2rem; font-weight: 800; color: #FF6B35;">50K+<br><span style="font-size: 0.9rem; font-weight: 400; color: #666;">Workouts Created</span></div>
+        <div class="hero-features-list">
+            <span>✓ No credit card required</span>
+            <span>✓ 14-day free trial</span>
+            <span>✓ Cancel anytime</span>
         </div>
     </div>
 </div>
 
-<div id="features" class="features-section">
+<!-- Trust Section -->
+<div style="padding: 4rem 0; background: var(--theme-bg-secondary); text-align: center;">
     <div class="container">
-        <h2 class="section-title">Everything You Need to Grow Your Business</h2>
+        <p style="color: var(--theme-text-secondary); margin-bottom: 2rem; font-weight: 600; font-size: 0.95rem; letter-spacing: 1px;">TRUSTED BY FITNESS PROFESSIONALS WORLDWIDE</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; max-width: 900px; margin: 0 auto;">
+            <div>
+                <div style="font-size: 3rem; font-weight: 800; color: #FF6B35; margin-bottom: 0.5rem;">1000+</div>
+                <p style="font-size: 1rem; font-weight: 500; color: var(--theme-text-secondary);">Active Trainers</p>
+            </div>
+            <div>
+                <div style="font-size: 3rem; font-weight: 800; color: #1AE5BE; margin-bottom: 0.5rem;">15K+</div>
+                <p style="font-size: 1rem; font-weight: 500; color: var(--theme-text-secondary);">Clients Trained</p>
+            </div>
+            <div>
+                <div style="font-size: 3rem; font-weight: 800; color: #004E89; margin-bottom: 0.5rem;">50K+</div>
+                <p style="font-size: 1rem; font-weight: 500; color: var(--theme-text-secondary);">Workouts Created</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="features" class="features-section" style="padding: 5rem 0; background: var(--theme-bg-primary);">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--theme-text-primary); margin-bottom: 1rem;">
+                Everything You Need to Grow Your Business
+            </h2>
+            <p style="font-size: 1.1rem; color: var(--theme-text-secondary); max-width: 700px; margin: 0 auto;">
+                Built for trainers, by trainers. Powerful features that scale with your business.
+            </p>
+        </div>
         
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">👥</div>
-                <h3>Client Management</h3>
-                <p>Track client profiles, goals, measurements, and progress photos in one organized dashboard. Stay connected with built-in messaging.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem;">
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
+                <div style="font-size: 3rem; margin-bottom: 1.5rem;">👥</div>
+                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Client Management</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Track client profiles, goals, measurements, and progress photos in one organized dashboard. Stay connected with built-in messaging.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">💪</div>
-                <h3>Program Builder</h3>
-                <p>Create custom workout programs with our exercise library. Save time with templates or let AI build personalized plans from client intake forms.</p>
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
+                <div style="font-size: 3rem; margin-bottom: 1.5rem;">💪</div>
+                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Program Builder</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Create custom workout programs with our exercise library. Save time with templates or let AI build personalized plans from client intake forms.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">📅</div>
-                <h3>Scheduling & Booking</h3>
-                <p>Online booking for new and existing clients. Automatic calendar sync with Google and Outlook. Never miss a session.</p>
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
+                <div style="font-size: 3rem; margin-bottom: 1.5rem;">📅</div>
+                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Scheduling & Booking</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Online booking for new and existing clients. Automatic calendar sync with Google and Outlook. Never miss a session.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">💳</div>
-                <h3>Payments & Billing</h3>
-                <p>Accept payments and manage subscriptions with Stripe integration. Automatic invoicing and recurring billing handled for you.</p>
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
+                <div style="font-size: 3rem; margin-bottom: 1.5rem;">💳</div>
+                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Payments & Billing</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Accept payments and manage subscriptions with Stripe integration. Automatic invoicing and recurring billing handled for you.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Progress Tracking</h3>
-                <p>Track client progress with photos, measurements, and custom metrics. Visual charts show progress over time to keep clients motivated.</p>
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
+                <div style="font-size: 3rem; margin-bottom: 1.5rem;">📊</div>
+                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Progress Tracking</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Track client progress with photos, measurements, and custom metrics. Visual charts show progress over time to keep clients motivated.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">🥗</div>
-                <h3>Nutrition & Habits</h3>
-                <p>Create nutrition plans with macro tracking. Help clients build healthy habits with our habit tracking and streak system.</p>
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
+                <div style="font-size: 3rem; margin-bottom: 1.5rem;">🥗</div>
+                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Nutrition & Habits</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Create nutrition plans with macro tracking. Help clients build healthy habits with our habit tracking and streak system.</p>
             </div>
         </div>
     </div>
 </div>
 
-<div style="padding: 4rem 0; background: white;">
+<div style="padding: 5rem 0; background: var(--theme-bg-secondary);">
     <div class="container">
-        <h2 class="section-title" style="text-align: center; margin-bottom: 3rem;">How It Works</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; max-width: 1000px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--theme-text-primary); margin-bottom: 1rem;">How It Works</h2>
+            <p style="font-size: 1.1rem; color: var(--theme-text-secondary);">Get started in minutes, not hours</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; max-width: 1100px; margin: 0 auto;">
             <div style="text-align: center;">
-                <div style="width: 60px; height: 60px; background: #FF6B35; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 1rem;">1</div>
-                <h3 style="margin-bottom: 0.5rem;">Sign Up Free</h3>
-                <p style="color: #666;">Create your account in 30 seconds. No credit card needed.</p>
+                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; margin: 0 auto 1.5rem; box-shadow: 0 4px 12px rgba(255,107,53,0.3);">1</div>
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 0.75rem;">Sign Up Free</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.6;">Create your account in 30 seconds. No credit card needed.</p>
             </div>
             <div style="text-align: center;">
-                <div style="width: 60px; height: 60px; background: #FF6B35; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 1rem;">2</div>
-                <h3 style="margin-bottom: 0.5rem;">Add Your Clients</h3>
-                <p style="color: #666;">Import existing clients or invite new ones to join.</p>
+                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #1AE5BE, #00C9A7); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; margin: 0 auto 1.5rem; box-shadow: 0 4px 12px rgba(26,229,190,0.3);">2</div>
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 0.75rem;">Add Your Clients</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.6;">Import existing clients or invite new ones to join.</p>
             </div>
             <div style="text-align: center;">
-                <div style="width: 60px; height: 60px; background: #FF6B35; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 1rem;">3</div>
-                <h3 style="margin-bottom: 0.5rem;">Create Programs</h3>
-                <p style="color: #666;">Build custom workout plans from our exercise library.</p>
+                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #004E89, #1A7FB8); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; margin: 0 auto 1.5rem; box-shadow: 0 4px 12px rgba(0,78,137,0.3);">3</div>
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 0.75rem;">Create Programs</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.6;">Build custom workout plans from our exercise library.</p>
             </div>
             <div style="text-align: center;">
-                <div style="width: 60px; height: 60px; background: #FF6B35; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 1rem;">4</div>
-                <h3 style="margin-bottom: 0.5rem;">Track Progress</h3>
-                <p style="color: #666;">Monitor results and keep your clients motivated.</p>
+                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #1A1A2E, #16213E); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; margin: 0 auto 1.5rem; box-shadow: 0 4px 12px rgba(26,26,46,0.3);">4</div>
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 0.75rem;">Track Progress</h3>
+                <p style="color: var(--theme-text-secondary); line-height: 1.6;">Monitor results and keep your clients motivated.</p>
             </div>
         </div>
     </div>
 </div>
 
-<div id="pricing" style="padding: 4rem 0; background: #f8f9fa;">
-    <div class="container" style="max-width: 900px;">
-        <h2 class="section-title" style="text-align: center; margin-bottom: 3rem;">Pricing Plans</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+<div id="pricing" style="padding: 5rem 0; background: var(--theme-bg-primary);">
+    <div class="container" style="max-width: 1100px;">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--theme-text-primary); margin-bottom: 1rem;">Pricing Plans</h2>
+            <p style="font-size: 1.1rem; color: var(--theme-text-secondary);">Choose the plan that fits your business</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem;">
             <!-- Free Plan -->
-            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Free</h3>
-                <div style="font-size: 2.5rem; font-weight: 800; color: #FF6B35; margin-bottom: 1rem;">$0<span style="font-size: 1rem; font-weight: 400; color: #666;">/month</span></div>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Up to 10 clients</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Program builder</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Progress tracking</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Basic support</li>
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); display: flex; flex-direction: column;">
+                <h3 style="font-size: 1.8rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Free</h3>
+                <div style="margin-bottom: 2rem;">
+                    <span style="font-size: 3rem; font-weight: 800; color: #FF6B35;">$0</span>
+                    <span style="font-size: 1.1rem; color: var(--theme-text-secondary);">/month</span>
+                </div>
+                <ul style="list-style: none; padding: 0; margin: 0 0 2.5rem 0; flex-grow: 1;">
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Up to 10 clients
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Program builder
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Progress tracking
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Basic support
+                    </li>
                 </ul>
-                <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="width: 100%; text-align: center;">Get Started</a>
+                <a href="{{ url_for('auth.register') }}" style="display: block; width: 100%; text-align: center; padding: 0.875rem; background: var(--theme-bg-tertiary); color: var(--theme-text-primary); border: 2px solid var(--theme-border-medium); border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='#FF6B35'; this.style.color='white'; this.style.borderColor='#FF6B35'" onmouseout="this.style.background='var(--theme-bg-tertiary)'; this.style.color='var(--theme-text-primary)'; this.style.borderColor='var(--theme-border-medium)'">Get Started</a>
             </div>
             
             <!-- Pro Plan -->
-            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(255,107,53,0.2); border: 2px solid #FF6B35; position: relative;">
-                <div style="position: absolute; top: -12px; right: 20px; background: #FF6B35; color: white; padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">POPULAR</div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Professional</h3>
-                <div style="font-size: 2.5rem; font-weight: 800; color: #FF6B35; margin-bottom: 1rem;">$49<span style="font-size: 1rem; font-weight: 400; color: #666;">/month</span></div>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Up to 50 clients</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Everything in Free</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Online booking</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Nutrition plans</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Priority support</li>
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(255,107,53,0.2); border: 2px solid #FF6B35; position: relative; display: flex; flex-direction: column; transform: scale(1.05);">
+                <div style="position: absolute; top: -14px; right: 24px; background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; padding: 0.4rem 1.2rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(255,107,53,0.4);">POPULAR</div>
+                <h3 style="font-size: 1.8rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Professional</h3>
+                <div style="margin-bottom: 2rem;">
+                    <span style="font-size: 3rem; font-weight: 800; color: #FF6B35;">$49</span>
+                    <span style="font-size: 1.1rem; color: var(--theme-text-secondary);">/month</span>
+                </div>
+                <ul style="list-style: none; padding: 0; margin: 0 0 2.5rem 0; flex-grow: 1;">
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Up to 50 clients
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Everything in Free
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Online booking
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Nutrition plans
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Priority support
+                    </li>
                 </ul>
-                <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="width: 100%; text-align: center; background: #FF6B35;">Start Free Trial</a>
+                <a href="{{ url_for('auth.register') }}" style="display: block; width: 100%; text-align: center; padding: 0.875rem; background: #FF6B35; color: white; border: 2px solid #FF6B35; border-radius: 8px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(255,107,53,0.3); transition: all 0.3s ease;" onmouseover="this.style.background='#e55a2b'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(255,107,53,0.4)'" onmouseout="this.style.background='#FF6B35'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255,107,53,0.3)'">Start Free Trial</a>
             </div>
             
             <!-- Enterprise Plan -->
-            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Enterprise</h3>
-                <div style="font-size: 2.5rem; font-weight: 800; color: #FF6B35; margin-bottom: 1rem;">$99<span style="font-size: 1rem; font-weight: 400; color: #666;">/month</span></div>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Unlimited clients</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Everything in Pro</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Multiple trainers</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Custom branding</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">✓ Dedicated support</li>
+            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); display: flex; flex-direction: column;">
+                <h3 style="font-size: 1.8rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Enterprise</h3>
+                <div style="margin-bottom: 2rem;">
+                    <span style="font-size: 3rem; font-weight: 800; color: #FF6B35;">$99</span>
+                    <span style="font-size: 1.1rem; color: var(--theme-text-secondary);">/month</span>
+                </div>
+                <ul style="list-style: none; padding: 0; margin: 0 0 2.5rem 0; flex-grow: 1;">
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Unlimited clients
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Everything in Pro
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Multiple trainers
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Custom branding
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--theme-border-light); color: var(--theme-text-secondary); display: flex; align-items: center;">
+                        <span style="color: #10B981; margin-right: 0.5rem; font-weight: bold;">✓</span> Dedicated support
+                    </li>
                 </ul>
-                <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="width: 100%; text-align: center;">Get Started</a>
+                <a href="{{ url_for('auth.register') }}" style="display: block; width: 100%; text-align: center; padding: 0.875rem; background: var(--theme-bg-tertiary); color: var(--theme-text-primary); border: 2px solid var(--theme-border-medium); border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='#FF6B35'; this.style.color='white'; this.style.borderColor='#FF6B35'" onmouseout="this.style.background='var(--theme-bg-tertiary)'; this.style.color='var(--theme-text-primary)'; this.style.borderColor='var(--theme-border-medium)'">Get Started</a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="cta-section" style="background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); padding: 4rem 0; text-align: center; color: white;">
+<div style="padding: 5rem 0; background: linear-gradient(135deg, #1A1A2E 0%, #004E89 100%); text-align: center; color: white;">
     <div class="container">
-        <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: white;">Ready to Grow Your Fitness Business?</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95;">Join thousands of successful trainers using MectoFitness CRM</p>
-        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-large" 
-           style="background: white; color: #FF6B35; padding: 1rem 2.5rem; font-size: 1.2rem; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,0.2); border: none;">
-            Start Your Free Trial →
-        </a>
-        <p style="margin-top: 1rem; font-size: 0.95rem; opacity: 0.9;">No credit card required • 14-day free trial</p>
+        <h2 style="font-size: 2.8rem; font-weight: 800; margin-bottom: 1.5rem; color: white;">Ready to Transform Your Fitness Business?</h2>
+        <p style="font-size: 1.3rem; margin-bottom: 3rem; opacity: 0.95; max-width: 700px; margin-left: auto; margin-right: auto;">Join thousands of successful trainers using MectoFitness CRM to grow their business and impact more lives.</p>
+        <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+            <a href="{{ url_for('auth.register') }}" 
+               style="background: #FF6B35; color: white; padding: 1.2rem 3rem; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 20px rgba(255,107,53,0.4); border: none; border-radius: 8px; text-decoration: none; transition: all 0.3s ease;"
+               onmouseover="this.style.background='#e55a2b'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 24px rgba(255,107,53,0.5)'"
+               onmouseout="this.style.background='#FF6B35'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(255,107,53,0.4)'">
+                Start Your Free Trial →
+            </a>
+            <a href="{{ url_for('auth.login') }}" 
+               style="background: rgba(255, 255, 255, 0.15); color: white; padding: 1.2rem 3rem; font-size: 1.2rem; font-weight: 600; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255, 255, 255, 0.8); transition: all 0.3s ease; backdrop-filter: blur(10px);"
+               onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='white'"
+               onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.8)'">
+                Sign In
+            </a>
+        </div>
+        <p style="font-size: 1rem; opacity: 0.9;">No credit card required • 14-day free trial • Cancel anytime</p>
     </div>
 </div>
 {% endblock %}
