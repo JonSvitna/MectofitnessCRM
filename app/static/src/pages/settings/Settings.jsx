@@ -19,7 +19,9 @@ export default function Settings() {
 
   // Profile state
   const [profile, setProfile] = useState({
-    name: '',
+    first_name: '',
+    last_name: '',
+    phone: '',
     email: '',
   });
 
@@ -57,7 +59,9 @@ export default function Settings() {
       ]);
 
       setProfile({
-        name: profileRes.data.data.name || '',
+        first_name: profileRes.data.data.first_name || '',
+        last_name: profileRes.data.data.last_name || '',
+        phone: profileRes.data.data.phone || '',
         email: profileRes.data.data.email || '',
       });
 
@@ -206,16 +210,29 @@ export default function Settings() {
                 <div>
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">Profile Information</h2>
                   <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        value={profile.name}
-                        onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                      />
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          First Name
+                        </label>
+                        <input
+                          type="text"
+                          value={profile.first_name}
+                          onChange={(e) => setProfile({ ...profile, first_name: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Last Name
+                        </label>
+                        <input
+                          type="text"
+                          value={profile.last_name}
+                          onChange={(e) => setProfile({ ...profile, last_name: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        />
+                      </div>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -225,6 +242,17 @@ export default function Settings() {
                         type="email"
                         value={profile.email}
                         onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        value={profile.phone}
+                        onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       />
                     </div>

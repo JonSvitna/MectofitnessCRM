@@ -32,7 +32,10 @@ def get_profile():
             'id': current_user.id,
             'username': current_user.username,
             'email': current_user.email,
-            'name': current_user.name,
+            'first_name': current_user.first_name,
+            'last_name': current_user.last_name,
+            'full_name': current_user.full_name if hasattr(current_user, 'full_name') else None,
+            'phone': current_user.phone if hasattr(current_user, 'phone') else None,
             'role': current_user.role,
             'organization_id': current_user.organization_id,
             'created_at': current_user.created_at.isoformat() if current_user.created_at else None,
@@ -54,8 +57,14 @@ def update_profile():
             return error_response('No data provided', 400)
         
         # Update allowed fields
-        if 'name' in data:
-            current_user.name = data['name']
+        if 'first_name' in data:
+            current_user.first_name = data['first_name']
+        
+        if 'last_name' in data:
+            current_user.last_name = data['last_name']
+        
+        if 'phone' in data:
+            current_user.phone = data['phone']
         
         if 'email' in data:
             # Check if email is already taken by another user
@@ -73,7 +82,9 @@ def update_profile():
             'id': current_user.id,
             'username': current_user.username,
             'email': current_user.email,
-            'name': current_user.name,
+            'first_name': current_user.first_name,
+            'last_name': current_user.last_name,
+            'phone': current_user.phone,
             'role': current_user.role
         }
         
@@ -101,7 +112,7 @@ def change_password():
             return error_response('Current password and new password are required', 400)
         
         # Verify current password
-        if not check_password_hash(current_user.password, current_password):
+        if not check_password_hash(current_user.password_hash, current_password):
             return error_response('Current password is incorrect', 401)
         
         # Validate new password strength
@@ -109,7 +120,7 @@ def change_password():
             return error_response('New password must be at least 8 characters long', 400)
         
         # Update password
-        current_user.password = generate_password_hash(new_password)
+        current_user.password_hash = generate_password_hash(new_password)
         db.session.commit()
         
         return success_response(message='Password changed successfully')
