@@ -30,6 +30,49 @@
             {% endwith %}
             
             <form method="POST" style="display: flex; flex-direction: column; gap: var(--space-8);">
+                <!-- Theme Preference -->
+                <div>
+                    <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-4); color: var(--text-primary);">Theme Preference</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-6); font-size: var(--text-base);">
+                        Choose your preferred theme for the platform. You can also toggle between light and dark mode using the theme button in the bottom right corner.
+                    </p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-4);">
+                        <!-- Light Theme -->
+                        <label style="position: relative; cursor: pointer;">
+                            <input type="radio" name="theme_preference" value="light" {% if not settings.theme_preference or settings.theme_preference == 'light' %}checked{% endif %}
+                                   style="position: absolute; opacity: 0; pointer-events: none;">
+                            <div class="theme-option" data-theme="light" style="padding: var(--space-4); border: 2px solid var(--border-light); border-radius: var(--radius-lg); text-align: center; transition: all 0.2s;">
+                                <div style="font-size: 2rem; margin-bottom: var(--space-2);">☀️</div>
+                                <div style="font-weight: var(--font-semibold); margin-bottom: var(--space-1);">Light</div>
+                                <div style="font-size: var(--text-sm); color: var(--text-secondary);">Bright and clear</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Dark Theme -->
+                        <label style="position: relative; cursor: pointer;">
+                            <input type="radio" name="theme_preference" value="dark" {% if settings.theme_preference == 'dark' %}checked{% endif %}
+                                   style="position: absolute; opacity: 0; pointer-events: none;">
+                            <div class="theme-option" data-theme="dark" style="padding: var(--space-4); border: 2px solid var(--border-light); border-radius: var(--radius-lg); text-align: center; transition: all 0.2s;">
+                                <div style="font-size: 2rem; margin-bottom: var(--space-2);">🌙</div>
+                                <div style="font-weight: var(--font-semibold); margin-bottom: var(--space-1);">Dark</div>
+                                <div style="font-size: var(--text-sm); color: var(--text-secondary);">Easy on the eyes</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Auto Theme -->
+                        <label style="position: relative; cursor: pointer;">
+                            <input type="radio" name="theme_preference" value="auto" {% if settings.theme_preference == 'auto' %}checked{% endif %}
+                                   style="position: absolute; opacity: 0; pointer-events: none;">
+                            <div class="theme-option" data-theme="auto" style="padding: var(--space-4); border: 2px solid var(--border-light); border-radius: var(--radius-lg); text-align: center; transition: all 0.2s;">
+                                <div style="font-size: 2rem; margin-bottom: var(--space-2);">🌓</div>
+                                <div style="font-weight: var(--font-semibold); margin-bottom: var(--space-1);">Auto</div>
+                                <div style="font-size: var(--text-sm); color: var(--text-secondary);">Match system</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
                 <!-- Brand Colors -->
                 <div>
                     <h2 style="font-size: var(--text-xl); font-weight: var(--font-semibold); margin-bottom: var(--space-4); color: var(--text-primary);">Brand Colors</h2>
@@ -136,6 +179,23 @@ document.getElementById('primary_color').addEventListener('input', function(e) {
 });
 document.getElementById('secondary_color').addEventListener('input', function(e) {
     this.nextElementSibling.value = e.target.value;
+});
+
+// Highlight selected theme option
+document.querySelectorAll('input[name="theme_preference"]').forEach(radio => {
+    const updateThemeSelection = () => {
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.style.borderColor = 'var(--border-light)';
+            option.style.background = 'transparent';
+        });
+        
+        const selectedOption = document.querySelector('input[name="theme_preference"]:checked').parentElement.querySelector('.theme-option');
+        selectedOption.style.borderColor = 'var(--brand-primary)';
+        selectedOption.style.background = 'rgba(255, 107, 53, 0.05)';
+    };
+    
+    radio.addEventListener('change', updateThemeSelection);
+    updateThemeSelection();
 });
 </script>
 {% endblock %}

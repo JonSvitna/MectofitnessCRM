@@ -51,6 +51,9 @@ class TrainerSettings(db.Model):
     primary_color = db.Column(db.String(7), default='#2ECC71')
     secondary_color = db.Column(db.String(7), default='#27AE60')
     
+    # Theme Preference
+    theme_preference = db.Column(db.String(10), default='light')  # 'light', 'dark', or 'auto'
+    
     # Timestamps
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
