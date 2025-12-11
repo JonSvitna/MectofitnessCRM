@@ -124,7 +124,7 @@ export default function Nutrition() {
         {plans.length === 0 ? (
           <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
             <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-              <DocumentTextIcon className="h-8 w-8 text-gray-400" />
+              <DocumentTextIcon className="h-8 w-8 text-gray-600" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No nutrition plans yet</h3>
             <p className="text-gray-600 mb-6">

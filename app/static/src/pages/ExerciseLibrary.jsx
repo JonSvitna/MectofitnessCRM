@@ -143,7 +143,7 @@ export default function ExerciseLibrary() {
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <form onSubmit={handleSearch} className="flex gap-4 mb-4">
               <div className="flex-1 relative">
-                <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
                 <input
                   type="text"
                   value={search}
@@ -263,7 +263,7 @@ export default function ExerciseLibrary() {
         {filteredExercises.length === 0 ? (
           <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
             <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-              <MagnifyingGlassIcon className="h-8 w-8 text-gray-400" />
+              <MagnifyingGlassIcon className="h-8 w-8 text-gray-600" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No exercises found</h3>
             <p className="text-gray-600 mb-6">
@@ -309,7 +309,7 @@ export default function ExerciseLibrary() {
                 <div className="space-y-2">
                   {exercise.category && (
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-medium text-gray-500">Category:</span>
+                      <span className="text-xs font-medium text-gray-600">Category:</span>
                       <span className="px-2 py-1 bg-primary-50 text-primary-700 text-xs font-medium rounded">
                         {exercise.category.name || exercise.category}
                       </span>
@@ -318,7 +318,7 @@ export default function ExerciseLibrary() {
                   
                   {exercise.muscle_group && (
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-medium text-gray-500">Muscle:</span>
+                      <span className="text-xs font-medium text-gray-600">Muscle:</span>
                       <span className="px-2 py-1 bg-accent-50 text-accent-700 text-xs font-medium rounded">
                         {exercise.muscle_group}
                       </span>
@@ -327,7 +327,7 @@ export default function ExerciseLibrary() {
                   
                   {exercise.equipment && (
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-medium text-gray-500">Equipment:</span>
+                      <span className="text-xs font-medium text-gray-600">Equipment:</span>
                       <span className="px-2 py-1 bg-gray-50 text-gray-700 text-xs font-medium rounded">
                         {exercise.equipment}
                       </span>

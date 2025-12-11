@@ -5,7 +5,7 @@
 {% block extra_css %}
 <style>
     body {
-        background: var(--theme-bg-secondary);
+        background: linear-gradient(to bottom right, #F8FAFC, #E0F2FE);
     }
     
     .login-container {
@@ -28,7 +28,10 @@
     }
     
     .login-title {
-        color: #FF6B35;
+        background: linear-gradient(to right, #FF6B35, #1AE5BE);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 0.75rem;
         font-size: 2.2rem;
         font-weight: 800;
@@ -64,8 +67,8 @@
     
     .form-input:focus {
         outline: none;
-        border-color: #FF6B35;
-        box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        border-color: #1AE5BE;
+        box-shadow: 0 0 0 3px rgba(26, 229, 190, 0.1);
     }
     
     .form-row {
@@ -89,14 +92,14 @@
     
     .forgot-link {
         font-size: 0.9rem;
-        color: #FF6B35;
+        color: #1AE5BE;
         text-decoration: none;
         font-weight: 600;
         transition: color 0.3s ease;
     }
     
     .forgot-link:hover {
-        color: #e55a2b;
+        color: #03B8B1;
     }
     
     .login-button {
@@ -104,19 +107,19 @@
         padding: 1rem;
         font-size: 1.05rem;
         font-weight: 700;
-        background: #FF6B35;
+        background: linear-gradient(to right, #FF6B35, #1AE5BE);
         color: white;
         border: none;
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        box-shadow: 0 4px 12px rgba(26, 229, 190, 0.3);
     }
     
     .login-button:hover {
-        background: #e55a2b;
+        background: linear-gradient(to right, #e55a2b, #03B8B1);
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+        box-shadow: 0 6px 16px rgba(26, 229, 190, 0.4);
     }
     
     .divider {
@@ -132,14 +135,14 @@
     }
     
     .signup-link {
-        color: #FF6B35;
+        color: #1AE5BE;
         font-weight: 700;
         text-decoration: none;
         transition: color 0.3s ease;
     }
     
     .signup-link:hover {
-        color: #e55a2b;
+        color: #03B8B1;
     }
     
     .back-link {

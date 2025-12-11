@@ -88,7 +88,7 @@ export default function Dashboard() {
       <div className="h-full bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin h-12 w-12 border-4 border-primary-200 border-t-primary-600 rounded-full mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
+          <p className="text-gray-700">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -103,7 +103,7 @@ export default function Dashboard() {
             <BoltIcon className="h-8 w-8 text-danger-600" />
           </div>
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Unable to Load Dashboard</h2>
-          <p className="text-gray-600 mb-6">{error}</p>
+          <p className="text-gray-700 mb-6">{error}</p>
           <button
             onClick={loadDashboardData}
             className="inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors"
@@ -124,7 +124,7 @@ export default function Dashboard() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             {getGreeting()}, {user?.first_name || 'Trainer'}
           </h1>
-          <p className="text-gray-600">Here's what's happening with your clients today</p>
+          <p className="text-gray-700">Here's what's happening with your clients today</p>
         </div>
 
         {/* Quick Actions Bar */}
@@ -165,8 +165,8 @@ export default function Dashboard() {
             <div className="text-3xl font-bold text-gray-900 mb-1">
               {overview?.total_clients || 0}
             </div>
-            <div className="text-sm text-gray-600 mb-3">Active Clients</div>
-            <div className="flex items-center text-sm text-gray-500">
+            <div className="text-sm text-gray-700 mb-3">Active Clients</div>
+            <div className="flex items-center text-sm text-gray-600">
               <ArrowTrendingUpIcon className="h-4 w-4 text-success-600 mr-1" />
               <span className="text-success-600 font-medium">
                 {overview?.active_clients || 0}
@@ -185,9 +185,9 @@ export default function Dashboard() {
             <div className="text-3xl font-bold text-gray-900 mb-1">
               {overview?.sessions_today || 0}
             </div>
-            <div className="text-sm text-gray-600 mb-3">Today's Sessions</div>
-            <div className="flex items-center text-sm text-gray-500">
-              <CalendarIcon className="h-4 w-4 text-gray-400 mr-1" />
+            <div className="text-sm text-gray-700 mb-3">Today's Sessions</div>
+            <div className="flex items-center text-sm text-gray-600">
+              <CalendarIcon className="h-4 w-4 text-gray-600 mr-1" />
               <span>{overview?.sessions_upcoming || 0} upcoming</span>
             </div>
           </div>
@@ -202,7 +202,7 @@ export default function Dashboard() {
             <div className="text-3xl font-bold text-gray-900 mb-1">
               {overview?.active_programs || 0}
             </div>
-            <div className="text-sm text-gray-600 mb-3">Active Programs</div>
+            <div className="text-sm text-gray-700 mb-3">Active Programs</div>
             <Link to="/programs" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
               View all →
             </Link>
@@ -218,8 +218,8 @@ export default function Dashboard() {
             <div className="text-3xl font-bold text-gray-900 mb-1">
               {formatCurrency(overview?.revenue_this_month)}
             </div>
-            <div className="text-sm text-gray-600 mb-3">This Month</div>
-            <div className="flex items-center text-sm text-gray-500">
+            <div className="text-sm text-gray-700 mb-3">This Month</div>
+            <div className="flex items-center text-sm text-gray-600">
               <span className={`font-medium ${
                 overview?.revenue_change >= 0 ? 'text-success-600' : 'text-danger-600'
               }`}>
@@ -250,9 +250,9 @@ export default function Dashboard() {
                 {upcomingSessions.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-                      <CalendarIcon className="h-8 w-8 text-gray-400" />
+                      <CalendarIcon className="h-8 w-8 text-gray-600" />
                     </div>
-                    <p className="text-gray-600 mb-4">No upcoming sessions scheduled</p>
+                    <p className="text-gray-700 mb-4">No upcoming sessions scheduled</p>
                     <Link
                       to="/sessions?action=add"
                       className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium"
@@ -277,7 +277,7 @@ export default function Dashboard() {
                             <div className="font-medium text-gray-900">
                               {session.title || 'Training Session'}
                             </div>
-                            <div className="text-sm text-gray-600 mt-0.5">
+                            <div className="text-sm text-gray-700 mt-0.5">
                               {session.client_name || 'Client'}
                             </div>
                           </div>
@@ -289,7 +289,7 @@ export default function Dashboard() {
                               day: 'numeric'
                             })}
                           </div>
-                          <div className="text-sm text-gray-600 mt-0.5">
+                          <div className="text-sm text-gray-700 mt-0.5">
                             {new Date(session.scheduled_start).toLocaleTimeString('en-US', {
                               hour: 'numeric',
                               minute: '2-digit'
@@ -314,7 +314,7 @@ export default function Dashboard() {
                   {/* Session Completion Rate */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Completion Rate</span>
+                      <span className="text-sm font-medium text-gray-800">Completion Rate</span>
                       <span className="text-sm font-bold text-success-600">
                         {overview?.completion_rate || 0}%
                       </span>
@@ -330,7 +330,7 @@ export default function Dashboard() {
                   {/* Client Retention */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Client Retention</span>
+                      <span className="text-sm font-medium text-gray-800">Client Retention</span>
                       <span className="text-sm font-bold text-primary-600">
                         {overview?.retention_rate || 0}%
                       </span>
@@ -345,7 +345,7 @@ export default function Dashboard() {
 
                   {/* Average Sessions per Client */}
                   <div>
-                    <div className="text-sm text-gray-600">Avg Sessions/Client</div>
+                    <div className="text-sm text-gray-700">Avg Sessions/Client</div>
                     <div className="text-2xl font-bold text-gray-900 mt-1">
                       {overview?.avg_sessions_per_client?.toFixed(1) || '0.0'}
                     </div>
@@ -353,7 +353,7 @@ export default function Dashboard() {
 
                   {/* Total Revenue */}
                   <div>
-                    <div className="text-sm text-gray-600">Total Revenue</div>
+                    <div className="text-sm text-gray-700">Total Revenue</div>
                     <div className="text-2xl font-bold text-gray-900 mt-1">
                       {formatCurrency(overview?.total_revenue)}
                     </div>
@@ -374,9 +374,9 @@ export default function Dashboard() {
                 {activities.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-                      <ChartBarIcon className="h-8 w-8 text-gray-400" />
+                      <ChartBarIcon className="h-8 w-8 text-gray-600" />
                     </div>
-                    <p className="text-gray-600">No recent activity</p>
+                    <p className="text-gray-700">No recent activity</p>
                   </div>
                 ) : (
                   <div className="space-y-5">
@@ -392,9 +392,9 @@ export default function Dashboard() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm text-gray-900">
-                              <span className="text-gray-600">{activity.description}</span>
+                              <span className="text-gray-700">{activity.description}</span>
                             </p>
-                            <p className="text-xs text-gray-500 mt-1">{timeAgo}</p>
+                            <p className="text-xs text-gray-600 mt-1">{timeAgo}</p>
                           </div>
                         </>
                       );

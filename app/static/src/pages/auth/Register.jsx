@@ -8,10 +8,10 @@ export default function Register() {
           <h2 className="text-5xl font-bold bg-gradient-to-r from-primary-600 to-teal-500 bg-clip-text text-transparent mb-3">
             MectoFitness
           </h2>
-          <p className="text-lg text-gray-600 font-medium">
+          <p className="text-lg text-gray-700 font-medium">
             Start your journey
           </p>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-600">
             Create your account to get started
           </p>
         </div>
@@ -23,7 +23,7 @@ export default function Register() {
               </svg>
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Registration Coming Soon</h3>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-gray-700 mb-6">
               We're working hard to bring you an amazing registration experience.
             </p>
           </div>
@@ -37,7 +37,7 @@ export default function Register() {
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200">
-            <p className="text-center text-sm text-gray-600">
+            <p className="text-center text-sm text-gray-700">
               Already have an account?{' '}
               <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-700 transition-colors">
                 Sign in
@@ -46,7 +46,7 @@ export default function Register() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-500">
+        <p className="text-center text-xs text-gray-600">
           © 2025 MectoFitness. All rights reserved.
         </p>
       </div>

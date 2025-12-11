@@ -17,8 +17,8 @@ bp = Blueprint('main', __name__)
 @bp.route('/')
 def index():
     """Landing page."""
-    if current_user.is_authenticated:
-        return redirect(url_for('main.dashboard'))
+    # Allow authenticated users to view the homepage (e.g., for pricing section)
+    # They can still navigate to dashboard via the navbar
     return render_template('index.html')
 
 
