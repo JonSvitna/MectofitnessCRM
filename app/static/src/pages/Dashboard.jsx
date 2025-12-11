@@ -365,23 +365,63 @@ export default function Dashboard() {
                   </div>
                 ) : (
                   <div className="space-y-5">
-                    {activities.map((activity, idx) => (
-                      <div key={idx} className="flex items-start gap-3">
-                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-400 to-purple-400 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm">
-                          {activity.client_initials || activity.user_initials || 'U'}
+                    {activities.map((activity, idx) => {
+                      // Determine the route based on activity type
+                      let route = null;
+                      if (activity.type === 'new_client' && activity.client_id) {
+                        route = `/clients/${activity.client_id}`;
+                      } else if (activity.type === 'session' && activity.client_id) {
+                        // Route to sessions list filtered by client
+                        route = `/sessions?client=${activity.client_id}`;
+                      } else if (activity.type === 'payment' && activity.client_id) {
+                        // Route to payments list filtered by client
+                        route = `/payments?client=${activity.client_id}`;
+                      }
+
+                      // Format timestamp for display
+                      const timeAgo = activity.time_ago || (() => {
+                        const timestamp = new Date(activity.timestamp);
+                        const now = new Date();
+                        const diffMs = now - timestamp;
+                        const diffMins = Math.floor(diffMs / 60000);
+                        const diffHours = Math.floor(diffMins / 60);
+                        const diffDays = Math.floor(diffHours / 24);
+                        
+                        if (diffMins < 1) return 'Just now';
+                        if (diffMins < 60) return `${diffMins}m ago`;
+                        if (diffHours < 24) return `${diffHours}h ago`;
+                        return `${diffDays}d ago`;
+                      })();
+
+                      const content = (
+                        <>
+                          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-400 to-purple-400 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm">
+                            {activity.client_initials || activity.user_initials || 'U'}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm text-gray-900">
+                              <span className="text-gray-600">{activity.description}</span>
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">{timeAgo}</p>
+                          </div>
+                        </>
+                      );
+
+                      // If we have a route, make it a Link, otherwise just a div
+                      return route ? (
+                        <Link
+                          key={idx}
+                          to={route}
+                          className="flex items-start gap-3 p-2 -mx-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                        >
+                          {content}
+                        </Link>
+                      ) : (
+                        <div key={idx} className="flex items-start gap-3">
+                          {content}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm text-gray-900">
-                            <span className="font-semibold">
-                              {activity.client_name || activity.user_name || 'User'}
-                            </span>
-                            {' '}
-                            <span className="text-gray-600">{activity.description}</span>
-                          </p>
-                          <p className="text-xs text-gray-500 mt-1">{activity.time_ago}</p>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>

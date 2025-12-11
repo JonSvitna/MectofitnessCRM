@@ -132,6 +132,7 @@ def get_recent_activity():
                 'type': 'session',
                 'timestamp': session.session_date.isoformat(),
                 'description': f'Session: {session.session_type} - {session.status}',
+                'session_id': session.id,
                 'client_id': session.client_id,
                 'status': session.status
             })
@@ -146,6 +147,7 @@ def get_recent_activity():
                 'type': 'payment',
                 'timestamp': payment.payment_date.isoformat(),
                 'description': f'Payment received: ${payment.amount}',
+                'payment_id': payment.id,
                 'client_id': payment.client_id,
                 'amount': float(payment.amount)
             })
