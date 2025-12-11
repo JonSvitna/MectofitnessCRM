@@ -189,9 +189,12 @@ document.querySelectorAll('input[name="theme_preference"]').forEach(radio => {
             option.style.background = 'transparent';
         });
         
-        const selectedOption = document.querySelector('input[name="theme_preference"]:checked').parentElement.querySelector('.theme-option');
-        selectedOption.style.borderColor = 'var(--brand-primary)';
-        selectedOption.style.background = 'rgba(255, 107, 53, 0.05)';
+        const selectedRadio = document.querySelector('input[name="theme_preference"]:checked');
+        if (selectedRadio) {
+            const selectedOption = selectedRadio.parentElement.querySelector('.theme-option');
+            selectedOption.style.borderColor = 'var(--brand-primary)';
+            selectedOption.style.background = 'rgba(255, 107, 53, 0.05)';
+        }
     };
     
     radio.addEventListener('change', updateThemeSelection);

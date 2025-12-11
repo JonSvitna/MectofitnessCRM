@@ -100,7 +100,7 @@ class ThemeManager {
         
         mediaQuery.addEventListener('change', (e) => {
             // Only auto-switch if user hasn't manually set a preference
-            const hasManualPreference = localStorage.getItem('mecto-theme');
+            const hasManualPreference = localStorage.getItem('mecto-theme') !== null;
             if (!hasManualPreference) {
                 const newTheme = e.matches ? 'dark' : 'light';
                 this.applyTheme(newTheme, true);
