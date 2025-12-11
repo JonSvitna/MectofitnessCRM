@@ -63,7 +63,7 @@ MectoFitness CRM is a comprehensive management system designed specifically for 
 7. **Access the application**
    Open your browser and navigate to `http://localhost:5000`
 
-> **Note**: For PostgreSQL setup, see [POSTGRESQL_SETUP.md](POSTGRESQL_SETUP.md). For troubleshooting, see [QUICKSTART.md](QUICKSTART.md).
+> **📖 Documentation**: See the [Complete Manual](docs/) for detailed setup, deployment, features, and API documentation.
 
 ### Optional: React Frontend
 
@@ -81,7 +81,18 @@ npm run build
 # Access React interface at /app after logging in
 ```
 
-See [ROUTING_ARCHITECTURE.md](ROUTING_ARCHITECTURE.md) for details on the dual routing system.
+See [Frontend Setup Guide](docs/01-getting-started/frontend-setup.md) for details.
+
+## 📖 Documentation
+
+**[Complete Manual](docs/)** - Comprehensive documentation including:
+
+- **[Getting Started](docs/01-getting-started/)** - Installation, quickstart, database & frontend setup
+- **[Deployment](docs/02-deployment/)** - Deploy to Render, Railway, Vercel, or split stack
+- **[Features & Usage](docs/03-features/)** - All features, RBAC, AI programs, roadmap
+- **[API Reference](docs/04-api/)** - Complete REST API documentation
+- **[Architecture](docs/05-architecture/)** - Technical architecture and design
+- **[UI & Theme](docs/06-ui-theme/)** - Theme system and customization
 
 ## 📖 Usage
 
@@ -93,6 +104,8 @@ See [ROUTING_ARCHITECTURE.md](ROUTING_ARCHITECTURE.md) for details on the dual r
 4. **Create Programs**: Build custom training programs with exercises
 5. **Set Up Calendar Sync**: Connect Google Calendar or Outlook for automatic session syncing
 
+For detailed usage information, see the [Features Guide](docs/03-features/).
+
 ### API Integration
 
 The application provides RESTful API endpoints for integration with gym platforms:
@@ -102,71 +115,25 @@ The application provides RESTful API endpoints for integration with gym platform
 - `GET /api/v1/programs` - List training programs
 - `POST /api/v1/webhook/gym-platform` - Webhook for gym platform events
 
-API authentication is handled through Flask-Login sessions.
+See the complete [API Documentation](docs/04-api/) for details.
 
-## 🎨 Design & SEO
+## 🎨 Design
 
 ### Color Scheme
-- **Primary Green**: `#2ECC71` - Main brand color
-- **Dark Green**: `#27AE60` - Hover states and accents
-- **Black**: `#1C1C1C` - Text and headers
-- **White**: `#FFFFFF` - Backgrounds and contrast
+- **Primary**: Teal blue (#367588)
+- **Accent**: Yellow/orange (#FFC107, #FF9500)
+- **Professional**: Clean, modern fitness aesthetic
 
-### SEO Optimization
-The application is optimized for fitness industry keywords:
-- Personal trainer software
-- Fitness CRM
-- Gym management
-- Client tracking
-- Workout programs
-- Trainer scheduling
-- Fitness coaching
+See [Theme Documentation](docs/06-ui-theme/) for customization.
 
-## 🤖 AI Training Program Generation
+## 🚀 Deployment
 
-The application includes a framework for AI-powered training program generation. To implement:
+Ready for production? Deploy to:
+- **Render** (recommended for full features)
+- **Railway** (modern with internal networking)
+- **Vercel** (frontend only)
 
-1. **Prepare Your Knowledge Base**: Add your training expertise and program templates
-2. **Train the Model**: Use scikit-learn to train on your knowledge base
-3. **Integrate**: The AI model will generate personalized programs based on client goals and fitness level
-
-Example model training structure is included in the codebase.
-
-## 📅 Calendar Integration
-
-### Google Calendar Setup
-
-1. Create a Google Cloud Project
-2. Enable Google Calendar API
-3. Create OAuth 2.0 credentials
-4. Download credentials JSON and place in `credentials/google_credentials.json`
-5. Add credentials to `.env` file
-
-### Outlook Calendar Setup
-
-1. Register app in Azure Portal
-2. Configure Microsoft Graph API permissions
-3. Add Client ID and Secret to `.env` file
-
-## 🗄️ Database Schema
-
-The application uses SQLite with the following main tables:
-
-- **users**: Personal trainers/coaches
-- **clients**: Training clients
-- **sessions**: Training sessions
-- **programs**: Training programs
-- **exercises**: Individual exercises in programs
-- **calendar_integrations**: Calendar sync settings
-
-## 🔧 Configuration
-
-Edit `config.py` to customize:
-- Database connection
-- Secret keys
-- Session settings
-- API credentials
-- Upload limits
+See the [Deployment Guide](docs/02-deployment/) for complete instructions.
 
 ## 🧪 Development
 
@@ -176,10 +143,9 @@ MectofitnessCRM/
 ├── app/
 │   ├── models/          # Database models
 │   ├── routes/          # Application routes/blueprints
-│   ├── static/          # CSS, JS, images
+│   ├── static/          # CSS, JS, images, React app
 │   └── templates/       # HTML templates
-├── credentials/         # API credentials
-├── models/             # AI model files
+├── docs/               # Complete documentation
 ├── config.py           # Configuration
 ├── requirements.txt    # Python dependencies
 └── run.py             # Application entry point
@@ -187,9 +153,11 @@ MectofitnessCRM/
 
 ### Running Tests
 ```bash
-# Set up test environment
-export FLASK_ENV=testing
-python -m pytest tests/
+# Verify setup
+python verify_setup.py
+
+# Test database
+python test_db.py
 ```
 
 ## 📝 License
@@ -206,14 +174,7 @@ For support, please open an issue in the GitHub repository or contact the mainta
 
 ## 🎯 Roadmap
 
-- [ ] Complete Google Calendar integration
-- [ ] Complete Outlook Calendar integration
-- [ ] Implement AI model training interface
-- [ ] Add payment processing integration
-- [ ] Mobile app development
-- [ ] Advanced analytics dashboard
-- [ ] Multi-trainer/gym support
-- [ ] Client mobile app for viewing programs
+See the complete [Roadmap](docs/03-features/roadmap.md) for planned features and improvements.
 
 ---
 
