@@ -5,7 +5,7 @@
 {% block extra_css %}
 <style>
     body {
-        background: var(--theme-bg-secondary);
+        background: linear-gradient(to bottom right, #F8FAFC, #E0F2FE);
     }
     
     .register-container {
@@ -28,7 +28,10 @@
     }
     
     .register-title {
-        color: #FF6B35;
+        background: linear-gradient(to right, #FF6B35, #1AE5BE);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 0.75rem;
         font-size: 2.2rem;
         font-weight: 800;
@@ -64,8 +67,8 @@
     
     .form-input:focus {
         outline: none;
-        border-color: #FF6B35;
-        box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        border-color: #1AE5BE;
+        box-shadow: 0 0 0 3px rgba(26, 229, 190, 0.1);
     }
     
     .form-hint {
@@ -76,8 +79,8 @@
     }
     
     .benefits-box {
-        background: rgba(59, 130, 246, 0.08);
-        border-left: 4px solid #3b82f6;
+        background: rgba(26, 229, 190, 0.08);
+        border-left: 4px solid #1AE5BE;
         padding: 1.25rem;
         margin: 1.5rem 0;
         border-radius: 8px;
@@ -91,7 +94,7 @@
     }
     
     .benefits-box strong {
-        color: #3b82f6;
+        color: #03B8B1;
         font-weight: 700;
     }
     
@@ -100,20 +103,20 @@
         padding: 1rem;
         font-size: 1.05rem;
         font-weight: 700;
-        background: #FF6B35;
+        background: linear-gradient(to right, #FF6B35, #1AE5BE);
         color: white;
         border: none;
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        box-shadow: 0 4px 12px rgba(26, 229, 190, 0.3);
         margin-top: 0.5rem;
     }
     
     .register-button:hover {
-        background: #e55a2b;
+        background: linear-gradient(to right, #e55a2b, #03B8B1);
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+        box-shadow: 0 6px 16px rgba(26, 229, 190, 0.4);
     }
     
     .login-link-section {
@@ -129,14 +132,14 @@
     }
     
     .login-link {
-        color: #FF6B35;
+        color: #1AE5BE;
         font-weight: 700;
         text-decoration: none;
         transition: color 0.3s ease;
     }
     
     .login-link:hover {
-        color: #e55a2b;
+        color: #03B8B1;
     }
     
     .terms-text {
