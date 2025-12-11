@@ -366,23 +366,14 @@ export default function Dashboard() {
                 ) : (
                   <div className="space-y-5">
                     {activities.map((activity, idx) => {
-                      // Determine the route based on activity type
-                      let route = null;
-                      if (activity.type === 'new_client' && activity.client_id) {
-                        route = `/clients/${activity.client_id}`;
-                      } else if (activity.type === 'session' && activity.client_id) {
-                        // Route to sessions list filtered by client
-                        route = `/sessions?client=${activity.client_id}`;
-                      } else if (activity.type === 'payment' && activity.client_id) {
-                        // Route to payments list filtered by client
-                        route = `/payments?client=${activity.client_id}`;
-                      }
+                      // Determine the route - all activities link to client detail page
+                      const route = activity.client_id ? `/clients/${activity.client_id}` : null;
 
                       // Format timestamp for display
-                      const timeAgo = activity.time_ago || (() => {
-                        const timestamp = new Date(activity.timestamp);
+                      const formatTimeAgo = (timestamp) => {
+                        const date = new Date(timestamp);
                         const now = new Date();
-                        const diffMs = now - timestamp;
+                        const diffMs = now - date;
                         const diffMins = Math.floor(diffMs / 60000);
                         const diffHours = Math.floor(diffMins / 60);
                         const diffDays = Math.floor(diffHours / 24);
@@ -391,7 +382,9 @@ export default function Dashboard() {
                         if (diffMins < 60) return `${diffMins}m ago`;
                         if (diffHours < 24) return `${diffHours}h ago`;
                         return `${diffDays}d ago`;
-                      })();
+                      };
+
+                      const timeAgo = activity.time_ago || formatTimeAgo(activity.timestamp);
 
                       const content = (
                         <>
