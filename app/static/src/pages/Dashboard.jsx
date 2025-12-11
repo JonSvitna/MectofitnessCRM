@@ -10,24 +10,19 @@ import {
   ClockIcon,
   ArrowTrendingUpIcon,
   CheckCircleIcon,
+  CurrencyDollarIcon,
+  BoltIcon,
 } from '@heroicons/react/24/outline';
-import { clientsApi, sessionsApi, programsApi } from '../api/client';
+import { dashboardApi, handleApiError } from '../api/client';
 
-// Professional TrueCoach-style Dashboard
+// Professional TrueCoach/Trainerize-style Dashboard with Backend API Integration
 export default function Dashboard() {
   const { user } = useAuthStore();
-  const [stats, setStats] = useState({
-    totalClients: 0,
-    totalPrograms: 0,
-    todaySessions: 0,
-    upcomingSessions: 0,
-    activeThisWeek: 0,
-    completionRate: 0,
-  });
-  const [recentClients, setRecentClients] = useState([]);
+  const [overview, setOverview] = useState(null);
+  const [activities, setActivities] = useState([]);
   const [upcomingSessions, setUpcomingSessions] = useState([]);
-  const [recentActivities, setRecentActivities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadDashboardData();
@@ -36,51 +31,21 @@ export default function Dashboard() {
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      const [clientsRes, sessionsRes, programsRes] = await Promise.all([
-        clientsApi.getAll(),
-        sessionsApi.getAll(),
-        programsApi.getAll(),
+      setError(null);
+
+      // Fetch comprehensive dashboard data from backend
+      const [overviewRes, activityRes, calendarRes] = await Promise.all([
+        dashboardApi.getOverview(),
+        dashboardApi.getActivity({ limit: 10 }),
+        dashboardApi.getCalendar({ days: 7 }),
       ]);
 
-      const clients = clientsRes.data.clients || [];
-      const sessions = sessionsRes.data.sessions || [];
-      const programs = programsRes.data.programs || [];
-
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const todaySessions = sessions.filter((s) => {
-        const sessionDate = new Date(s.scheduled_start);
-        sessionDate.setHours(0, 0, 0, 0);
-        return sessionDate.getTime() === today.getTime();
-      });
-
-      const upcoming = sessions.filter((s) => {
-        const sessionDate = new Date(s.scheduled_start);
-        return sessionDate > new Date();
-      }).slice(0, 5);
-
-      setStats({
-        totalClients: clients.length,
-        totalPrograms: programs.length,
-        todaySessions: todaySessions.length,
-        upcomingSessions: upcoming.length,
-        activeThisWeek: Math.floor(clients.length * 0.7),
-        completionRate: 85,
-      });
-
-      setRecentClients(clients.slice(0, 6));
-      setUpcomingSessions(upcoming);
-
-      // Mock recent activities
-      setRecentActivities([
-        { name: 'Tiffany Gosnell', activity: 'completed a workout', time: '2h ago', avatar: 'TG', type: 'workout' },
-        { name: 'Donavan Weston', activity: 'checked in for session', time: '4h ago', avatar: 'DW', type: 'checkin' },
-        { name: 'Rob Walker', activity: 'achieved new personal record', time: '1d ago', avatar: 'RW', type: 'pr' },
-        { name: 'Sarah Johnson', activity: 'completed program week 4', time: '2d ago', avatar: 'SJ', type: 'milestone' },
-      ]);
-    } catch (error) {
-      console.error('Error loading dashboard:', error);
+      setOverview(overviewRes.data);
+      setActivities(activityRes.data.activities || []);
+      setUpcomingSessions(calendarRes.data.sessions?.slice(0, 5) || []);
+    } catch (err) {
+      console.error('Error loading dashboard:', err);
+      setError(handleApiError(err));
     } finally {
       setLoading(false);
     }
@@ -93,6 +58,47 @@ export default function Dashboard() {
     if (hour < 18) return 'Good afternoon';
     return 'Good evening';
   };
+
+  // Format currency
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount || 0);
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="h-full bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin h-12 w-12 border-4 border-primary-200 border-t-primary-600 rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="h-full bg-gray-50 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <div className="bg-danger-50 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
+            <BoltIcon className="h-8 w-8 text-danger-600" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Unable to Load Dashboard</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button
+            onClick={loadDashboardData}
+            className="inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-full bg-gray-50">
@@ -131,8 +137,9 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        {/* Stats Grid */}
+        {/* Stats Grid - Using Real Backend Data */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
           {/* Active Clients */}
           <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-card transition-shadow">
             <div className="flex items-center justify-between mb-4">
@@ -140,11 +147,15 @@ export default function Dashboard() {
                 <UsersIcon className="h-6 w-6 text-primary-600" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">{stats.totalClients}</div>
+            <div className="text-3xl font-bold text-gray-900 mb-1">
+              {overview?.total_clients || 0}
+            </div>
             <div className="text-sm text-gray-600 mb-3">Active Clients</div>
             <div className="flex items-center text-sm text-gray-500">
               <ArrowTrendingUpIcon className="h-4 w-4 text-success-600 mr-1" />
-              <span className="text-success-600 font-medium">{stats.activeThisWeek}</span>
+              <span className="text-success-600 font-medium">
+                {overview?.active_clients || 0}
+              </span>
               <span className="ml-1">active this week</span>
             </div>
           </div>
@@ -156,11 +167,13 @@ export default function Dashboard() {
                 <ClockIcon className="h-6 w-6 text-purple-600" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">{stats.todaySessions}</div>
+            <div className="text-3xl font-bold text-gray-900 mb-1">
+              {overview?.sessions_today || 0}
+            </div>
             <div className="text-sm text-gray-600 mb-3">Today's Sessions</div>
             <div className="flex items-center text-sm text-gray-500">
               <CalendarIcon className="h-4 w-4 text-gray-400 mr-1" />
-              <span>{stats.upcomingSessions} upcoming</span>
+              <span>{overview?.sessions_upcoming || 0} upcoming</span>
             </div>
           </div>
 
@@ -171,25 +184,34 @@ export default function Dashboard() {
                 <DocumentTextIcon className="h-6 w-6 text-accent-600" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">{stats.totalPrograms}</div>
+            <div className="text-3xl font-bold text-gray-900 mb-1">
+              {overview?.active_programs || 0}
+            </div>
             <div className="text-sm text-gray-600 mb-3">Active Programs</div>
             <Link to="/programs" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
               View all →
             </Link>
           </div>
 
-          {/* Completion Rate */}
+          {/* Monthly Revenue */}
           <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-card transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <div className="bg-success-50 rounded-lg p-3">
-                <ChartBarIcon className="h-6 w-6 text-success-600" />
+                <CurrencyDollarIcon className="h-6 w-6 text-success-600" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">{stats.completionRate}%</div>
-            <div className="text-sm text-gray-600 mb-3">Completion Rate</div>
-            <div className="flex items-center text-sm text-success-600 font-medium">
-              <CheckCircleIcon className="h-4 w-4 mr-1" />
-              Excellent
+            <div className="text-3xl font-bold text-gray-900 mb-1">
+              {formatCurrency(overview?.revenue_this_month)}
+            </div>
+            <div className="text-sm text-gray-600 mb-3">This Month</div>
+            <div className="flex items-center text-sm text-gray-500">
+              <span className={`font-medium ${
+                overview?.revenue_change >= 0 ? 'text-success-600' : 'text-danger-600'
+              }`}>
+                {overview?.revenue_change > 0 && '+'}
+                {overview?.revenue_change || 0}%
+              </span>
+              <span className="ml-1">vs last month</span>
             </div>
           </div>
         </div>
@@ -210,12 +232,7 @@ export default function Dashboard() {
               </div>
 
               <div className="p-6">
-                {loading ? (
-                  <div className="text-center py-12 text-gray-500">
-                    <div className="animate-spin h-8 w-8 border-4 border-primary-200 border-t-primary-600 rounded-full mx-auto"></div>
-                    <p className="mt-4">Loading sessions...</p>
-                  </div>
-                ) : upcomingSessions.length === 0 ? (
+                {upcomingSessions.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
                       <CalendarIcon className="h-8 w-8 text-gray-400" />
@@ -242,16 +259,26 @@ export default function Dashboard() {
                             <ClockIcon className="h-5 w-5 text-primary-700" />
                           </div>
                           <div>
-                            <div className="font-medium text-gray-900">{session.title || 'Training Session'}</div>
-                            <div className="text-sm text-gray-600 mt-0.5">{session.client?.full_name || 'Client'}</div>
+                            <div className="font-medium text-gray-900">
+                              {session.title || 'Training Session'}
+                            </div>
+                            <div className="text-sm text-gray-600 mt-0.5">
+                              {session.client_name || 'Client'}
+                            </div>
                           </div>
                         </div>
                         <div className="text-right">
                           <div className="text-sm font-medium text-gray-900">
-                            {new Date(session.scheduled_start).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            {new Date(session.scheduled_start).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric'
+                            })}
                           </div>
                           <div className="text-sm text-gray-600 mt-0.5">
-                            {new Date(session.scheduled_start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                            {new Date(session.scheduled_start).toLocaleTimeString('en-US', {
+                              hour: 'numeric',
+                              minute: '2-digit'
+                            })}
                           </div>
                         </div>
                       </Link>
@@ -261,54 +288,62 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Recent Clients */}
+            {/* Key Metrics */}
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
-              <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">Recent Clients</h2>
-                <Link to="/clients" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
-                  View all
-                </Link>
+              <div className="border-b border-gray-200 px-6 py-4">
+                <h2 className="text-lg font-semibold text-gray-900">Performance Metrics</h2>
               </div>
 
               <div className="p-6">
-                {loading ? (
-                  <div className="text-center py-12 text-gray-500">
-                    <div className="animate-spin h-8 w-8 border-4 border-primary-200 border-t-primary-600 rounded-full mx-auto"></div>
-                    <p className="mt-4">Loading clients...</p>
-                  </div>
-                ) : recentClients.length === 0 ? (
-                  <div className="text-center py-12">
-                    <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-                      <UsersIcon className="h-8 w-8 text-gray-400" />
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Session Completion Rate */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-700">Completion Rate</span>
+                      <span className="text-sm font-bold text-success-600">
+                        {overview?.completion_rate || 0}%
+                      </span>
                     </div>
-                    <p className="text-gray-600 mb-4">No clients yet</p>
-                    <Link
-                      to="/clients?action=add"
-                      className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium"
-                    >
-                      <PlusIcon className="h-5 w-5 mr-1" />
-                      Add your first client
-                    </Link>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-success-500 h-2 rounded-full transition-all"
+                        style={{ width: `${overview?.completion_rate || 0}%` }}
+                      />
+                    </div>
                   </div>
-                ) : (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {recentClients.map((client) => (
-                      <Link
-                        key={client.id}
-                        to={`/clients/${client.id}`}
-                        className="group p-4 rounded-lg border border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-all text-center"
-                      >
-                        <div className="h-14 w-14 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 flex items-center justify-center text-white font-semibold text-lg mx-auto mb-3 shadow-sm group-hover:scale-105 transition-transform">
-                          {client.first_name?.charAt(0) || 'C'}
-                        </div>
-                        <div className="font-medium text-gray-900 text-sm truncate mb-1">
-                          {client.first_name} {client.last_name}
-                        </div>
-                        <div className="text-xs text-gray-500 truncate">{client.fitness_goal || 'General Fitness'}</div>
-                      </Link>
-                    ))}
+
+                  {/* Client Retention */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-700">Client Retention</span>
+                      <span className="text-sm font-bold text-primary-600">
+                        {overview?.retention_rate || 0}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-primary-500 h-2 rounded-full transition-all"
+                        style={{ width: `${overview?.retention_rate || 0}%` }}
+                      />
+                    </div>
                   </div>
-                )}
+
+                  {/* Average Sessions per Client */}
+                  <div>
+                    <div className="text-sm text-gray-600">Avg Sessions/Client</div>
+                    <div className="text-2xl font-bold text-gray-900 mt-1">
+                      {overview?.avg_sessions_per_client?.toFixed(1) || '0.0'}
+                    </div>
+                  </div>
+
+                  {/* Total Revenue */}
+                  <div>
+                    <div className="text-sm text-gray-600">Total Revenue</div>
+                    <div className="text-2xl font-bold text-gray-900 mt-1">
+                      {formatCurrency(overview?.total_revenue)}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -321,7 +356,7 @@ export default function Dashboard() {
               </div>
 
               <div className="p-6">
-                {recentActivities.length === 0 ? (
+                {activities.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
                       <ChartBarIcon className="h-8 w-8 text-gray-400" />
@@ -330,18 +365,20 @@ export default function Dashboard() {
                   </div>
                 ) : (
                   <div className="space-y-5">
-                    {recentActivities.map((activity, idx) => (
+                    {activities.map((activity, idx) => (
                       <div key={idx} className="flex items-start gap-3">
                         <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-400 to-purple-400 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm">
-                          {activity.avatar}
+                          {activity.client_initials || activity.user_initials || 'U'}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-gray-900">
-                            <span className="font-semibold">{activity.name}</span>
+                            <span className="font-semibold">
+                              {activity.client_name || activity.user_name || 'User'}
+                            </span>
                             {' '}
-                            <span className="text-gray-600">{activity.activity}</span>
+                            <span className="text-gray-600">{activity.description}</span>
                           </p>
-                          <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
+                          <p className="text-xs text-gray-500 mt-1">{activity.time_ago}</p>
                         </div>
                       </div>
                     ))}

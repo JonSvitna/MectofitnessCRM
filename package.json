@@ -17,11 +17,10 @@
     "vite": "^5.0.8"
   },
   "dependencies": {
-    "@headlessui/vue": "^1.7.16",
+    "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
-    "@heroicons/vue": "^2.1.1",
     "@vitejs/plugin-react": "^5.1.2",
-    "axios": "^1.13.2",
+    "axios": "^1.6.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-router-dom": "^7.10.1",
