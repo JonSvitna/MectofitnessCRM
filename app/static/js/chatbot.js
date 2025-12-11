@@ -14,6 +14,12 @@ class AIChatbot {
         this.createChatbotUI();
         this.attachEventListeners();
         this.loadWelcomeMessage();
+        this.setupKeyboardShortcuts();
+        
+        // Add body class for sidebar detection
+        if (document.querySelector('.lg\\:pl-64')) {
+            document.body.classList.add('has-sidebar');
+        }
     }
 
     createChatbotUI() {
@@ -69,6 +75,21 @@ class AIChatbot {
             if (input.value.trim()) {
                 this.sendMessage(input.value.trim());
                 input.value = '';
+            }
+        });
+    }
+
+    setupKeyboardShortcuts() {
+        // Toggle chatbot with Ctrl+/ (Windows/Linux) or Cmd+/ (Mac)
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+                e.preventDefault();
+                this.toggleChat();
+            }
+            // Close chatbot with Escape key
+            if (e.key === 'Escape' && this.isOpen) {
+                e.preventDefault();
+                this.toggleChat();
             }
         });
     }

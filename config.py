@@ -38,6 +38,19 @@ class Config:
     OUTLOOK_CLIENT_ID = os.environ.get('OUTLOOK_CLIENT_ID')
     OUTLOOK_CLIENT_SECRET = os.environ.get('OUTLOOK_CLIENT_SECRET')
     
+    # Zoom Integration
+    ZOOM_CLIENT_ID = os.environ.get('ZOOM_CLIENT_ID')
+    ZOOM_CLIENT_SECRET = os.environ.get('ZOOM_CLIENT_SECRET')
+    ZOOM_ACCOUNT_ID = os.environ.get('ZOOM_ACCOUNT_ID')
+    
+    # Stripe Payment Integration
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+    STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+    STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET')
+    
+    # OpenAI Integration
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+    
     # AI Model
     AI_MODEL_PATH = os.path.join(basedir, 'models')
     
