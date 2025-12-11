@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   UserPlusIcon,
   MagnifyingGlassIcon,
@@ -12,7 +12,6 @@ import {
 import { clientsApi, handleApiError } from '../../api/client';
 
 export default function ClientList() {
-  const [searchParams, setSearchParams] = useSearchParams();
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

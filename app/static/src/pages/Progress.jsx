@@ -14,7 +14,6 @@ export default function Progress() {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedClient, setSelectedClient] = useState(null);
 
   useEffect(() => {
     loadProgressEntries();

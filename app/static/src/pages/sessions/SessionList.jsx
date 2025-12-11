@@ -53,16 +53,6 @@ export default function SessionList() {
     }
   };
 
-  const checkAvailability = async (date, duration) => {
-    try {
-      const response = await sessionsApi.checkAvailability(date, duration);
-      return response.data;
-    } catch (err) {
-      console.error('Error checking availability:', err);
-      return null;
-    }
-  };
-
   const getStatusIcon = (status) => {
     switch (status) {
       case 'completed':
