@@ -15,6 +15,21 @@ import {
 } from '@heroicons/react/24/outline';
 import { dashboardApi, handleApiError } from '../api/client';
 
+// Helper function to format time ago
+const formatTimeAgo = (timestamp) => {
+  const date = new Date(timestamp);
+  const now = new Date();
+  const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  return `${diffDays}d ago`;
+};
+
 // Professional TrueCoach/Trainerize-style Dashboard with Backend API Integration
 export default function Dashboard() {
   const { user } = useAuthStore();
@@ -368,22 +383,6 @@ export default function Dashboard() {
                     {activities.map((activity, idx) => {
                       // Determine the route - all activities link to client detail page
                       const route = activity.client_id ? `/clients/${activity.client_id}` : null;
-
-                      // Format timestamp for display
-                      const formatTimeAgo = (timestamp) => {
-                        const date = new Date(timestamp);
-                        const now = new Date();
-                        const diffMs = now - date;
-                        const diffMins = Math.floor(diffMs / 60000);
-                        const diffHours = Math.floor(diffMins / 60);
-                        const diffDays = Math.floor(diffHours / 24);
-                        
-                        if (diffMins < 1) return 'Just now';
-                        if (diffMins < 60) return `${diffMins}m ago`;
-                        if (diffHours < 24) return `${diffHours}h ago`;
-                        return `${diffDays}d ago`;
-                      };
-
                       const timeAgo = activity.time_ago || formatTimeAgo(activity.timestamp);
 
                       const content = (
