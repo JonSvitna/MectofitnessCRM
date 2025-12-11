@@ -1,11 +1,8 @@
 """Main application routes.
 
-This module supports dual routing:
-1. Traditional Flask routes (/dashboard, /clients, etc.) - Always available
-2. React SPA route (/app) - Optional, requires `npm run build` to generate assets
-
-Authenticated users are directed to /dashboard by default.
-Users can optionally use /app for the React interface if it's built.
+This module serves the React SPA as the primary interface.
+The dashboard route now serves the React app with full backend integration.
+Legacy Jinja templates are available at /dashboard/legacy if needed.
 """
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
@@ -33,10 +30,10 @@ def app(path=''):
     return render_template('app.html')
 
 
-@bp.route('/dashboard')
+@bp.route('/dashboard/legacy')
 @login_required
-def dashboard():
-    """Main dashboard."""
+def dashboard_legacy():
+    """Legacy dashboard - Jinja template version (for backwards compatibility)."""
     # Get statistics
     total_clients = Client.query.filter_by(trainer_id=current_user.id, is_active=True).count()
     total_programs = Program.query.filter_by(trainer_id=current_user.id, status='active').count()
@@ -72,6 +69,17 @@ def dashboard():
                          upcoming_sessions=upcoming_sessions,
                          today_sessions=today_sessions,
                          recent_clients=recent_clients)
+
+
+@bp.route('/dashboard')
+@bp.route('/dashboard/<path:path>')
+@login_required
+def dashboard(path=''):
+    """Main dashboard - serves React SPA with full backend integration."""
+    # Don't serve React app for /dashboard/legacy
+    if path == 'legacy':
+        return redirect(url_for('main.dashboard_legacy'))
+    return render_template('app.html')
 
 
 @bp.route('/about')
