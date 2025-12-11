@@ -169,7 +169,7 @@ export default function ClientList() {
           {/* Search and Filters */}
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
-              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
               <input
                 type="text"
                 placeholder="Search clients by name or email..."
@@ -217,7 +217,7 @@ export default function ClientList() {
         {filteredClients.length === 0 ? (
           <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
             <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-              <UserPlusIcon className="h-8 w-8 text-gray-400" />
+              <UserPlusIcon className="h-8 w-8 text-gray-600" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No clients found</h3>
             <p className="text-gray-600 mb-6">

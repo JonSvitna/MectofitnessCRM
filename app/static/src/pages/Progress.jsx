@@ -126,7 +126,7 @@ export default function Progress() {
         {entries.length === 0 ? (
           <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
             <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-              <ChartBarIcon className="h-8 w-8 text-gray-400" />
+              <ChartBarIcon className="h-8 w-8 text-gray-600" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No progress entries yet</h3>
             <p className="text-gray-600 mb-6">
@@ -180,7 +180,7 @@ export default function Progress() {
                             <span className="text-sm">Yes</span>
                           </span>
                         ) : (
-                          <span className="text-gray-400 text-sm">No</span>
+                          <span className="text-gray-600 text-sm">No</span>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">

@@ -45,10 +45,10 @@ export default function Login() {
           <h2 className="text-5xl font-bold bg-gradient-to-r from-primary-600 to-teal-500 bg-clip-text text-transparent mb-3">
             MectoFitness
           </h2>
-          <p className="text-lg text-gray-600 font-medium">
+          <p className="text-lg text-gray-700 font-medium">
             Welcome back
           </p>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-600">
             Sign in to access your training dashboard
           </p>
         </div>
@@ -72,7 +72,7 @@ export default function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors text-base min-h-[44px]"
+                className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors text-base min-h-[44px]"
                 placeholder="you@example.com"
               />
             </div>
@@ -89,7 +89,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors text-base min-h-[44px]"
+                className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors text-base min-h-[44px]"
                 placeholder="••••••••"
               />
             </div>
@@ -124,7 +124,7 @@ export default function Login() {
           </form>
 
           <div className="mt-6 pt-6 border-t border-gray-200">
-            <p className="text-center text-sm text-gray-600">
+            <p className="text-center text-sm text-gray-700">
               Don't have an account?{' '}
               <Link to="/register" className="font-semibold text-primary-600 hover:text-primary-700 transition-colors">
                 Create account
@@ -133,7 +133,7 @@ export default function Login() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-500">
+        <p className="text-center text-xs text-gray-600">
           © 2025 MectoFitness. All rights reserved.
         </p>
       </div>

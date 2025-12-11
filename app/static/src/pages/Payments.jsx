@@ -53,7 +53,7 @@ export default function Payments() {
       <div className="h-full flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin h-12 w-12 border-4 border-primary-200 border-t-primary-600 rounded-full mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading payment data...</p>
+          <p className="text-gray-700">Loading payment data...</p>
         </div>
       </div>
     );
@@ -65,7 +65,7 @@ export default function Payments() {
         <div className="text-center max-w-md mx-auto px-4">
           <XCircleIcon className="h-12 w-12 text-danger-600 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Error Loading Payments</h2>
-          <p className="text-gray-600 mb-6">{error}</p>
+          <p className="text-gray-700 mb-6">{error}</p>
           <button
             onClick={loadPaymentData}
             className="bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors"
@@ -84,7 +84,7 @@ export default function Payments() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Payments & Subscriptions</h1>
-              <p className="mt-1 text-gray-600">
+              <p className="mt-1 text-gray-700">
                 Manage payment plans, subscriptions, and track revenue
               </p>
             </div>
@@ -102,7 +102,7 @@ export default function Payments() {
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Monthly Revenue</p>
+                  <p className="text-sm text-gray-700">Monthly Revenue</p>
                   <p className="text-2xl font-bold text-gray-900">
                     {formatCurrency(revenue?.monthly || 0)}
                   </p>
@@ -115,7 +115,7 @@ export default function Payments() {
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Total Revenue</p>
+                  <p className="text-sm text-gray-700">Total Revenue</p>
                   <p className="text-2xl font-bold text-gray-900">
                     {formatCurrency(revenue?.total || 0)}
                   </p>
@@ -128,7 +128,7 @@ export default function Payments() {
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Active Subscriptions</p>
+                  <p className="text-sm text-gray-700">Active Subscriptions</p>
                   <p className="text-2xl font-bold text-success-600">
                     {subscriptions.filter((s) => s.status === 'active').length}
                   </p>
@@ -141,7 +141,7 @@ export default function Payments() {
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Pending Payments</p>
+                  <p className="text-sm text-gray-700">Pending Payments</p>
                   <p className="text-2xl font-bold text-accent-600">
                     {transactions.filter((t) => t.status === 'pending').length}
                   </p>
@@ -165,8 +165,8 @@ export default function Payments() {
           
           {transactions.length === 0 ? (
             <div className="p-12 text-center">
-              <CreditCardIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No transactions yet</p>
+              <CreditCardIcon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
+              <p className="text-gray-700">No transactions yet</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -205,7 +205,7 @@ export default function Payments() {
                           {txn.status?.toUpperCase()}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                         {txn.payment_method || 'N/A'}
                       </td>
                     </tr>
@@ -224,8 +224,8 @@ export default function Payments() {
           
           {subscriptions.filter((s) => s.status === 'active').length === 0 ? (
             <div className="p-12 text-center">
-              <CreditCardIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No active subscriptions</p>
+              <CreditCardIcon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
+              <p className="text-gray-700">No active subscriptions</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
@@ -239,12 +239,12 @@ export default function Payments() {
                         ACTIVE
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">{sub.plan_name || 'Standard Plan'}</p>
+                    <p className="text-sm text-gray-700 mb-2">{sub.plan_name || 'Standard Plan'}</p>
                     <p className="text-lg font-bold text-primary-600">
                       {formatCurrency(sub.amount)}/{sub.interval || 'month'}
                     </p>
                     {sub.next_billing_date && (
-                      <p className="text-xs text-gray-500 mt-2">
+                      <p className="text-xs text-gray-600 mt-2">
                         Next billing: {new Date(sub.next_billing_date).toLocaleDateString()}
                       </p>
                     )}

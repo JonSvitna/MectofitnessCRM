@@ -157,7 +157,7 @@ export default function OnlineBooking() {
           
           {bookings.length === 0 ? (
             <div className="p-12 text-center">
-              <CalendarDaysIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <CalendarDaysIcon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
               <p className="text-gray-600">No bookings yet</p>
             </div>
           ) : (
@@ -242,7 +242,7 @@ export default function OnlineBooking() {
           
           {availability.length === 0 ? (
             <div className="p-12 text-center">
-              <ClockIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <ClockIcon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
               <p className="text-gray-600 mb-4">No availability slots configured</p>
               <Link
                 to="?action=add-availability"

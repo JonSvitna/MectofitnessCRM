@@ -223,7 +223,7 @@ export default function ProgramList() {
         {programs.length === 0 ? (
           <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
             <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-              <DocumentTextIcon className="h-8 w-8 text-gray-400" />
+              <DocumentTextIcon className="h-8 w-8 text-gray-600" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No programs found</h3>
             <p className="text-gray-600 mb-6">
@@ -273,14 +273,14 @@ export default function ProgramList() {
                   
                   {program.client_name && (
                     <div className="flex items-center gap-2 text-sm">
-                      <UserGroupIcon className="h-4 w-4 text-gray-400" />
+                      <UserGroupIcon className="h-4 w-4 text-gray-600" />
                       <span className="text-gray-600">Assigned to:</span>
                       <span className="font-medium text-gray-900">{program.client_name}</span>
                     </div>
                   )}
                   
                   <div className="flex items-center gap-2 text-sm">
-                    <ClockIcon className="h-4 w-4 text-gray-400" />
+                    <ClockIcon className="h-4 w-4 text-gray-600" />
                     <span className="text-gray-600">
                       {program.duration_weeks
                         ? `${program.duration_weeks} weeks`

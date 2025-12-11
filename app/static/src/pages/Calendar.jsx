@@ -105,7 +105,7 @@ export default function Calendar() {
 
         {events.length === 0 ? (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-            <CalendarIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <CalendarIcon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No Events Found</h3>
             <p className="text-gray-600">
               No sessions scheduled for the selected date range.
