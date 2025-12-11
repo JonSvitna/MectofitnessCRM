@@ -126,11 +126,49 @@ The application is optimized for fitness industry keywords:
 
 The application includes a framework for AI-powered training program generation. To implement:
 
-1. **Prepare Your Knowledge Base**: Add your training expertise and program templates
-2. **Train the Model**: Use scikit-learn to train on your knowledge base
-3. **Integrate**: The AI model will generate personalized programs based on client goals and fitness level
+1. **Set up OpenAI API**: Add your `OPENAI_API_KEY` to the `.env` file
+2. **Prepare Your Knowledge Base**: Add your training expertise and program templates
+3. **Train the Model**: Use scikit-learn to train on your knowledge base
+4. **Integrate**: The AI model will generate personalized programs based on client goals and fitness level
 
 Example model training structure is included in the codebase.
+
+## 💬 AI Chatbot Assistant
+
+MectoFitness includes an AI-powered chatbot assistant that helps with:
+- Workout program recommendations
+- Exercise form tips
+- Nutrition guidance
+- Client management best practices
+- Platform feature guidance
+
+**Keyboard Shortcuts:**
+- `Ctrl+/` (Windows/Linux) or `Cmd+/` (Mac): Toggle chatbot
+- `Escape`: Close chatbot
+
+The chatbot is integrated in both Flask and React interfaces and automatically adjusts its position based on your layout.
+
+## 💳 Payment Processing with Stripe
+
+Integrated Stripe payment processing for accepting client payments. Features include:
+- One-time payments
+- Recurring subscriptions
+- Multiple payment methods (cards, digital wallets, bank transfers)
+- Automated invoicing and receipts
+- Webhook integration for real-time updates
+
+See [STRIPE_SETUP.md](STRIPE_SETUP.md) for detailed setup instructions.
+
+## 🎥 Video Conferencing with Zoom
+
+Integrated Zoom video conferencing for virtual training sessions. Features include:
+- Auto-scheduled meetings linked to training sessions
+- Automatic cloud recording
+- Secure waiting rooms
+- Session recordings available after meetings
+- Webhook integration for meeting status updates
+
+See [ZOOM_SETUP.md](ZOOM_SETUP.md) for detailed setup instructions.
 
 ## 📅 Calendar Integration
 
@@ -206,14 +244,18 @@ For support, please open an issue in the GitHub repository or contact the mainta
 
 ## 🎯 Roadmap
 
-- [ ] Complete Google Calendar integration
-- [ ] Complete Outlook Calendar integration
-- [ ] Implement AI model training interface
-- [ ] Add payment processing integration
+- [x] Google Calendar integration framework
+- [x] Outlook Calendar integration framework
+- [x] AI model training interface
+- [x] Stripe payment processing integration
+- [x] Zoom video conferencing integration
+- [x] AI chatbot assistant
 - [ ] Mobile app development
 - [ ] Advanced analytics dashboard
 - [ ] Multi-trainer/gym support
 - [ ] Client mobile app for viewing programs
+- [ ] Apple Pay / Google Pay support
+- [ ] Advanced reporting and insights
 
 ---
 
