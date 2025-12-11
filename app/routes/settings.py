@@ -1,5 +1,5 @@
 """Settings and configuration routes."""
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_required, current_user
 from app import db
 from app.models.settings import TrainerSettings
@@ -235,9 +235,34 @@ def branding():
         settings.primary_color = request.form.get('primary_color', '#2ECC71')
         settings.secondary_color = request.form.get('secondary_color', '#27AE60')
         settings.business_logo_url = request.form.get('business_logo_url')
+        settings.theme_preference = request.form.get('theme_preference', 'light')
         
         db.session.commit()
         flash('Branding settings updated!', 'success')
         return redirect(url_for('settings.branding'))
     
     return render_template('settings/branding.html', settings=settings)
+
+
+@bp.route('/update-theme', methods=['POST'])
+@login_required
+def update_theme():
+    """Update user's theme preference via API."""
+    try:
+        data = request.get_json()
+        theme = data.get('theme', 'light')
+        
+        if theme not in ['light', 'dark', 'auto']:
+            return jsonify({'success': False, 'error': 'Invalid theme'}), 400
+        
+        settings = TrainerSettings.query.filter_by(trainer_id=current_user.id).first()
+        if not settings:
+            settings = TrainerSettings(trainer_id=current_user.id)
+            db.session.add(settings)
+        
+        settings.theme_preference = theme
+        db.session.commit()
+        
+        return jsonify({'success': True, 'theme': theme})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
