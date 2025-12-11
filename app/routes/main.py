@@ -79,6 +79,9 @@ def dashboard(path=''):
     # Don't serve React app for /dashboard/legacy
     if path == 'legacy':
         return redirect(url_for('main.dashboard_legacy'))
+    # Redirect /dashboard/settings to /settings (exact match or with subpaths)
+    if path == 'settings' or path.startswith('settings/'):
+        return redirect(url_for('settings.index'))
     return render_template('app.html')
 
 
