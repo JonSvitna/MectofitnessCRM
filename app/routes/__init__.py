@@ -11,3 +11,5 @@ from app.routes.api_dashboard import api_dashboard as api_dashboard_bp
 from app.routes.api_organization import api_organization as api_organization_bp
 from app.routes.api_user import api_user as api_user_bp
 from app.routes.api_settings import api_settings as api_settings_bp
+from app.routes.api_zoom import bp as api_zoom_bp
+from app.routes.api_stripe import bp as api_stripe_bp
