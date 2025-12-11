@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}MectoFitness CRM - Transform Your Fitness Business{% endblock %}
+{% block title %}MectoFitness - Leading Fitness Coaching Platform & Training App for Trainers{% endblock %}
 
-{% block meta_description %}The #1 CRM platform for personal trainers and fitness professionals. Manage clients, build programs, track progress, and grow your business with powerful, easy-to-use tools.{% endblock %}
+{% block meta_description %}Professional fitness coaching platform and training app with comprehensive trainer tools. Complete coaching platform for fitness professionals to manage clients, build workout programs, and grow their coaching business.{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
@@ -25,11 +25,9 @@
     overflow-x: hidden;
   }
   
-  /* Hero Section with Animated Gradient */
+  /* Hero Section with Dashboard Colors */
   .hero-gradient {
-    background: linear-gradient(-45deg, #1A1A2E, #004E89, #FF6B35, #1AE5BE);
-    background-size: 400% 400%;
-    animation: gradient-shift 15s ease infinite;
+    background: linear-gradient(135deg, #1A1A2E 0%, #004E89 50%, #2D3142 100%);
     position: relative;
     min-height: 100vh;
     display: flex;
@@ -37,9 +35,26 @@
     overflow: hidden;
   }
   
-  @keyframes gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+  .hero-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(26, 229, 190, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0, 78, 137, 0.2) 0%, transparent 50%);
+    animation: pulse 15s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
   }
   
   .hero-overlay {
@@ -588,17 +603,17 @@
   <div class="hero-content">
     <div class="hero-badge">
       <span>⚡</span>
-      <span>The #1 CRM for Fitness Professionals</span>
+      <span>#1 Fitness Coaching Platform & Training App</span>
     </div>
     
     <h1 class="hero-title">
       Transform Your<br>
-      <span class="gradient-text">Fitness Business</span>
+      <span class="gradient-text">Fitness Coaching</span>
     </h1>
     
     <p class="hero-subtitle">
-      Manage clients, create programs, track progress, and scale your impact. 
-      <strong style="color: #1AE5BE;">All in one powerful platform.</strong>
+      The ultimate coaching platform and training app for fitness professionals. 
+      <strong style="color: #1AE5BE;">Powerful trainer tools to grow your coaching business.</strong>
     </p>
     
     <div class="cta-group">
@@ -637,61 +652,61 @@
 <section id="features" class="section section-bg-light">
   <div class="container">
     <div class="section-header">
-      <div class="section-badge">POWERFUL FEATURES</div>
+      <div class="section-badge">COACHING PLATFORM FEATURES</div>
       <h2 class="section-title">
-        Everything You Need to <span style="color: #FF6B35;">Grow</span>
+        Complete Trainer Tools for <span style="color: #004E89;">Fitness Coaching</span>
       </h2>
       <p class="section-subtitle">
-        Built by trainers, for trainers. Powerful features that scale with your business from solo coach to enterprise gym.
+        Our training app provides powerful fitness coaching tools that scale from solo coach to enterprise gym. Everything you need in one coaching platform.
       </p>
     </div>
     
     <div class="features-grid">
       <article class="feature-card">
         <div class="feature-icon">👥</div>
-        <h3 class="feature-title">Client Management</h3>
+        <h3 class="feature-title">Client Management Tool</h3>
         <p class="feature-description">
-          Comprehensive client profiles with goals, measurements, progress photos, and integrated messaging. Keep everything organized in one place.
+          Comprehensive coaching platform features for client profiles, fitness goals, progress tracking, and integrated messaging. Perfect trainer tool for organization.
         </p>
       </article>
       
       <article class="feature-card">
         <div class="feature-icon feature-icon-alt1">💪</div>
-        <h3 class="feature-title">Program Builder</h3>
+        <h3 class="feature-title">Workout Programming</h3>
         <p class="feature-description">
-          Create custom workout programs from our extensive exercise library. Use templates or let AI generate personalized plans instantly.
+          Build custom training programs with our extensive exercise library. AI-powered coaching platform generates personalized workout plans instantly.
         </p>
       </article>
       
       <article class="feature-card">
         <div class="feature-icon feature-icon-alt2">📅</div>
-        <h3 class="feature-title">Smart Scheduling</h3>
+        <h3 class="feature-title">Training App Scheduling</h3>
         <p class="feature-description">
-          Online booking for clients with automatic calendar sync. Google and Outlook integration. Never miss a session again.
+          Online booking system for fitness coaching sessions. Automatic calendar sync with Google and Outlook. Essential trainer tool for scheduling.
         </p>
       </article>
       
       <article class="feature-card">
         <div class="feature-icon feature-icon-alt3">💳</div>
-        <h3 class="feature-title">Payments & Billing</h3>
+        <h3 class="feature-title">Fitness Business Payments</h3>
         <p class="feature-description">
-          Accept payments with Stripe integration. Automatic invoicing, recurring billing, and subscription management made easy.
+          Accept payments through our coaching platform with Stripe integration. Automated invoicing and recurring billing for your fitness coaching business.
         </p>
       </article>
       
       <article class="feature-card">
         <div class="feature-icon feature-icon-alt4">📊</div>
-        <h3 class="feature-title">Progress Tracking</h3>
+        <h3 class="feature-title">Coaching Progress Tracking</h3>
         <p class="feature-description">
-          Visual progress dashboards with photos, measurements, and custom metrics. Show clients their transformation journey.
+          Visual dashboards for fitness progress with photos, measurements, and custom metrics. Show clients their transformation through our training app.
         </p>
       </article>
       
       <article class="feature-card">
         <div class="feature-icon feature-icon-alt5">🥗</div>
-        <h3 class="feature-title">Nutrition Planning</h3>
+        <h3 class="feature-title">Nutrition Coaching Tool</h3>
         <p class="feature-description">
-          Create comprehensive nutrition plans with macro tracking. Build healthy habits with our integrated habit tracking system.
+          Create nutrition plans with macro tracking in our coaching platform. Build healthy habits with integrated habit tracking for comprehensive fitness coaching.
         </p>
       </article>
     </div>
@@ -703,10 +718,10 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">
-        Get Started in <span style="color: #FF6B35;">Minutes</span>
+        Start Your <span style="color: #004E89;">Fitness Coaching</span> Journey
       </h2>
       <p class="section-subtitle">
-        Simple onboarding process. Start growing your business today.
+        Simple onboarding for our training app. Launch your coaching platform today.
       </p>
     </div>
     
