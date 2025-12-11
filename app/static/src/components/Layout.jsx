@@ -66,6 +66,12 @@ const navigationCategories = [
       { name: 'Exercise Library', href: '/exercise-library', icon: AcademicCapIcon },
     ],
   },
+  {
+    name: 'ACCOUNT',
+    items: [
+      { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
+    ],
+  },
 ];
 
 export default function Layout() {
@@ -208,6 +214,14 @@ export default function Layout() {
                   </p>
                   <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                 </div>
+                <Link
+                  to="/settings"
+                  className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-lg hover:bg-gray-100"
+                  title="Settings"
+                  aria-label="Settings"
+                >
+                  <Cog6ToothIcon className="h-5 w-5" />
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-lg hover:bg-gray-100"
@@ -336,6 +350,15 @@ export default function Layout() {
                       </p>
                       <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                     </div>
+                    <Link
+                      to="/settings"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="ml-2 text-gray-400 hover:text-gray-600 p-2 rounded-lg hover:bg-gray-100"
+                      title="Settings"
+                      aria-label="Settings"
+                    >
+                      <Cog6ToothIcon className="h-5 w-5" />
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="ml-2 text-gray-400 hover:text-gray-600 p-2 rounded-lg hover:bg-gray-100"
