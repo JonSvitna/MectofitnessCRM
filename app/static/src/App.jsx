@@ -8,11 +8,13 @@ import ClientDetail from './pages/clients/ClientDetail';
 import SessionList from './pages/sessions/SessionList';
 import ProgramList from './pages/programs/ProgramList';
 import Progress from './pages/Progress';
+import Nutrition from './pages/Nutrition';
+import Payments from './pages/Payments';
+import OnlineBooking from './pages/OnlineBooking';
 import Messages from './pages/Messages';
 import Groups from './pages/Groups';
 import Challenges from './pages/Challenges';
 import Announcements from './pages/Announcements';
-import Payments from './pages/Payments';
 import Team from './pages/Team';
 import Scheduling from './pages/Scheduling';
 import MasterLibraries from './pages/MasterLibraries';
@@ -53,11 +55,13 @@ function App() {
           <Route path="sessions" element={<SessionList />} />
           <Route path="programs" element={<ProgramList />} />
           <Route path="progress" element={<Progress />} />
+          <Route path="nutrition" element={<Nutrition />} />
+          <Route path="payments" element={<Payments />} />
+          <Route path="booking" element={<OnlineBooking />} />
           <Route path="messages" element={<Messages />} />
           <Route path="groups" element={<Groups />} />
           <Route path="challenges" element={<Challenges />} />
           <Route path="announcements" element={<Announcements />} />
-          <Route path="payments" element={<Payments />} />
           <Route path="team" element={<Team />} />
           <Route path="scheduling" element={<Scheduling />} />
           <Route path="master-libraries" element={<MasterLibraries />} />
