@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% block meta_description %}Professional personal trainer management software for fitness professionals, gym trainers, and wellness coaches{% endblock %}">
-    <meta name="keywords" content="personal trainer software, fitness CRM, gym management, client tracking, workout programs, trainer scheduling, fitness coaching">
+    <meta name="description" content="{% block meta_description %}Leading fitness coaching platform and training app for personal trainers. Complete coaching platform with trainer tools for client management, workout programming, and fitness coaching{% endblock %}">
+    <meta name="keywords" content="fitness coaching platform, training app, trainer tool, coaching platform, personal trainer software, fitness app, workout app, coaching software, trainer management tool, fitness business platform, online coaching platform, fitness training software">
     <meta name="author" content="MectoFitness">
-    <title>{% block title %}MectoFitness CRM - Personal Trainer Management Software{% endblock %}</title>
+    <title>{% block title %}MectoFitness - Fitness Coaching Platform & Training App for Trainers{% endblock %}</title>
     
     <!-- SEO Tags -->
-    <meta property="og:title" content="{% block og_title %}MectoFitness CRM - Personal Trainer Management Software{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Professional personal trainer management software for fitness professionals{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}MectoFitness - #1 Fitness Coaching Platform & Training App{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Professional coaching platform and training app with comprehensive trainer tools for fitness coaching, client management, and workout programming{% endblock %}">
     <meta property="og:type" content="website">
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/styles/header.css') }}">
     {% block extra_css %}{% endblock %}
     
     {% if current_user.is_authenticated and current_user.settings and current_user.settings.theme_preference %}
@@ -33,37 +34,45 @@
     {% endif %}
 </head>
 <body data-theme="light">
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <a href="{{ url_for('main.index') }}">
-                    <span class="brand-name">MectoFitness</span>
-                    <span class="brand-tag">CRM</span>
-                </a>
-            </div>
+    <nav class="modern-navbar" id="mainNav">
+        <div class="scroll-progress" id="scrollProgress"></div>
+        <div class="navbar-container">
+            <a href="{{ url_for('main.index') }}" class="navbar-brand">
+                <div class="brand-logo">MectoFitness</div>
+                <div class="brand-text">PRO</div>
+            </a>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <span class="menu-bar"></span>
+                <span class="menu-bar"></span>
+                <span class="menu-bar"></span>
+            </button>
             
             {% if current_user.is_authenticated %}
-            <div class="nav-menu">
-                <a href="{{ url_for('main.dashboard') }}" class="nav-link">Dashboard</a>
-                <a href="{{ url_for('clients.list_clients') }}" class="nav-link">Clients</a>
-                <a href="{{ url_for('sessions.list_sessions') }}" class="nav-link">Sessions</a>
-                <a href="{{ url_for('programs.list_programs') }}" class="nav-link">Programs</a>
-                <a href="{{ url_for('calendar.calendar_settings') }}" class="nav-link">Calendar</a>
-                <div class="nav-dropdown">
-                    <span class="nav-link">{{ current_user.name or current_user.full_name or current_user.email }}</span>
+            <ul class="navbar-nav" id="navbarNav">
+                <li class="nav-item"><a href="{{ url_for('main.dashboard') }}" class="nav-link">📊 Dashboard</a></li>
+                <li class="nav-item"><a href="{{ url_for('clients.list_clients') }}" class="nav-link">👥 Clients</a></li>
+                <li class="nav-item"><a href="{{ url_for('sessions.list_sessions') }}" class="nav-link">📅 Sessions</a></li>
+                <li class="nav-item"><a href="{{ url_for('programs.list_programs') }}" class="nav-link">💪 Programs</a></li>
+                <li class="nav-item"><a href="{{ url_for('calendar.calendar_settings') }}" class="nav-link">🗓️ Calendar</a></li>
+                <li class="nav-item user-dropdown">
+                    <button class="user-button">
+                        <div class="user-avatar">{{ (current_user.first_name or current_user.email)[0].upper() }}</div>
+                        <span>{{ current_user.first_name or current_user.full_name or 'Account' }}</span>
+                    </button>
                     <div class="dropdown-menu">
-                        <a href="{{ url_for('settings.index') }}" class="dropdown-item">Settings</a>
-                        <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
+                        <a href="{{ url_for('settings.index') }}" class="dropdown-item">⚙️ Settings</a>
+                        <a href="{{ url_for('auth.logout') }}" class="dropdown-item">🚪 Logout</a>
                     </div>
-                </div>
-            </div>
+                </li>
+            </ul>
             {% else %}
-            <div class="nav-menu">
-                <a href="{{ url_for('main.index') }}#features" class="nav-link">Features</a>
-                <a href="{{ url_for('main.index') }}#pricing" class="nav-link">Pricing</a>
-                <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
-                <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="background: #FF6B35; border: none; padding: 0.5rem 1.5rem; border-radius: 6px;">Start Free Trial</a>
-            </div>
+            <ul class="navbar-nav" id="navbarNav">
+                <li class="nav-item"><a href="{{ url_for('main.index') }}#features" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="{{ url_for('main.index') }}#pricing" class="nav-link">Pricing</a></li>
+                <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="{{ url_for('auth.register') }}" class="nav-cta">Start Free Trial</a></li>
+            </ul>
             {% endif %}
         </div>
     </nav>
@@ -92,6 +101,7 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='src/styles/header.js') }}"></script>
     {% if current_user.is_authenticated %}
     <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
     {% endif %}
