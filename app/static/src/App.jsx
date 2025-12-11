@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import Layout from './components/Layout';
+import AIChatbot from './components/AIChatbot';
 import Dashboard from './pages/Dashboard';
 import Calendar from './pages/Calendar';
 import ClientList from './pages/clients/ClientList';
@@ -30,6 +31,8 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
+  const { isAuthenticated } = useAuthStore();
+
   return (
     <Router>
       <Routes>
@@ -71,6 +74,9 @@ function App() {
         {/* 404 */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      {/* AI Chatbot - Only show when authenticated */}
+      {isAuthenticated && <AIChatbot />}
     </Router>
   );
 }
