@@ -420,10 +420,6 @@ export default function Settings() {
                 </button>
               </form>
             )}
-                  {saving ? 'Saving...' : 'Save Preferences'}
-                </button>
-              </form>
-            )}
 
             {activeTab === 'security' && (
               <form onSubmit={handlePasswordChange} className="space-y-6">

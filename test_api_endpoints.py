@@ -86,10 +86,10 @@ def test_user_settings_api():
             print(f"⚠️  Unexpected status: {response.status_code}")
         
         # Clean up
-        db.session.delete(test_user)
         settings = TrainerSettings.query.filter_by(trainer_id=test_user.id).first()
         if settings:
             db.session.delete(settings)
+        db.session.delete(test_user)
         db.session.commit()
         print("\n✅ Cleaned up test data")
 

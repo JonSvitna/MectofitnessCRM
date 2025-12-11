@@ -6,6 +6,16 @@ from app.models.settings import TrainerSettings
 
 api_settings = Blueprint('api_settings', __name__, url_prefix='/api/v1/settings')
 
+# Allowed fields that can be updated via the API
+ALLOWED_SETTINGS_FIELDS = [
+    'business_name', 'business_logo_url', 'business_website', 'business_phone', 
+    'business_address', 'primary_color', 'secondary_color',
+    'enable_ai_programs', 'enable_email_marketing', 'enable_sms_marketing',
+    'enable_calendar_sync', 'enable_workflow_automation',
+    'notify_new_client', 'notify_session_reminder', 'notify_intake_complete',
+    'notification_email', 'twilio_enabled', 'sendgrid_enabled', 'sendgrid_from_email'
+]
+
 
 def error_response(message, status_code=400):
     """Return error response."""
@@ -96,16 +106,7 @@ def update_settings():
             db.session.add(settings)
         
         # Update all provided fields
-        allowed_fields = [
-            'business_name', 'business_logo_url', 'business_website', 'business_phone', 
-            'business_address', 'primary_color', 'secondary_color',
-            'enable_ai_programs', 'enable_email_marketing', 'enable_sms_marketing',
-            'enable_calendar_sync', 'enable_workflow_automation',
-            'notify_new_client', 'notify_session_reminder', 'notify_intake_complete',
-            'notification_email', 'twilio_enabled', 'sendgrid_enabled', 'sendgrid_from_email'
-        ]
-        
-        for field in allowed_fields:
+        for field in ALLOWED_SETTINGS_FIELDS:
             if field in data:
                 setattr(settings, field, data[field])
         
@@ -135,17 +136,8 @@ def patch_settings():
             db.session.add(settings)
         
         # Update only provided fields
-        allowed_fields = [
-            'business_name', 'business_logo_url', 'business_website', 'business_phone', 
-            'business_address', 'primary_color', 'secondary_color',
-            'enable_ai_programs', 'enable_email_marketing', 'enable_sms_marketing',
-            'enable_calendar_sync', 'enable_workflow_automation',
-            'notify_new_client', 'notify_session_reminder', 'notify_intake_complete',
-            'notification_email', 'twilio_enabled', 'sendgrid_enabled', 'sendgrid_from_email'
-        ]
-        
         updated_fields = []
-        for field in allowed_fields:
+        for field in ALLOWED_SETTINGS_FIELDS:
             if field in data:
                 setattr(settings, field, data[field])
                 updated_fields.append(field)

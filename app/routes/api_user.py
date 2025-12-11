@@ -76,14 +76,19 @@ def update_profile():
             current_user.phone = data['phone']
         
         if 'email' in data:
+            # Basic email validation
+            email = data['email'].strip()
+            if not email or '@' not in email or '.' not in email.split('@')[-1]:
+                return error_response('Invalid email address format', 400)
+            
             # Check if email is already taken by another user
             existing_user = User.query.filter(
-                User.email == data['email'],
+                User.email == email,
                 User.id != current_user.id
             ).first()
             if existing_user:
                 return error_response('Email already in use', 409)
-            current_user.email = data['email']
+            current_user.email = email
         
         db.session.commit()
         
