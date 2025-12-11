@@ -35,15 +35,17 @@ export default function Settings() {
   // Settings state
   const [settings, setSettings] = useState({
     business_name: '',
-    business_email: '',
+    business_website: '',
     business_phone: '',
-    timezone: 'America/New_York',
-    currency: 'USD',
-    session_reminder_hours: 24,
-    default_session_duration: 60,
-    allow_online_booking: true,
-    notifications_enabled: true,
-    email_notifications: true,
+    business_address: '',
+    primary_color: '#2ECC71',
+    secondary_color: '#27AE60',
+    enable_ai_programs: true,
+    enable_email_marketing: true,
+    enable_calendar_sync: true,
+    notify_new_client: true,
+    notify_session_reminder: true,
+    notification_email: '',
   });
 
   useEffect(() => {
@@ -68,15 +70,17 @@ export default function Settings() {
       const settingsData = settingsRes.data.data;
       setSettings({
         business_name: settingsData.business_name || '',
-        business_email: settingsData.business_email || '',
+        business_website: settingsData.business_website || '',
         business_phone: settingsData.business_phone || '',
-        timezone: settingsData.timezone || 'America/New_York',
-        currency: settingsData.currency || 'USD',
-        session_reminder_hours: settingsData.session_reminder_hours || 24,
-        default_session_duration: settingsData.default_session_duration || 60,
-        allow_online_booking: settingsData.allow_online_booking ?? true,
-        notifications_enabled: settingsData.notifications_enabled ?? true,
-        email_notifications: settingsData.email_notifications ?? true,
+        business_address: settingsData.business_address || '',
+        primary_color: settingsData.primary_color || '#2ECC71',
+        secondary_color: settingsData.secondary_color || '#27AE60',
+        enable_ai_programs: settingsData.enable_ai_programs ?? true,
+        enable_email_marketing: settingsData.enable_email_marketing ?? true,
+        enable_calendar_sync: settingsData.enable_calendar_sync ?? true,
+        notify_new_client: settingsData.notify_new_client ?? true,
+        notify_session_reminder: settingsData.notify_session_reminder ?? true,
+        notification_email: settingsData.notification_email || '',
       });
     } catch (err) {
       console.error('Error loading settings:', err);
@@ -288,14 +292,15 @@ export default function Settings() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Business Email
+                        Business Website
                       </label>
                       <input
-                        type="email"
-                        value={settings.business_email}
+                        type="url"
+                        value={settings.business_website}
                         onChange={(e) =>
-                          setSettings({ ...settings, business_email: e.target.value })
+                          setSettings({ ...settings, business_website: e.target.value })
                         }
+                        placeholder="https://example.com"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       />
                     </div>
@@ -312,35 +317,41 @@ export default function Settings() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       />
                     </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Business Address
+                      </label>
+                      <textarea
+                        value={settings.business_address}
+                        onChange={(e) =>
+                          setSettings({ ...settings, business_address: e.target.value })
+                        }
+                        rows="3"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      />
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Timezone
+                          Primary Color
                         </label>
-                        <select
-                          value={settings.timezone}
-                          onChange={(e) => setSettings({ ...settings, timezone: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                        >
-                          <option value="America/New_York">Eastern Time</option>
-                          <option value="America/Chicago">Central Time</option>
-                          <option value="America/Denver">Mountain Time</option>
-                          <option value="America/Los_Angeles">Pacific Time</option>
-                        </select>
+                        <input
+                          type="color"
+                          value={settings.primary_color}
+                          onChange={(e) => setSettings({ ...settings, primary_color: e.target.value })}
+                          className="w-full h-10 border border-gray-300 rounded-lg"
+                        />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Currency
+                          Secondary Color
                         </label>
-                        <select
-                          value={settings.currency}
-                          onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                        >
-                          <option value="USD">USD</option>
-                          <option value="EUR">EUR</option>
-                          <option value="GBP">GBP</option>
-                        </select>
+                        <input
+                          type="color"
+                          value={settings.secondary_color}
+                          onChange={(e) => setSettings({ ...settings, secondary_color: e.target.value })}
+                          className="w-full h-10 border border-gray-300 rounded-lg"
+                        />
                       </div>
                     </div>
                   </div>
@@ -365,38 +376,36 @@ export default function Settings() {
                     <label className="flex items-center gap-3">
                       <input
                         type="checkbox"
-                        checked={settings.notifications_enabled}
+                        checked={settings.notify_new_client}
                         onChange={(e) =>
-                          setSettings({ ...settings, notifications_enabled: e.target.checked })
+                          setSettings({ ...settings, notify_new_client: e.target.checked })
                         }
                         className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
                       />
-                      <span className="text-gray-700">Enable all notifications</span>
+                      <span className="text-gray-700">Notify on new client sign-up</span>
                     </label>
                     <label className="flex items-center gap-3">
                       <input
                         type="checkbox"
-                        checked={settings.email_notifications}
+                        checked={settings.notify_session_reminder}
                         onChange={(e) =>
-                          setSettings({ ...settings, email_notifications: e.target.checked })
+                          setSettings({ ...settings, notify_session_reminder: e.target.checked })
                         }
                         className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
                       />
-                      <span className="text-gray-700">Email notifications</span>
+                      <span className="text-gray-700">Session reminders</span>
                     </label>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Session Reminder (hours before)
+                        Notification Email
                       </label>
                       <input
-                        type="number"
-                        value={settings.session_reminder_hours}
+                        type="email"
+                        value={settings.notification_email}
                         onChange={(e) =>
-                          setSettings({
-                            ...settings,
-                            session_reminder_hours: parseInt(e.target.value),
-                          })
+                          setSettings({ ...settings, notification_email: e.target.value })
                         }
+                        placeholder="your@email.com"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       />
                     </div>
@@ -407,6 +416,10 @@ export default function Settings() {
                   disabled={saving}
                   className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 disabled:opacity-50"
                 >
+                  {saving ? 'Saving...' : 'Save Preferences'}
+                </button>
+              </form>
+            )}
                   {saving ? 'Saving...' : 'Save Preferences'}
                 </button>
               </form>

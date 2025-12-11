@@ -25,8 +25,9 @@ def test_user_settings_api():
         test_user = User(
             username='test_api_user',
             email='test@example.com',
-            password=generate_password_hash('password123'),
-            name='Test User',
+            password_hash=generate_password_hash('password123'),
+            first_name='Test',
+            last_name='User',
             role='trainer',
             is_active=True
         )

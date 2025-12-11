@@ -27,24 +27,34 @@ def serialize_settings(settings):
     return {
         'id': settings.id,
         'trainer_id': settings.trainer_id,
+        # Business settings
         'business_name': settings.business_name,
-        'business_email': settings.business_email,
+        'business_logo_url': settings.business_logo_url,
+        'business_website': settings.business_website,
         'business_phone': settings.business_phone,
         'business_address': settings.business_address,
-        'timezone': settings.timezone,
-        'currency': settings.currency,
-        'language': settings.language,
-        'session_reminder_hours': settings.session_reminder_hours,
-        'booking_buffer_minutes': settings.booking_buffer_minutes,
-        'default_session_duration': settings.default_session_duration,
-        'allow_online_booking': settings.allow_online_booking,
-        'require_booking_approval': settings.require_booking_approval,
-        'ai_program_generation_enabled': settings.ai_program_generation_enabled,
-        'payment_processing_enabled': settings.payment_processing_enabled,
-        'notifications_enabled': settings.notifications_enabled,
-        'email_notifications': settings.email_notifications,
-        'sms_notifications': settings.sms_notifications,
-        'calendar_sync_enabled': settings.calendar_sync_enabled,
+        # Branding
+        'primary_color': settings.primary_color,
+        'secondary_color': settings.secondary_color,
+        # Feature toggles
+        'enable_ai_programs': settings.enable_ai_programs,
+        'enable_email_marketing': settings.enable_email_marketing,
+        'enable_sms_marketing': settings.enable_sms_marketing,
+        'enable_calendar_sync': settings.enable_calendar_sync,
+        'enable_workflow_automation': settings.enable_workflow_automation,
+        # Notification preferences
+        'notify_new_client': settings.notify_new_client,
+        'notify_session_reminder': settings.notify_session_reminder,
+        'notify_intake_complete': settings.notify_intake_complete,
+        'notification_email': settings.notification_email,
+        # Integration settings
+        'twilio_enabled': settings.twilio_enabled,
+        'sendgrid_enabled': settings.sendgrid_enabled,
+        'sendgrid_from_email': settings.sendgrid_from_email,
+        # API settings
+        'api_calls_per_day': settings.api_calls_per_day,
+        'current_api_calls': settings.current_api_calls,
+        # Timestamps
         'created_at': settings.created_at.isoformat() if settings.created_at else None,
         'updated_at': settings.updated_at.isoformat() if settings.updated_at else None
     }
@@ -87,13 +97,12 @@ def update_settings():
         
         # Update all provided fields
         allowed_fields = [
-            'business_name', 'business_email', 'business_phone', 'business_address',
-            'timezone', 'currency', 'language',
-            'session_reminder_hours', 'booking_buffer_minutes', 'default_session_duration',
-            'allow_online_booking', 'require_booking_approval',
-            'ai_program_generation_enabled', 'payment_processing_enabled',
-            'notifications_enabled', 'email_notifications', 'sms_notifications',
-            'calendar_sync_enabled'
+            'business_name', 'business_logo_url', 'business_website', 'business_phone', 
+            'business_address', 'primary_color', 'secondary_color',
+            'enable_ai_programs', 'enable_email_marketing', 'enable_sms_marketing',
+            'enable_calendar_sync', 'enable_workflow_automation',
+            'notify_new_client', 'notify_session_reminder', 'notify_intake_complete',
+            'notification_email', 'twilio_enabled', 'sendgrid_enabled', 'sendgrid_from_email'
         ]
         
         for field in allowed_fields:
@@ -127,13 +136,12 @@ def patch_settings():
         
         # Update only provided fields
         allowed_fields = [
-            'business_name', 'business_email', 'business_phone', 'business_address',
-            'timezone', 'currency', 'language',
-            'session_reminder_hours', 'booking_buffer_minutes', 'default_session_duration',
-            'allow_online_booking', 'require_booking_approval',
-            'ai_program_generation_enabled', 'payment_processing_enabled',
-            'notifications_enabled', 'email_notifications', 'sms_notifications',
-            'calendar_sync_enabled'
+            'business_name', 'business_logo_url', 'business_website', 'business_phone', 
+            'business_address', 'primary_color', 'secondary_color',
+            'enable_ai_programs', 'enable_email_marketing', 'enable_sms_marketing',
+            'enable_calendar_sync', 'enable_workflow_automation',
+            'notify_new_client', 'notify_session_reminder', 'notify_intake_complete',
+            'notification_email', 'twilio_enabled', 'sendgrid_enabled', 'sendgrid_from_email'
         ]
         
         updated_fields = []

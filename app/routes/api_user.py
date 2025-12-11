@@ -28,14 +28,23 @@ def success_response(data=None, message=None, status_code=200):
 def get_profile():
     """Get current user profile."""
     try:
+        # Build full name from first_name and last_name
+        full_name = None
+        if current_user.first_name and current_user.last_name:
+            full_name = f"{current_user.first_name} {current_user.last_name}"
+        elif current_user.first_name:
+            full_name = current_user.first_name
+        elif current_user.last_name:
+            full_name = current_user.last_name
+        
         user_data = {
             'id': current_user.id,
             'username': current_user.username,
             'email': current_user.email,
             'first_name': current_user.first_name,
             'last_name': current_user.last_name,
-            'full_name': current_user.full_name if hasattr(current_user, 'full_name') else None,
-            'phone': current_user.phone if hasattr(current_user, 'phone') else None,
+            'full_name': full_name,
+            'phone': current_user.phone,
             'role': current_user.role,
             'organization_id': current_user.organization_id,
             'created_at': current_user.created_at.isoformat() if current_user.created_at else None,
