@@ -5,247 +5,216 @@
 {% block meta_description %}Professional personal training software for fitness coaches. Manage clients, build custom programs, track progress, and grow your business - all in one simple platform.{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gym-pro-theme.css') }}">
 <style>
-    /* Hero Video Section */
-    .video-hero-section {
+    /* Homepage Hero Section - Matches Dashboard Theme */
+    .homepage-hero {
+        background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-secondary) 100%);
+        padding: 6rem 0 8rem 0;
         position: relative;
-        height: 90vh;
-        min-height: 600px;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
     
-    .video-background {
+    .homepage-hero::before {
+        content: '';
         position: absolute;
         top: 0;
-        left: 0;
-        width: 100%;
+        right: 0;
+        width: 50%;
         height: 100%;
-        object-fit: cover;
-        z-index: 0;
+        background: linear-gradient(135deg, transparent 0%, rgba(255, 107, 53, 0.1) 100%);
+        pointer-events: none;
     }
     
-    .video-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(0, 78, 137, 0.75) 100%);
-        z-index: 1;
-    }
-    
-    .video-content {
+    .hero-content {
         position: relative;
         z-index: 2;
-        text-align: center;
-        color: white;
-        padding: 2rem;
-        max-width: 900px;
+        max-width: 1200px;
         margin: 0 auto;
+        padding: 0 2rem;
     }
     
-    .video-hero-title {
-        font-size: 3.5rem;
-        font-weight: 900;
-        margin-bottom: 1.5rem;
-        color: white;
-        text-shadow: 2px 4px 8px rgba(0,0,0,0.3);
-        line-height: 1.2;
-    }
-    
-    .video-hero-subtitle {
-        font-size: 1.4rem;
-        margin-bottom: 2.5rem;
-        opacity: 0.95;
-        line-height: 1.6;
-    }
-    
-    .hero-cta-buttons {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
-        flex-wrap: wrap;
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(26, 229, 190, 0.15);
+        color: var(--brand-accent);
+        padding: 0.5rem 1.25rem;
+        border-radius: var(--radius-full);
+        font-size: var(--text-sm);
+        font-weight: var(--font-semibold);
         margin-bottom: 2rem;
+        border: 1px solid rgba(26, 229, 190, 0.3);
     }
     
-    .cta-primary {
-        background: #FF6B35;
-        color: white;
-        padding: 1.2rem 3rem;
-        font-size: 1.2rem;
-        font-weight: 700;
-        border-radius: 8px;
-        text-decoration: none;
-        box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
-        transition: all 0.3s ease;
-        border: none;
+    .hero-title {
+        font-size: 4rem;
+        font-weight: var(--font-extrabold);
+        color: var(--text-inverse);
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
     }
     
-    .cta-primary:hover {
-        background: #e55a2b;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 24px rgba(255, 107, 53, 0.5);
+    .hero-subtitle {
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.6;
+        margin-bottom: 3rem;
+        max-width: 700px;
     }
     
-    .cta-secondary {
-        background: rgba(255, 255, 255, 0.15);
-        color: white;
-        padding: 1.2rem 3rem;
-        font-size: 1.2rem;
-        font-weight: 600;
-        border-radius: 8px;
-        text-decoration: none;
-        border: 2px solid rgba(255, 255, 255, 0.8);
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-    }
-    
-    .cta-secondary:hover {
-        background: rgba(255, 255, 255, 0.25);
-        border-color: white;
-    }
-    
-    .hero-features-list {
+    .hero-cta-group {
         display: flex;
-        gap: 2rem;
-        justify-content: center;
+        gap: 1rem;
         flex-wrap: wrap;
-        font-size: 1rem;
-        opacity: 0.95;
+        margin-bottom: 3rem;
+    }
+    
+    .hero-stats {
+        display: flex;
+        gap: 3rem;
+        flex-wrap: wrap;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .hero-stat {
+        text-align: left;
+    }
+    
+    .hero-stat-value {
+        font-size: 2.5rem;
+        font-weight: var(--font-extrabold);
+        color: var(--brand-primary);
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-stat-label {
+        font-size: var(--text-sm);
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: var(--font-medium);
     }
     
     @media (max-width: 768px) {
-        .video-hero-section {
-            height: 100vh;
-        }
-        .video-hero-title {
+        .hero-title {
             font-size: 2.5rem;
         }
-        .video-hero-subtitle {
-            font-size: 1.1rem;
+        .hero-subtitle {
+            font-size: 1.125rem;
         }
-        .cta-primary, .cta-secondary {
-            padding: 1rem 2rem;
-            font-size: 1rem;
+        .hero-stats {
+            gap: 2rem;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section with Video Background -->
-<div class="video-hero-section">
-    <!-- Placeholder for video - Using gradient background as fallback -->
-    <!-- To add actual video: <video class="video-background" autoplay muted loop playsinline>
-        <source src="{{ url_for('static', filename='videos/fitness-training.mp4') }}" type="video/mp4">
-    </video> -->
-    <div class="video-background" style="background: linear-gradient(135deg, #1A1A2E 0%, #004E89 50%, #FF6B35 100%); background-size: 200% 200%; animation: gradientShift 15s ease infinite;">
-        <style>
-            @keyframes gradientShift {
-                0%, 100% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-            }
-        </style>
-    </div>
-    <div class="video-overlay"></div>
-    <div class="video-content">
-        <h1 class="video-hero-title">
-            Transform Your Fitness Business
+<!-- Hero Section with Professional Gym Theme -->
+<div class="homepage-hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span>⚡</span>
+            <span>The #1 CRM for Fitness Professionals</span>
+        </div>
+        
+        <h1 class="hero-title">
+            Transform Your<br>Fitness Business
         </h1>
-        <p class="video-hero-subtitle">
+        
+        <p class="hero-subtitle">
             The complete platform for personal trainers, fitness coaches, and gym owners. 
             Manage clients, programs, sessions, and payments—all in one place.
         </p>
-        <div class="hero-cta-buttons">
-            <a href="{{ url_for('auth.register') }}" class="cta-primary">
+        
+        <div class="hero-cta-group">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                <span style="margin-right: 0.5rem;">🚀</span>
                 Start Free Trial
             </a>
-            <a href="{{ url_for('auth.login') }}" class="cta-secondary">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-secondary btn-lg">
                 Sign In
             </a>
         </div>
-        <div class="hero-features-list">
-            <span>✓ No credit card required</span>
-            <span>✓ 14-day free trial</span>
-            <span>✓ Cancel anytime</span>
-        </div>
-    </div>
-</div>
-
-<!-- Trust Section -->
-<div style="padding: 4rem 0; background: var(--theme-bg-secondary); text-align: center;">
-    <div class="container">
-        <p style="color: var(--theme-text-secondary); margin-bottom: 2rem; font-weight: 600; font-size: 0.95rem; letter-spacing: 1px;">TRUSTED BY FITNESS PROFESSIONALS WORLDWIDE</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; max-width: 900px; margin: 0 auto;">
-            <div>
-                <div style="font-size: 3rem; font-weight: 800; color: #FF6B35; margin-bottom: 0.5rem;">1000+</div>
-                <p style="font-size: 1rem; font-weight: 500; color: var(--theme-text-secondary);">Active Trainers</p>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">1000+</div>
+                <div class="hero-stat-label">Active Trainers</div>
             </div>
-            <div>
-                <div style="font-size: 3rem; font-weight: 800; color: #1AE5BE; margin-bottom: 0.5rem;">15K+</div>
-                <p style="font-size: 1rem; font-weight: 500; color: var(--theme-text-secondary);">Clients Trained</p>
+            <div class="hero-stat">
+                <div class="hero-stat-value">15K+</div>
+                <div class="hero-stat-label">Clients Trained</div>
             </div>
-            <div>
-                <div style="font-size: 3rem; font-weight: 800; color: #004E89; margin-bottom: 0.5rem;">50K+</div>
-                <p style="font-size: 1rem; font-weight: 500; color: var(--theme-text-secondary);">Workouts Created</p>
+            <div class="hero-stat">
+                <div class="hero-stat-value">50K+</div>
+                <div class="hero-stat-label">Workouts Created</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">4.9★</div>
+                <div class="hero-stat-label">Average Rating</div>
             </div>
         </div>
     </div>
 </div>
 
-<div id="features" class="features-section" style="padding: 5rem 0; background: var(--theme-bg-primary);">
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--theme-text-primary); margin-bottom: 1rem;">
+<!-- Features Section -->
+<section id="features" style="padding: var(--space-16) 0; background: var(--surface-secondary);">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-6);">
+        <div style="text-align: center; margin-bottom: var(--space-12);">
+            <div style="display: inline-block; background: rgba(255, 107, 53, 0.1); color: var(--brand-primary); padding: var(--space-2) var(--space-4); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: var(--font-semibold); margin-bottom: var(--space-4);">
+                POWERFUL FEATURES
+            </div>
+            <h2 style="font-size: var(--text-4xl); font-weight: var(--font-extrabold); color: var(--text-primary); margin-bottom: var(--space-4);">
                 Everything You Need to Grow Your Business
             </h2>
-            <p style="font-size: 1.1rem; color: var(--theme-text-secondary); max-width: 700px; margin: 0 auto;">
+            <p style="font-size: var(--text-lg); color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
                 Built for trainers, by trainers. Powerful features that scale with your business.
             </p>
         </div>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem;">
-            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
-                <div style="font-size: 3rem; margin-bottom: 1.5rem;">👥</div>
-                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Client Management</h3>
-                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Track client profiles, goals, measurements, and progress photos in one organized dashboard. Stay connected with built-in messaging.</p>
+        <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-6);">
+            <div class="card" style="padding: var(--space-8); transition: all 0.3s ease; border: 1px solid var(--border-light);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)'; this.style.borderColor='var(--brand-primary)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)'; this.style.borderColor='var(--border-light)'">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">👥</div>
+                <h3 class="card-title" style="font-size: var(--text-xl); margin-bottom: var(--space-3);">Client Management</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7;">Track client profiles, goals, measurements, and progress photos in one organized dashboard. Stay connected with built-in messaging.</p>
             </div>
             
-            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
-                <div style="font-size: 3rem; margin-bottom: 1.5rem;">💪</div>
-                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Program Builder</h3>
-                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Create custom workout programs with our exercise library. Save time with templates or let AI build personalized plans from client intake forms.</p>
+            <div class="card" style="padding: var(--space-8); transition: all 0.3s ease; border: 1px solid var(--border-light);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)'; this.style.borderColor='var(--brand-primary)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)'; this.style.borderColor='var(--border-light)'">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">💪</div>
+                <h3 class="card-title" style="font-size: var(--text-xl); margin-bottom: var(--space-3);">Program Builder</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7;">Create custom workout programs with our exercise library. Save time with templates or let AI build personalized plans.</p>
             </div>
             
-            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
-                <div style="font-size: 3rem; margin-bottom: 1.5rem;">📅</div>
-                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Scheduling & Booking</h3>
-                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Online booking for new and existing clients. Automatic calendar sync with Google and Outlook. Never miss a session.</p>
+            <div class="card" style="padding: var(--space-8); transition: all 0.3s ease; border: 1px solid var(--border-light);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)'; this.style.borderColor='var(--brand-primary)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)'; this.style.borderColor='var(--border-light)'">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">📅</div>
+                <h3 class="card-title" style="font-size: var(--text-xl); margin-bottom: var(--space-3);">Scheduling & Booking</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7;">Online booking for new and existing clients. Automatic calendar sync with Google and Outlook. Never miss a session.</p>
             </div>
             
-            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
-                <div style="font-size: 3rem; margin-bottom: 1.5rem;">💳</div>
-                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Payments & Billing</h3>
-                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Accept payments and manage subscriptions with Stripe integration. Automatic invoicing and recurring billing handled for you.</p>
+            <div class="card" style="padding: var(--space-8); transition: all 0.3s ease; border: 1px solid var(--border-light);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)'; this.style.borderColor='var(--brand-primary)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)'; this.style.borderColor='var(--border-light)'">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">💳</div>
+                <h3 class="card-title" style="font-size: var(--text-xl); margin-bottom: var(--space-3);">Payments & Billing</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7;">Accept payments and manage subscriptions with Stripe integration. Automatic invoicing and recurring billing.</p>
             </div>
             
-            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
-                <div style="font-size: 3rem; margin-bottom: 1.5rem;">📊</div>
-                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Progress Tracking</h3>
-                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Track client progress with photos, measurements, and custom metrics. Visual charts show progress over time to keep clients motivated.</p>
+            <div class="card" style="padding: var(--space-8); transition: all 0.3s ease; border: 1px solid var(--border-light);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)'; this.style.borderColor='var(--brand-primary)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)'; this.style.borderColor='var(--border-light)'">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">📊</div>
+                <h3 class="card-title" style="font-size: var(--text-xl); margin-bottom: var(--space-3);">Progress Tracking</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7;">Track client progress with photos, measurements, and custom metrics. Visual charts show progress over time.</p>
             </div>
             
-            <div style="background: var(--theme-card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--theme-card-shadow); border: 1px solid var(--theme-card-border); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 24px rgba(255,107,53,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--theme-card-shadow)'">
-                <div style="font-size: 3rem; margin-bottom: 1.5rem;">🥗</div>
-                <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--theme-text-primary); margin-bottom: 1rem;">Nutrition & Habits</h3>
-                <p style="color: var(--theme-text-secondary); line-height: 1.7;">Create nutrition plans with macro tracking. Help clients build healthy habits with our habit tracking and streak system.</p>
+            <div class="card" style="padding: var(--space-8); transition: all 0.3s ease; border: 1px solid var(--border-light);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)'; this.style.borderColor='var(--brand-primary)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)'; this.style.borderColor='var(--border-light)'">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">🥗</div>
+                <h3 class="card-title" style="font-size: var(--text-xl); margin-bottom: var(--space-3);">Nutrition & Habits</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7;">Create nutrition plans with macro tracking. Help clients build healthy habits with our habit tracking system.</p>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <div style="padding: 5rem 0; background: var(--theme-bg-secondary);">
     <div class="container">
