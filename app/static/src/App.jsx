@@ -46,23 +46,32 @@ function App() {
       try {
         // Try to fetch user profile from backend
         const userResponse = await userApi.getProfile();
-        const orgResponse = await organizationApi.get();
         
         if (userResponse.data.success && userResponse.data.data) {
+          // Try to fetch organization data (optional)
+          let orgData = null;
+          try {
+            const orgResponse = await organizationApi.get();
+            orgData = orgResponse.data.data;
+          } catch (orgError) {
+            // Organization fetch is optional - continue without it
+            console.warn('Could not fetch organization data:', orgError);
+          }
+          
           // User is authenticated via Flask session
-          setAuth(userResponse.data.data, orgResponse.data.data);
+          setAuth(userResponse.data.data, orgData);
         }
       } catch (error) {
         // If API returns 401, user is not authenticated
         if (error.response?.status === 401) {
-          logout();
+          // Just redirect - Flask will handle session clearing
           window.location.href = '/login';
         }
       }
     };
 
     checkAuth();
-  }, [setAuth, logout]);
+  }, [setAuth]);
 
   return (
     <Router>
