@@ -64,12 +64,12 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Button variant="primary" size="lg" className="group">
+            <Button variant="primary" size="lg" className="group" href="/register">
               Start Free Trial
               <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button variant="secondary" size="lg">
-              Watch Demo
+            <Button variant="secondary" size="lg" href="#features">
+              View Features
             </Button>
           </motion.div>
 

@@ -4,22 +4,31 @@ This module serves the React SPA as the primary interface.
 The dashboard route now serves the React app with full backend integration.
 Legacy Jinja templates are available at /dashboard/legacy if needed.
 """
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, send_from_directory, current_app
 from flask_login import login_required, current_user
 from app.models.client import Client
 from app.models.session import Session
 from app.models.program import Program
 from datetime import datetime, timedelta
+import os
 
 bp = Blueprint('main', __name__)
 
 
 @bp.route('/')
 def index():
-    """Landing page."""
-    # Allow authenticated users to view the homepage (e.g., for pricing section)
-    # They can still navigate to dashboard via the navbar
-    return render_template('index.html')
+    """Landing page - serves Next.js static homepage."""
+    # Check if Next.js static homepage exists
+    homepage_path = os.path.join(current_app.static_folder, 'homepage', 'index.html')
+    if os.path.exists(homepage_path):
+        # Serve the static Next.js homepage
+        return send_from_directory(
+            os.path.join(current_app.static_folder, 'homepage'),
+            'index.html'
+        )
+    else:
+        # Fallback to old template if Next.js homepage not built yet
+        return render_template('index.html')
 
 
 @bp.route('/app')
@@ -89,6 +98,15 @@ def dashboard(path=''):
 def about():
     """About page."""
     return render_template('about.html')
+
+
+@bp.route('/_next/<path:path>')
+def serve_next_assets(path):
+    """Serve Next.js static assets."""
+    return send_from_directory(
+        os.path.join(current_app.static_folder, 'homepage', '_next'),
+        path
+    )
 
 
 @bp.route('/health')

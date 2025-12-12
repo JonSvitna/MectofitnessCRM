@@ -145,6 +145,7 @@ export function Pricing() {
                   <Button 
                     variant={tier.popular ? 'primary' : 'secondary'} 
                     className="w-full"
+                    href="/register"
                   >
                     {tier.cta}
                   </Button>
