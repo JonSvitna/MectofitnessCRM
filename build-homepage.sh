@@ -4,6 +4,17 @@
 
 set -e
 
+# Cleanup function to restore app directory
+cleanup() {
+    if [ -d "flask_app_temp" ] && [ ! -d "app" ]; then
+        echo "Restoring Flask app directory..."
+        mv flask_app_temp app
+    fi
+}
+
+# Set trap to ensure cleanup on exit
+trap cleanup EXIT INT TERM
+
 echo "========================================" 
 echo "Building Next.js Static Homepage"
 echo "========================================"

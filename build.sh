@@ -11,6 +11,18 @@ echo "Building frontend dashboard (React/Vite)..."
 npm run build
 
 echo "Building static homepage (Next.js)..."
+
+# Cleanup function to restore app directory
+cleanup_app_dir() {
+    if [ -d "flask_app_temp" ] && [ ! -d "app" ]; then
+        echo "⚠️  Restoring Flask app directory after error..."
+        mv flask_app_temp app
+    fi
+}
+
+# Set trap to ensure cleanup on exit
+trap cleanup_app_dir EXIT INT TERM
+
 # Temporarily rename Flask app directory to avoid Next.js conflict
 if [ -d "app" ]; then
     mv app flask_app_temp

@@ -63,13 +63,22 @@ def main():
     checks_total += 1
     if check_file('next.config.mjs', 'Next.js config'):
         checks_passed += 1
-        # Verify export mode
-        with open('next.config.mjs') as f:
-            config = f.read()
-            if "output: 'export'" in config:
-                print("   ✓ Static export enabled")
-            else:
-                print("   ⚠ Static export may not be enabled")
+        # Verify export mode with robust parsing
+        try:
+            with open('next.config.mjs') as f:
+                config = f.read()
+                # Check for various possible formats
+                if any(pattern in config for pattern in [
+                    "output: 'export'",
+                    'output: "export"',
+                    "output:'export'",
+                    'output:"export"'
+                ]):
+                    print("   ✓ Static export enabled")
+                else:
+                    print("   ⚠ Static export may not be enabled")
+        except Exception as e:
+            print(f"   ⚠ Could not verify config: {e}")
     print()
     
     checks_total += 1
@@ -96,15 +105,18 @@ def main():
     checks_total += 1
     if check_file('app/routes/main.py', 'Flask routes'):
         checks_passed += 1
-        # Verify route configuration
-        with open('app/routes/main.py') as f:
-            routes = f.read()
-            if 'send_from_directory' in routes:
-                print("   ✓ Static file serving configured")
-            if "homepage/index.html" in routes:
-                print("   ✓ Homepage route configured")
-            if "_next" in routes:
-                print("   ✓ Next.js assets route configured")
+        # Verify route configuration with error handling
+        try:
+            with open('app/routes/main.py') as f:
+                routes = f.read()
+                if 'send_from_directory' in routes:
+                    print("   ✓ Static file serving configured")
+                if "homepage/index.html" in routes:
+                    print("   ✓ Homepage route configured")
+                if "_next" in routes:
+                    print("   ✓ Next.js assets route configured")
+        except Exception as e:
+            print(f"   ⚠ Could not verify routes: {e}")
     print()
     
     # Check documentation
