@@ -65,6 +65,11 @@ pnpm-lock.yaml
 app/static/dist/
 .vite/
 
+# Next.js build output
+.next/
+out/
+next-env.d.ts
+
 # Tailwind
 .tailwindcss/
 
