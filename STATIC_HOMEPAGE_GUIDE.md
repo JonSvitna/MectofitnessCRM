@@ -172,6 +172,12 @@ git push
 
 **Note:** As of December 2024, `app/static/homepage/` has been removed from `.gitignore` to allow the built homepage files to be committed to the repository. This ensures the homepage is available even if the build process fails during deployment. The homepage files are now tracked in Git and will be pushed with your code.
 
+**Important Considerations:**
+- **When to regenerate:** Rebuild and commit homepage files after any changes to `src/app/` or `src/components/` source files
+- **Repository size:** Build artifacts will increase repository size; consider this for large projects
+- **Merge conflicts:** Multiple developers building simultaneously may cause conflicts; coordinate builds as needed
+- **Keep in sync:** Always rebuild after source changes to ensure deployed version matches source code
+
 ### Issue: 404 on Next.js assets
 
 **Cause:** `_next` route not configured in Flask
