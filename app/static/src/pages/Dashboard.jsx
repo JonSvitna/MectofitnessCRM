@@ -85,10 +85,10 @@ export default function Dashboard() {
   // Loading state
   if (loading) {
     return (
-      <div className="h-full bg-gray-50 flex items-center justify-center">
+      <div className="h-full bg-gray-50 dark:bg-black flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin h-12 w-12 border-4 border-primary-200 border-t-primary-600 rounded-full mx-auto mb-4"></div>
-          <p className="text-gray-700">Loading your dashboard...</p>
+          <div className="animate-spin h-12 w-12 border-4 border-primary-200 dark:border-orange-500/20 border-t-primary-600 dark:border-t-orange-500 rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-700 dark:text-gray-300">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -97,16 +97,16 @@ export default function Dashboard() {
   // Error state
   if (error) {
     return (
-      <div className="h-full bg-gray-50 flex items-center justify-center">
+      <div className="h-full bg-gray-50 dark:bg-black flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4">
-          <div className="bg-danger-50 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-            <BoltIcon className="h-8 w-8 text-danger-600" />
+          <div className="bg-danger-50 dark:bg-danger-900/30 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
+            <BoltIcon className="h-8 w-8 text-danger-600 dark:text-danger-400" />
           </div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Unable to Load Dashboard</h2>
-          <p className="text-gray-700 mb-6">{error}</p>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Unable to Load Dashboard</h2>
+          <p className="text-gray-700 dark:text-gray-300 mb-6">{error}</p>
           <button
             onClick={loadDashboardData}
-            className="inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors"
+            className="inline-flex items-center gap-2 bg-primary-600 dark:bg-orange-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 dark:hover:bg-orange-600 transition-colors"
           >
             Try Again
           </button>
@@ -116,36 +116,36 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="h-full bg-gray-50">
+    <div className="h-full bg-gray-50 dark:bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Header Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {getGreeting()}, {user?.first_name || 'Trainer'}
           </h1>
-          <p className="text-gray-700">Here's what's happening with your clients today</p>
+          <p className="text-gray-700 dark:text-gray-300">Here's what's happening with your clients today</p>
         </div>
 
         {/* Quick Actions Bar */}
         <div className="mb-8 flex flex-wrap gap-3">
           <Link
             to="/clients?action=add"
-            className="inline-flex items-center gap-2 bg-primary-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-primary-700 transition-colors shadow-button hover:shadow-button-hover"
+            className="inline-flex items-center gap-2 bg-primary-600 dark:bg-orange-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-primary-700 dark:hover:bg-orange-600 transition-colors shadow-button hover:shadow-button-hover"
           >
             <PlusIcon className="h-5 w-5" />
             New Client
           </Link>
           <Link
             to="/sessions?action=add"
-            className="inline-flex items-center gap-2 bg-white text-gray-700 px-5 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition-colors border border-gray-300 shadow-sm"
+            className="inline-flex items-center gap-2 bg-white dark:bg-white/5 text-gray-700 dark:text-gray-300 px-5 py-2.5 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors border border-gray-300 dark:border-white/10 shadow-sm"
           >
             <CalendarIcon className="h-5 w-5" />
             Schedule Session
           </Link>
           <Link
             to="/programs?action=add"
-            className="inline-flex items-center gap-2 bg-white text-gray-700 px-5 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition-colors border border-gray-300 shadow-sm"
+            className="inline-flex items-center gap-2 bg-white dark:bg-white/5 text-gray-700 dark:text-gray-300 px-5 py-2.5 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors border border-gray-300 dark:border-white/10 shadow-sm"
           >
             <DocumentTextIcon className="h-5 w-5" />
             Create Program
@@ -156,19 +156,19 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 
           {/* Active Clients */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-card transition-shadow">
+          <div className="bg-white dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 p-6 hover:shadow-card dark:hover:shadow-orange-500/10 transition-shadow backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
-              <div className="bg-primary-50 rounded-lg p-3">
-                <UsersIcon className="h-6 w-6 text-primary-600" />
+              <div className="bg-primary-50 dark:bg-orange-500/10 rounded-lg p-3">
+                <UsersIcon className="h-6 w-6 text-primary-600 dark:text-orange-500" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">
+            <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {overview?.total_clients || 0}
             </div>
-            <div className="text-sm text-gray-700 mb-3">Active Clients</div>
-            <div className="flex items-center text-sm text-gray-600">
-              <ArrowTrendingUpIcon className="h-4 w-4 text-success-600 mr-1" />
-              <span className="text-success-600 font-medium">
+            <div className="text-sm text-gray-700 dark:text-gray-400 mb-3">Active Clients</div>
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+              <ArrowTrendingUpIcon className="h-4 w-4 text-success-600 dark:text-green-400 mr-1" />
+              <span className="text-success-600 dark:text-green-400 font-medium">
                 {overview?.active_clients || 0}
               </span>
               <span className="ml-1">active this week</span>
@@ -176,52 +176,52 @@ export default function Dashboard() {
           </div>
 
           {/* Today's Sessions */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-card transition-shadow">
+          <div className="bg-white dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 p-6 hover:shadow-card dark:hover:shadow-purple-500/10 transition-shadow backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
-              <div className="bg-purple-50 rounded-lg p-3">
-                <ClockIcon className="h-6 w-6 text-purple-600" />
+              <div className="bg-purple-50 dark:bg-purple-500/10 rounded-lg p-3">
+                <ClockIcon className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">
+            <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {overview?.sessions_today || 0}
             </div>
-            <div className="text-sm text-gray-700 mb-3">Today's Sessions</div>
-            <div className="flex items-center text-sm text-gray-600">
-              <CalendarIcon className="h-4 w-4 text-gray-600 mr-1" />
+            <div className="text-sm text-gray-700 dark:text-gray-400 mb-3">Today's Sessions</div>
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+              <CalendarIcon className="h-4 w-4 text-gray-600 dark:text-gray-400 mr-1" />
               <span>{overview?.sessions_upcoming || 0} upcoming</span>
             </div>
           </div>
 
           {/* Active Programs */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-card transition-shadow">
+          <div className="bg-white dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 p-6 hover:shadow-card dark:hover:shadow-blue-500/10 transition-shadow backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
-              <div className="bg-accent-50 rounded-lg p-3">
-                <DocumentTextIcon className="h-6 w-6 text-accent-600" />
+              <div className="bg-accent-50 dark:bg-blue-500/10 rounded-lg p-3">
+                <DocumentTextIcon className="h-6 w-6 text-accent-600 dark:text-blue-400" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">
+            <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {overview?.active_programs || 0}
             </div>
-            <div className="text-sm text-gray-700 mb-3">Active Programs</div>
-            <Link to="/programs" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+            <div className="text-sm text-gray-700 dark:text-gray-400 mb-3">Active Programs</div>
+            <Link to="/programs" className="text-sm text-primary-600 dark:text-orange-500 hover:text-primary-700 dark:hover:text-orange-400 font-medium">
               View all →
             </Link>
           </div>
 
           {/* Monthly Revenue */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-card transition-shadow">
+          <div className="bg-white dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 p-6 hover:shadow-card dark:hover:shadow-green-500/10 transition-shadow backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
-              <div className="bg-success-50 rounded-lg p-3">
-                <CurrencyDollarIcon className="h-6 w-6 text-success-600" />
+              <div className="bg-success-50 dark:bg-green-500/10 rounded-lg p-3">
+                <CurrencyDollarIcon className="h-6 w-6 text-success-600 dark:text-green-400" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">
+            <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {formatCurrency(overview?.revenue_this_month)}
             </div>
-            <div className="text-sm text-gray-700 mb-3">This Month</div>
-            <div className="flex items-center text-sm text-gray-600">
+            <div className="text-sm text-gray-700 dark:text-gray-400 mb-3">This Month</div>
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
               <span className={`font-medium ${
-                overview?.revenue_change >= 0 ? 'text-success-600' : 'text-danger-600'
+                overview?.revenue_change >= 0 ? 'text-success-600 dark:text-green-400' : 'text-danger-600 dark:text-red-400'
               }`}>
                 {overview?.revenue_change > 0 && '+'}
                 {overview?.revenue_change || 0}%
@@ -238,10 +238,10 @@ export default function Dashboard() {
           <div className="lg:col-span-2 space-y-6">
 
             {/* Upcoming Sessions */}
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
-              <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">Upcoming Sessions</h2>
-                <Link to="/sessions" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+            <div className="bg-white dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 shadow-sm backdrop-blur-sm">
+              <div className="border-b border-gray-200 dark:border-white/10 px-6 py-4 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Upcoming Sessions</h2>
+                <Link to="/sessions" className="text-sm text-primary-600 dark:text-orange-500 hover:text-primary-700 dark:hover:text-orange-400 font-medium">
                   View all
                 </Link>
               </div>
@@ -249,13 +249,13 @@ export default function Dashboard() {
               <div className="p-6">
                 {upcomingSessions.length === 0 ? (
                   <div className="text-center py-12">
-                    <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-                      <CalendarIcon className="h-8 w-8 text-gray-600" />
+                    <div className="bg-gray-100 dark:bg-white/5 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
+                      <CalendarIcon className="h-8 w-8 text-gray-600 dark:text-gray-400" />
                     </div>
-                    <p className="text-gray-700 mb-4">No upcoming sessions scheduled</p>
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">No upcoming sessions scheduled</p>
                     <Link
                       to="/sessions?action=add"
-                      className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium"
+                      className="inline-flex items-center text-primary-600 dark:text-orange-500 hover:text-primary-700 dark:hover:text-orange-400 font-medium"
                     >
                       <PlusIcon className="h-5 w-5 mr-1" />
                       Schedule your first session
@@ -267,29 +267,29 @@ export default function Dashboard() {
                       <Link
                         key={session.id}
                         to={`/sessions/${session.id}`}
-                        className="flex items-center justify-between p-4 rounded-lg border border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-all group"
+                        className="flex items-center justify-between p-4 rounded-lg border border-gray-200 dark:border-white/10 hover:border-primary-300 dark:hover:border-orange-500/50 hover:bg-primary-50 dark:hover:bg-orange-500/10 transition-all group"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition-colors">
-                            <ClockIcon className="h-5 w-5 text-primary-700" />
+                          <div className="bg-primary-100 dark:bg-orange-500/20 rounded-lg p-3 group-hover:bg-primary-200 dark:group-hover:bg-orange-500/30 transition-colors">
+                            <ClockIcon className="h-5 w-5 text-primary-700 dark:text-orange-400" />
                           </div>
                           <div>
-                            <div className="font-medium text-gray-900">
+                            <div className="font-medium text-gray-900 dark:text-white">
                               {session.title || 'Training Session'}
                             </div>
-                            <div className="text-sm text-gray-700 mt-0.5">
+                            <div className="text-sm text-gray-700 dark:text-gray-400 mt-0.5">
                               {session.client_name || 'Client'}
                             </div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
                             {new Date(session.scheduled_start).toLocaleDateString('en-US', {
                               month: 'short',
                               day: 'numeric'
                             })}
                           </div>
-                          <div className="text-sm text-gray-700 mt-0.5">
+                          <div className="text-sm text-gray-700 dark:text-gray-400 mt-0.5">
                             {new Date(session.scheduled_start).toLocaleTimeString('en-US', {
                               hour: 'numeric',
                               minute: '2-digit'
@@ -304,9 +304,9 @@ export default function Dashboard() {
             </div>
 
             {/* Key Metrics */}
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
-              <div className="border-b border-gray-200 px-6 py-4">
-                <h2 className="text-lg font-semibold text-gray-900">Performance Metrics</h2>
+            <div className="bg-white dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 shadow-sm backdrop-blur-sm">
+              <div className="border-b border-gray-200 dark:border-white/10 px-6 py-4">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Performance Metrics</h2>
               </div>
 
               <div className="p-6">
@@ -314,14 +314,14 @@ export default function Dashboard() {
                   {/* Session Completion Rate */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-800">Completion Rate</span>
-                      <span className="text-sm font-bold text-success-600">
+                      <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Completion Rate</span>
+                      <span className="text-sm font-bold text-success-600 dark:text-green-400">
                         {overview?.completion_rate || 0}%
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-white/10 rounded-full h-2">
                       <div
-                        className="bg-success-500 h-2 rounded-full transition-all"
+                        className="bg-success-500 dark:bg-green-400 h-2 rounded-full transition-all"
                         style={{ width: `${overview?.completion_rate || 0}%` }}
                       />
                     </div>
@@ -330,14 +330,14 @@ export default function Dashboard() {
                   {/* Client Retention */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-800">Client Retention</span>
-                      <span className="text-sm font-bold text-primary-600">
+                      <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Client Retention</span>
+                      <span className="text-sm font-bold text-primary-600 dark:text-orange-400">
                         {overview?.retention_rate || 0}%
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-white/10 rounded-full h-2">
                       <div
-                        className="bg-primary-500 h-2 rounded-full transition-all"
+                        className="bg-primary-500 dark:bg-orange-500 h-2 rounded-full transition-all"
                         style={{ width: `${overview?.retention_rate || 0}%` }}
                       />
                     </div>
@@ -345,16 +345,16 @@ export default function Dashboard() {
 
                   {/* Average Sessions per Client */}
                   <div>
-                    <div className="text-sm text-gray-700">Avg Sessions/Client</div>
-                    <div className="text-2xl font-bold text-gray-900 mt-1">
+                    <div className="text-sm text-gray-700 dark:text-gray-400">Avg Sessions/Client</div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                       {overview?.avg_sessions_per_client?.toFixed(1) || '0.0'}
                     </div>
                   </div>
 
                   {/* Total Revenue */}
                   <div>
-                    <div className="text-sm text-gray-700">Total Revenue</div>
-                    <div className="text-2xl font-bold text-gray-900 mt-1">
+                    <div className="text-sm text-gray-700 dark:text-gray-400">Total Revenue</div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                       {formatCurrency(overview?.total_revenue)}
                     </div>
                   </div>
@@ -365,18 +365,18 @@ export default function Dashboard() {
 
           {/* Right Column - Activity Feed */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm sticky top-8">
-              <div className="border-b border-gray-200 px-6 py-4">
-                <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
+            <div className="bg-white dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 shadow-sm backdrop-blur-sm sticky top-8">
+              <div className="border-b border-gray-200 dark:border-white/10 px-6 py-4">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
               </div>
 
               <div className="p-6">
                 {activities.length === 0 ? (
                   <div className="text-center py-12">
-                    <div className="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
-                      <ChartBarIcon className="h-8 w-8 text-gray-600" />
+                    <div className="bg-gray-100 dark:bg-white/5 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
+                      <ChartBarIcon className="h-8 w-8 text-gray-600 dark:text-gray-400" />
                     </div>
-                    <p className="text-gray-700">No recent activity</p>
+                    <p className="text-gray-700 dark:text-gray-300">No recent activity</p>
                   </div>
                 ) : (
                   <div className="space-y-5">
@@ -387,14 +387,14 @@ export default function Dashboard() {
 
                       const content = (
                         <>
-                          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-400 to-purple-400 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm">
+                          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-400 to-purple-400 dark:from-orange-500 dark:to-purple-500 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm">
                             {activity.client_initials || activity.user_initials || 'U'}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm text-gray-900">
-                              <span className="text-gray-700">{activity.description}</span>
+                            <p className="text-sm text-gray-900 dark:text-gray-100">
+                              <span className="text-gray-700 dark:text-gray-300">{activity.description}</span>
                             </p>
-                            <p className="text-xs text-gray-600 mt-1">{timeAgo}</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{timeAgo}</p>
                           </div>
                         </>
                       );
@@ -404,7 +404,7 @@ export default function Dashboard() {
                         <Link
                           key={idx}
                           to={route}
-                          className="flex items-start gap-3 p-2 -mx-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                          className="flex items-start gap-3 p-2 -mx-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer"
                         >
                           {content}
                         </Link>

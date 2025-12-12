@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { useThemeStore } from '../store/themeStore';
 import { useState, useEffect } from 'react';
 import {
   HomeIcon,
@@ -22,6 +23,8 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   MagnifyingGlassIcon,
+  SunIcon,
+  MoonIcon,
 } from '@heroicons/react/24/outline';
 
 // Navigation structure with categories
@@ -78,6 +81,7 @@ export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, organization, logout } = useAuthStore();
+  const { theme, toggleTheme } = useThemeStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [collapsedCategories, setCollapsedCategories] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
@@ -122,16 +126,28 @@ export default function Layout() {
     : navigationCategories;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Desktop Sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex min-h-0 flex-1 flex-col bg-white border-r border-gray-200 shadow-sidebar">
+        <div className="flex min-h-0 flex-1 flex-col bg-white dark:bg-black border-r border-gray-200 dark:border-white/10 shadow-sidebar">
           <div className="flex flex-col pt-5 pb-4 h-full">
-            {/* Logo */}
-            <div className="flex flex-shrink-0 items-center px-5 mb-6">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-purple-500 bg-clip-text text-transparent">
+            {/* Logo and Theme Toggle */}
+            <div className="flex flex-shrink-0 items-center justify-between px-5 mb-6">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-purple-500 dark:from-orange-500 dark:to-orange-600 bg-clip-text text-transparent">
                 MectoFitness
               </h1>
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+                aria-label="Toggle theme"
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? (
+                  <SunIcon className="h-5 w-5" />
+                ) : (
+                  <MoonIcon className="h-5 w-5" />
+                )}
+              </button>
             </div>
 
             {/* Search bar */}
@@ -143,7 +159,7 @@ export default function Layout() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-orange-500 focus:border-transparent transition-all bg-white dark:bg-white/5 text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -155,7 +171,7 @@ export default function Layout() {
                   {/* Category Header */}
                   <button
                     onClick={() => toggleCategory(category.name)}
-                    className="flex items-center justify-between w-full px-2 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700 transition-colors"
+                    className="flex items-center justify-between w-full px-2 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
                   >
                     <span>{category.name}</span>
                     {collapsedCategories[category.name] ? (
@@ -178,14 +194,14 @@ export default function Layout() {
                               group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-150
                               ${
                                 isActive
-                                  ? 'bg-primary-50 text-primary-700 shadow-sm'
-                                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                                  ? 'bg-primary-50 dark:bg-orange-500/10 text-primary-700 dark:text-orange-400 shadow-sm'
+                                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
                               }
                             `}
                           >
                             <item.icon
                               className={`mr-3 h-5 w-5 flex-shrink-0 transition-colors ${
-                                isActive ? 'text-primary-600' : 'text-gray-400 group-hover:text-gray-600'
+                                isActive ? 'text-primary-600 dark:text-orange-500' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300'
                               }`}
                               aria-hidden="true"
                             />
@@ -201,23 +217,23 @@ export default function Layout() {
           </div>
 
           {/* User section */}
-          <div className="flex flex-shrink-0 border-t border-gray-200 p-4 bg-gray-50">
+          <div className="flex flex-shrink-0 border-t border-gray-200 dark:border-white/10 p-4 bg-gray-50 dark:bg-white/5">
             <div className="w-full">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 flex items-center justify-center text-white font-semibold shadow-sm">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 dark:from-orange-500 dark:to-purple-500 flex items-center justify-center text-white font-semibold shadow-sm">
                     {user?.first_name?.charAt(0) || user?.name?.charAt(0) || 'U'}
                   </div>
                 </div>
                 <div className="ml-3 flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                     {user?.first_name || user?.name || 'User'}
                   </p>
-                  <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
                 </div>
                 <Link
                   to="/settings"
-                  className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-lg hover:bg-gray-100"
+                  className="ml-2 flex-shrink-0 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5"
                   title="Settings"
                   aria-label="Settings"
                 >
@@ -225,7 +241,7 @@ export default function Layout() {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-lg hover:bg-gray-100"
+                  className="ml-2 flex-shrink-0 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5"
                   title="Logout"
                   aria-label="Logout"
                 >
@@ -233,7 +249,7 @@ export default function Layout() {
                 </button>
               </div>
               {organization && (
-                <div className="mt-2 px-2 py-1 bg-white border border-gray-200 rounded text-xs text-gray-600 truncate">
+                <div className="mt-2 px-2 py-1 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded text-xs text-gray-600 dark:text-gray-400 truncate">
                   {organization.name}
                 </div>
               )}
@@ -243,43 +259,56 @@ export default function Layout() {
       </div>
 
       {/* Mobile Header */}
-      <div className="lg:hidden sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+      <div className="lg:hidden sticky top-0 z-40 bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-primary-500 to-purple-500 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-primary-500 to-purple-500 dark:from-orange-500 dark:to-orange-600 bg-clip-text text-transparent">
             MectoFitness
           </h1>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? (
-              <XMarkIcon className="h-6 w-6" />
-            ) : (
-              <Bars3Icon className="h-6 w-6" />
-            )}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? (
+                <SunIcon className="h-5 w-5" />
+              ) : (
+                <MoonIcon className="h-5 w-5" />
+              )}
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? (
+                <XMarkIcon className="h-6 w-6" />
+              ) : (
+                <Bars3Icon className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu panel */}
         {mobileMenuOpen && (
           <div
-            className="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 lg:hidden"
+            className="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 dark:bg-black dark:bg-opacity-70 lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
           >
             <div
-              className="fixed inset-y-0 left-0 flex w-full max-w-sm flex-col bg-white shadow-xl"
+              className="fixed inset-y-0 left-0 flex w-full max-w-sm flex-col bg-white dark:bg-black border-r dark:border-white/10 shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
                 <div className="flex items-center justify-between px-4 mb-6">
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-purple-500 bg-clip-text text-transparent">
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-purple-500 dark:from-orange-500 dark:to-orange-600 bg-clip-text text-transparent">
                     MectoFitness
                   </h1>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100"
+                    className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5"
                     aria-label="Close menu"
                   >
                     <XMarkIcon className="h-6 w-6" />
@@ -295,7 +324,7 @@ export default function Layout() {
                       placeholder="Search..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-orange-500 bg-white dark:bg-white/5 text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
@@ -303,7 +332,7 @@ export default function Layout() {
                 <nav className="flex-1 space-y-6 px-3">
                   {filteredCategories.map((category) => (
                     <div key={category.name}>
-                      <div className="px-2 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      <div className="px-2 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                         {category.name}
                       </div>
                       <div className="space-y-1">
@@ -318,13 +347,13 @@ export default function Layout() {
                                 group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all
                                 ${
                                   isActive
-                                    ? 'bg-primary-50 text-primary-700'
-                                    : 'text-gray-700 hover:bg-gray-50'
+                                    ? 'bg-primary-50 dark:bg-orange-500/10 text-primary-700 dark:text-orange-400'
+                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'
                                 }
                               `}
                             >
                               <item.icon className={`mr-3 h-5 w-5 flex-shrink-0 ${
-                                isActive ? 'text-primary-600' : 'text-gray-400'
+                                isActive ? 'text-primary-600 dark:text-orange-500' : 'text-gray-400 dark:text-gray-500'
                               }`} />
                               {item.name}
                             </Link>
@@ -337,24 +366,24 @@ export default function Layout() {
               </div>
 
               {/* Mobile User Section */}
-              <div className="flex flex-shrink-0 border-t border-gray-200 p-4 bg-gray-50">
+              <div className="flex flex-shrink-0 border-t border-gray-200 dark:border-white/10 p-4 bg-gray-50 dark:bg-white/5">
                 <div className="w-full">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 flex items-center justify-center text-white font-semibold">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 dark:from-orange-500 dark:to-purple-500 flex items-center justify-center text-white font-semibold">
                         {user?.first_name?.charAt(0) || user?.name?.charAt(0) || 'U'}
                       </div>
                     </div>
                     <div className="ml-3 flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                         {user?.first_name || user?.name}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
                     </div>
                     <Link
                       to="/settings"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="ml-2 text-gray-400 hover:text-gray-600 p-2 rounded-lg hover:bg-gray-100"
+                      className="ml-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5"
                       title="Settings"
                       aria-label="Settings"
                     >
@@ -362,14 +391,14 @@ export default function Layout() {
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="ml-2 text-gray-400 hover:text-gray-600 p-2 rounded-lg hover:bg-gray-100"
+                      className="ml-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5"
                       aria-label="Logout"
                     >
                       <ArrowRightOnRectangleIcon className="h-5 w-5" />
                     </button>
                   </div>
                   {organization && (
-                    <div className="mt-2 px-2 py-1 bg-white border border-gray-200 rounded text-xs text-gray-600 truncate">
+                    <div className="mt-2 px-2 py-1 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded text-xs text-gray-600 dark:text-gray-400 truncate">
                       {organization.name}
                     </div>
                   )}
