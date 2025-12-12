@@ -50,7 +50,7 @@ MectoFitness CRM is a comprehensive management system designed specifically for 
 
 5. **Verify setup (recommended)**
    ```bash
-   python verify_setup.py
+   python scripts/verify_setup.py
    ```
    This checks your database connection and configuration.
 
@@ -63,7 +63,7 @@ MectoFitness CRM is a comprehensive management system designed specifically for 
 7. **Access the application**
    Open your browser and navigate to `http://localhost:5000`
 
-> **Note**: For PostgreSQL setup, see [POSTGRESQL_SETUP.md](POSTGRESQL_SETUP.md). For troubleshooting, see [QUICKSTART.md](QUICKSTART.md).
+> **Note**: For PostgreSQL setup, see [docs/setup/POSTGRESQL_SETUP.md](docs/setup/POSTGRESQL_SETUP.md). For troubleshooting, see [docs/QUICKSTART.md](docs/QUICKSTART.md).
 
 ### Optional: React Frontend
 
@@ -81,7 +81,7 @@ npm run build
 # Access React interface at /app after logging in
 ```
 
-See [ROUTING_ARCHITECTURE.md](ROUTING_ARCHITECTURE.md) for details on the dual routing system.
+See [docs/ROUTING_ARCHITECTURE.md](docs/ROUTING_ARCHITECTURE.md) for details on the dual routing system.
 
 ### Next.js Marketing Homepage
 
@@ -106,7 +106,7 @@ npm run nextjs:dev        # Start Next.js dev server
 mv flask_app app          # Restore Flask app when done
 ```
 
-See [NEXT_JS_HOMEPAGE_README.md](NEXT_JS_HOMEPAGE_README.md) for full documentation.
+See [docs/setup/NEXT_JS_HOMEPAGE_README.md](docs/setup/NEXT_JS_HOMEPAGE_README.md) for full documentation.
 
 ## 📖 Usage
 
@@ -182,7 +182,7 @@ Integrated Stripe payment processing for accepting client payments. Features inc
 - Automated invoicing and receipts
 - Webhook integration for real-time updates
 
-See [STRIPE_SETUP.md](STRIPE_SETUP.md) for detailed setup instructions.
+See [docs/setup/STRIPE_SETUP.md](docs/setup/STRIPE_SETUP.md) for detailed setup instructions.
 
 ## 🎥 Video Conferencing with Zoom
 
@@ -193,7 +193,7 @@ Integrated Zoom video conferencing for virtual training sessions. Features inclu
 - Session recordings available after meetings
 - Webhook integration for meeting status updates
 
-See [ZOOM_SETUP.md](ZOOM_SETUP.md) for detailed setup instructions.
+See [docs/setup/ZOOM_SETUP.md](docs/setup/ZOOM_SETUP.md) for detailed setup instructions.
 
 ## 📅 Calendar Integration
 
@@ -239,9 +239,15 @@ MectofitnessCRM/
 ├── app/
 │   ├── models/          # Database models
 │   ├── routes/          # Application routes/blueprints
-│   ├── static/          # CSS, JS, images
+│   ├── static/          # CSS, JS, images, React app
 │   └── templates/       # HTML templates
-├── credentials/         # API credentials
+├── docs/                # Documentation
+│   ├── setup/          # Setup guides
+│   ├── deployment/     # Deployment documentation
+│   └── archive/        # Historical documentation
+├── scripts/            # Utility and test scripts
+├── src/                # Next.js homepage source
+├── credentials/        # API credentials
 ├── models/             # AI model files
 ├── config.py           # Configuration
 ├── requirements.txt    # Python dependencies
@@ -253,7 +259,38 @@ MectofitnessCRM/
 # Set up test environment
 export FLASK_ENV=testing
 python -m pytest tests/
+
+# Run specific test scripts
+python scripts/test_api_endpoints.py
+python scripts/test_db.py
 ```
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the `/docs` directory:
+
+### Getting Started
+- **[docs/QUICKSTART.md](docs/QUICKSTART.md)** - Quick start guide
+- **[docs/SETUP.md](docs/SETUP.md)** - Detailed setup instructions
+- **[docs/setup/DATABASE_INITIALIZATION.md](docs/setup/DATABASE_INITIALIZATION.md)** - Database setup
+
+### Features & Integration
+- **[docs/API.md](docs/API.md)** - API documentation overview
+- **[docs/FEATURES.md](docs/FEATURES.md)** - Complete feature list
+- **[docs/setup/AI_CHATBOT_SETUP.md](docs/setup/AI_CHATBOT_SETUP.md)** - AI chatbot configuration
+- **[docs/setup/STRIPE_SETUP.md](docs/setup/STRIPE_SETUP.md)** - Stripe payment integration
+- **[docs/setup/ZOOM_SETUP.md](docs/setup/ZOOM_SETUP.md)** - Zoom integration
+
+### Deployment
+- **[docs/deployment/](docs/deployment/)** - Deployment guides for various platforms
+- **[CLEANUP_RECOMMENDATIONS.md](CLEANUP_RECOMMENDATIONS.md)** - Code quality and maintenance recommendations
+
+### Architecture
+- **[docs/ROUTING_ARCHITECTURE.md](docs/ROUTING_ARCHITECTURE.md)** - Application routing
+- **[docs/RBAC_GUIDE.md](docs/RBAC_GUIDE.md)** - Role-based access control
+- **[docs/THEME_SYSTEM.md](docs/THEME_SYSTEM.md)** - Theme system documentation
+
+See **[docs/README.md](docs/README.md)** for complete documentation index.
 
 ## 📝 License
 
@@ -269,12 +306,19 @@ For support, please open an issue in the GitHub repository or contact the mainta
 
 ## 🎯 Roadmap
 
+See **[docs/ROADMAP.md](docs/ROADMAP.md)** for the complete product roadmap.
+
+### Recent Improvements
 - [x] Google Calendar integration framework
 - [x] Outlook Calendar integration framework
 - [x] AI model training interface
 - [x] Stripe payment processing integration
 - [x] Zoom video conferencing integration
 - [x] AI chatbot assistant
+- [x] Documentation organization and cleanup
+- [x] Centralized logging utility
+
+### Upcoming Features
 - [ ] Mobile app development
 - [ ] Advanced analytics dashboard
 - [ ] Multi-trainer/gym support
