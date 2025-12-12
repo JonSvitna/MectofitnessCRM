@@ -33,10 +33,10 @@ export function Navbar() {
 
           {/* CTA Buttons - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" href="/login">
               Sign In
             </Button>
-            <Button variant="primary" size="sm">
+            <Button variant="primary" size="sm" href="/register">
               Start Free Trial
             </Button>
           </div>
@@ -77,10 +77,10 @@ export function Navbar() {
               FAQ
             </a>
             <div className="pt-4 space-y-2">
-              <Button variant="ghost" size="sm" className="w-full">
+              <Button variant="ghost" size="sm" className="w-full" href="/login">
                 Sign In
               </Button>
-              <Button variant="primary" size="sm" className="w-full">
+              <Button variant="primary" size="sm" className="w-full" href="/register">
                 Start Free Trial
               </Button>
             </div>
