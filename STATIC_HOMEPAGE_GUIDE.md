@@ -82,7 +82,7 @@ The `build.sh` script handles everything automatically during Railway deployment
 │   └── lib/
 │       └── cn.ts                # Tailwind class merger utility
 ├── out/                          # Next.js build output (gitignored)
-├── app/static/homepage/          # Served by Flask (gitignored)
+├── app/static/homepage/          # Served by Flask (NOW TRACKED IN GIT)
 │   ├── index.html               # Homepage HTML
 │   ├── 404.html                 # 404 page
 │   └── _next/                   # Next.js static assets
@@ -163,14 +163,14 @@ No manual steps required!
 
 **Solution:**
 ```bash
-# Manually build and commit (development only)
+# Build and commit the homepage files
 ./build-homepage.sh
 git add app/static/homepage
 git commit -m "Add built homepage"
 git push
 ```
 
-Note: Normally you don't commit build artifacts. Railway builds them automatically.
+**Note:** As of December 2024, `app/static/homepage/` has been removed from `.gitignore` to allow the built homepage files to be committed to the repository. This ensures the homepage is available even if the build process fails during deployment. The homepage files are now tracked in Git and will be pushed with your code.
 
 ### Issue: 404 on Next.js assets
 
