@@ -101,7 +101,7 @@ export default function Scheduling() {
             </div>
             <div className="flex gap-3">
               <button
-                onClick={() => {/* TODO: Add availability modal */}}
+                onClick={() => alert('Set availability functionality coming soon')}
                 className="inline-flex items-center gap-2 bg-white dark:bg-white/5 text-gray-700 dark:text-gray-300 px-5 py-2.5 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors border border-gray-300 dark:border-white/10"
               >
                 <ClockIcon className="h-5 w-5" />
@@ -299,7 +299,7 @@ export default function Scheduling() {
                 Set your availability so clients can book sessions with you
               </p>
               <button
-                onClick={() => {/* TODO: Add availability modal */}}
+                onClick={() => alert('Add availability functionality coming soon')}
                 className="inline-flex items-center gap-2 bg-primary-600 dark:bg-orange-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 dark:hover:bg-orange-600 transition-colors"
               >
                 <PlusIcon className="h-5 w-5" />

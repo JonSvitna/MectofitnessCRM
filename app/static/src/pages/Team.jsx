@@ -99,7 +99,7 @@ export default function Team() {
             </div>
             {(user?.role === 'owner' || user?.role === 'admin') && (
               <button
-                onClick={() => {/* TODO: Add invite modal */}}
+                onClick={() => alert('Invite member functionality coming soon')}
                 className="inline-flex items-center gap-2 bg-primary-600 dark:bg-orange-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-primary-700 dark:hover:bg-orange-600 transition-colors shadow-button hover:shadow-button-hover"
               >
                 <PlusIcon className="h-5 w-5" />

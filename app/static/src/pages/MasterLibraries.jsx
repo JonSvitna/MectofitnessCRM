@@ -182,9 +182,9 @@ export default function MasterLibraries() {
                 <div className="bg-white dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 p-4 backdrop-blur-sm">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-700 dark:text-gray-400">Most Used</p>
-                      <p className="text-lg font-semibold text-gray-900 dark:text-white truncate">
-                        {exercises[0]?.name || 'N/A'}
+                      <p className="text-sm text-gray-700 dark:text-gray-400">Equipment Types</p>
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                        {exercises.filter((e) => e.equipment).length}
                       </p>
                     </div>
                     <div className="bg-success-50 dark:bg-green-500/10 rounded-lg p-3">
