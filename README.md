@@ -83,6 +83,31 @@ npm run build
 
 See [ROUTING_ARCHITECTURE.md](ROUTING_ARCHITECTURE.md) for details on the dual routing system.
 
+### Next.js Marketing Homepage
+
+A modern, TrueCoach-style marketing homepage built with Next.js 14 is available in the `src/` directory. This provides a premium SaaS landing page with:
+
+- Modern Linear/Vercel-inspired design
+- Dark theme with orange accents
+- Fully responsive (mobile-first)
+- SEO-optimized
+- Framer Motion animations
+
+**To run the Next.js homepage:**
+
+```bash
+# Quick start with helper script
+./run-nextjs-homepage.sh
+
+# Or manually:
+mv app flask_app          # Temporarily rename Flask app
+npm run nextjs:dev        # Start Next.js dev server
+# Visit http://localhost:3000
+mv flask_app app          # Restore Flask app when done
+```
+
+See [NEXT_JS_HOMEPAGE_README.md](NEXT_JS_HOMEPAGE_README.md) for full documentation.
+
 ## 📖 Usage
 
 ### Getting Started
