@@ -92,3 +92,9 @@ models/*.h5
 models/*.pt
 !models/.gitkeep
 app/templates/index_old.html
+
+# Next.js build outputs
+out/
+.next/
+app/static/homepage/
+test_homepage_serve.py
