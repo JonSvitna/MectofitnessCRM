@@ -3,8 +3,8 @@
 import os
 import sys
 
-# Ensure we can import from app
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Ensure we can import from app - add parent directory to path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app import create_app, db
 
