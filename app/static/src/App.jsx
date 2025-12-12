@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
+import { userApi, organizationApi } from './api/client';
 import Layout from './components/Layout';
 import AIChatbot from './components/AIChatbot';
 import Dashboard from './pages/Dashboard';
@@ -20,25 +22,53 @@ import Team from './pages/Team';
 import Scheduling from './pages/Scheduling';
 import MasterLibraries from './pages/MasterLibraries';
 import Settings from './pages/settings/Settings';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
 import ExerciseLibrary from './pages/ExerciseLibrary';
 
-// Protected Route wrapper
+// Protected Route wrapper - redirects to Flask login if not authenticated
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  
+  if (!isAuthenticated) {
+    // Redirect to Flask login page
+    window.location.href = '/login';
+    return null;
+  }
+  
+  return children;
 };
 
 function App() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, setAuth, logout } = useAuthStore();
+
+  // Check authentication status on app load
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        // Try to fetch user profile from backend
+        const userResponse = await userApi.getProfile();
+        const orgResponse = await organizationApi.get();
+        
+        if (userResponse.data.success && userResponse.data.data) {
+          // User is authenticated via Flask session
+          setAuth(userResponse.data.data, orgResponse.data.data);
+        }
+      } catch (error) {
+        // If API returns 401, user is not authenticated
+        if (error.response?.status === 401) {
+          logout();
+          window.location.href = '/login';
+        }
+      }
+    };
+
+    checkAuth();
+  }, [setAuth, logout]);
 
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/* No React-based login/register routes - use Flask auth */}
+        {/* Public route for exercise library */}
         <Route path="/exercise-library" element={<ExerciseLibrary />} />
 
         {/* Protected Routes */}
@@ -71,7 +101,7 @@ function App() {
           <Route path="settings/*" element={<Settings />} />
         </Route>
 
-        {/* 404 */}
+        {/* 404 - redirect to dashboard if authenticated, login if not */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 

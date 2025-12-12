@@ -100,7 +100,8 @@ export default function Layout() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    // Redirect to Flask logout endpoint which will clear the session
+    window.location.href = '/logout';
   };
 
   const toggleCategory = (categoryName) => {
