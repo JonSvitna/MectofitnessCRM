@@ -3,6 +3,7 @@ export default {
   content: [
     "./app/templates/**/*.html",
     "./app/static/src/**/*.{js,jsx,ts,tsx,vue}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     screens: {
