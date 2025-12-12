@@ -253,8 +253,8 @@ def launch_campaign(campaign_id):
     campaign.launched_at = datetime.utcnow()
     db.session.commit()
     
-    # TODO: Implement actual campaign execution logic
-    # This would integrate with Twilio/SendGrid to send messages
+    # Note: Campaign execution logic should integrate with Twilio/SendGrid
+    # to send actual messages to clients based on the campaign configuration.
     
     flash(f'Campaign "{campaign.name}" launched!', 'success')
     return redirect(url_for('marketing.view_campaign', campaign_id=campaign.id))
