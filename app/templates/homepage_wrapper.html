@@ -183,19 +183,19 @@
             <div class="divider"></div>
             
             <div class="quick-links">
-                <a href="{{ url_for('main.dashboard') }}/clients" class="quick-link">
+                <a href="{{ url_for('main.dashboard', path='clients') }}" class="quick-link">
                     <div class="quick-link-icon">👥</div>
                     <div class="quick-link-text">Clients</div>
                 </a>
-                <a href="{{ url_for('main.dashboard') }}/sessions" class="quick-link">
+                <a href="{{ url_for('main.dashboard', path='sessions') }}" class="quick-link">
                     <div class="quick-link-icon">📅</div>
                     <div class="quick-link-text">Sessions</div>
                 </a>
-                <a href="{{ url_for('main.dashboard') }}/programs" class="quick-link">
+                <a href="{{ url_for('main.dashboard', path='programs') }}" class="quick-link">
                     <div class="quick-link-icon">💪</div>
                     <div class="quick-link-text">Programs</div>
                 </a>
-                <a href="{{ url_for('main.dashboard') }}/calendar" class="quick-link">
+                <a href="{{ url_for('main.dashboard', path='calendar') }}" class="quick-link">
                     <div class="quick-link-icon">🗓️</div>
                     <div class="quick-link-text">Calendar</div>
                 </a>

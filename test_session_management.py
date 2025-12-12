@@ -92,7 +92,7 @@ def test_session_management():
         response = client.get('/')
         assert response.status_code == 200, f"Homepage returned {response.status_code}"
         # Should show either Next.js homepage or Jinja template
-        assert b'MectoFitness' in response.data or b'Mectofitness' in response.data
+        assert b'Mectofitness' in response.data or b'MectoFitness' in response.data, "Homepage should display branding"
         print("✓ Unauthenticated users can access homepage")
         print("✓ Homepage displays correctly\n")
         
