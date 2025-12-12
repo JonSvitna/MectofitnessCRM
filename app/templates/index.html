@@ -21,8 +21,9 @@
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', sans-serif;
     line-height: 1.6;
-    color: #1A1A2E;
+    color: #F1F5F9;
     overflow-x: hidden;
+    background: linear-gradient(135deg, #1A1A2E 0%, #004E89 50%, #2D3142 100%);
   }
   
   /* Hero Section with Dashboard Colors */
@@ -196,11 +197,11 @@
   }
   
   .section-bg-light {
-    background: linear-gradient(to bottom, #F8FAFC, white);
+    background: linear-gradient(135deg, #1A1A2E 0%, #004E89 50%, #2D3142 100%);
   }
   
   .section-bg-white {
-    background: linear-gradient(to bottom, white, #F8FAFC);
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
   }
   
   .container {
@@ -216,7 +217,7 @@
   
   .section-badge {
     display: inline-block;
-    background: rgba(255, 107, 53, 0.1);
+    background: rgba(255, 107, 53, 0.2);
     color: #FF6B35;
     font-weight: 700;
     padding: 0.5rem 1.5rem;
@@ -228,13 +229,13 @@
   .section-title {
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 900;
-    color: #1A1A2E;
+    color: #F1F5F9;
     margin-bottom: 1.5rem;
   }
   
   .section-subtitle {
     font-size: 1.25rem;
-    color: #64748B;
+    color: #CBD5E1;
     line-height: 1.7;
   }
   
@@ -246,18 +247,20 @@
   }
   
   .feature-card {
-    background: white;
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
     border-radius: 16px;
     padding: 2rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
   }
   
   .feature-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     border-color: #FF6B35;
+    background: rgba(30, 41, 59, 0.95);
   }
   
   .feature-icon {
@@ -301,12 +304,12 @@
   .feature-title {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #1A1A2E;
+    color: #F1F5F9;
     margin-bottom: 1rem;
   }
   
   .feature-description {
-    color: #64748B;
+    color: #CBD5E1;
     line-height: 1.7;
   }
   
@@ -356,12 +359,12 @@
   .step-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #1A1A2E;
+    color: #F1F5F9;
     margin-bottom: 0.75rem;
   }
   
   .step-description {
-    color: #64748B;
+    color: #CBD5E1;
     line-height: 1.6;
   }
   
@@ -375,17 +378,19 @@
   }
   
   .pricing-card {
-    background: white;
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
     border-radius: 24px;
     padding: 2.5rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     transition: all 0.3s ease;
   }
   
   .pricing-card:hover {
-    border-color: #CBD5E1;
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(30, 41, 59, 0.95);
   }
   
   .pricing-card-popular {
@@ -440,7 +445,7 @@
   }
   
   .pricing-period {
-    color: #64748B;
+    color: #CBD5E1;
   }
   
   .pricing-card-popular .pricing-period {
@@ -448,7 +453,7 @@
   }
   
   .pricing-description {
-    color: #64748B;
+    color: #CBD5E1;
   }
   
   .pricing-card-popular .pricing-description {
@@ -465,7 +470,7 @@
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.75rem 0;
-    color: #1A1A2E;
+    color: #F1F5F9;
   }
   
   .pricing-card-popular .pricing-feature {
@@ -495,13 +500,13 @@
   }
   
   .pricing-button-default {
-    background: #F1F5F9;
-    color: #1A1A2E;
-    border: 2px solid #E2E8F0;
+    background: rgba(255, 255, 255, 0.1);
+    color: #F1F5F9;
+    border: 2px solid rgba(255, 255, 255, 0.2);
   }
   
   .pricing-button-default:hover {
-    background: #E2E8F0;
+    background: rgba(255, 255, 255, 0.2);
   }
   
   .pricing-button-popular {
@@ -892,7 +897,7 @@
       </article>
     </div>
     
-    <p style="text-align: center; color: #64748B; margin-top: 2rem; font-size: 0.875rem;">
+    <p style="text-align: center; color: #CBD5E1; margin-top: 2rem; font-size: 0.875rem;">
       All plans include a 14-day free trial • No credit card required • Cancel anytime
     </p>
   </div>
