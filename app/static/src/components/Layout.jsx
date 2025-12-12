@@ -25,19 +25,20 @@ import {
   MagnifyingGlassIcon,
   SunIcon,
   MoonIcon,
+  UserCircleIcon,
 } from '@heroicons/react/24/outline';
 
 // Navigation structure with categories
 const navigationCategories = [
   {
-    name: 'WORKSPACE',
+    name: 'Workspace',
     items: [
       { name: 'Overview', href: '/dashboard', icon: HomeIcon },
       { name: 'Calendar', href: '/calendar', icon: CalendarIcon },
     ],
   },
   {
-    name: 'CLIENTS & TRAINING',
+    name: 'Clients & Training',
     items: [
       { name: 'Clients', href: '/clients', icon: UsersIcon },
       { name: 'Sessions', href: '/sessions', icon: ClockIcon },
@@ -46,7 +47,7 @@ const navigationCategories = [
     ],
   },
   {
-    name: 'ENGAGEMENT',
+    name: 'Engagement',
     items: [
       { name: 'Messages', href: '/messages', icon: ChatBubbleLeftRightIcon },
       { name: 'Groups', href: '/groups', icon: UserGroupIcon },
@@ -55,7 +56,7 @@ const navigationCategories = [
     ],
   },
   {
-    name: 'BUSINESS',
+    name: 'Business',
     items: [
       { name: 'Payments', href: '/payments', icon: CreditCardIcon },
       { name: 'Team', href: '/team', icon: UserGroupIcon },
@@ -63,15 +64,16 @@ const navigationCategories = [
     ],
   },
   {
-    name: 'RESOURCES',
+    name: 'Resources',
     items: [
       { name: 'Master Libraries', href: '/master-libraries', icon: BookOpenIcon },
       { name: 'Exercise Library', href: '/exercise-library', icon: AcademicCapIcon },
     ],
   },
   {
-    name: 'ACCOUNT',
+    name: 'Account',
     items: [
+      { name: 'Profile', href: '/account', icon: UserCircleIcon },
       { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
     ],
   },
@@ -171,7 +173,7 @@ export default function Layout() {
                   {/* Category Header */}
                   <button
                     onClick={() => toggleCategory(category.name)}
-                    className="flex items-center justify-between w-full px-2 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                    className="flex items-center justify-between w-full px-2 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 tracking-wider hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
                   >
                     <span>{category.name}</span>
                     {collapsedCategories[category.name] ? (
@@ -332,7 +334,7 @@ export default function Layout() {
                 <nav className="flex-1 space-y-6 px-3">
                   {filteredCategories.map((category) => (
                     <div key={category.name}>
-                      <div className="px-2 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      <div className="px-2 mb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 tracking-wider">
                         {category.name}
                       </div>
                       <div className="space-y-1">
