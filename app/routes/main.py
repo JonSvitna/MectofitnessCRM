@@ -17,11 +17,15 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
-    """Landing page - serves Next.js static homepage."""
+    """Landing page - serves Next.js static homepage with authentication support."""
     # Check if Next.js static homepage exists
     homepage_path = os.path.join(current_app.static_folder, 'homepage', 'index.html')
     if os.path.exists(homepage_path):
-        # Serve the static Next.js homepage
+        # If user is authenticated, render template with auth context
+        # This allows the homepage to show dashboard link and logout
+        if current_user.is_authenticated:
+            return render_template('homepage_wrapper.html')
+        # For non-authenticated users, serve static Next.js homepage
         return send_from_directory(
             os.path.join(current_app.static_folder, 'homepage'),
             'index.html'
