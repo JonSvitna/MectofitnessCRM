@@ -1,9 +1,19 @@
+import { UserGroupIcon } from '@heroicons/react/24/outline';
+
 export default function Groups() {
   return (
-    <div className="flex items-center justify-center h-full bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Groups</h1>
-        <p className="text-gray-700">Coming soon...</p>
+    <div className="flex items-center justify-center h-full bg-gray-50 dark:bg-black">
+      <div className="text-center max-w-md px-4">
+        <div className="bg-white dark:bg-white/5 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-6 border-4 border-primary-100 dark:border-orange-500/20 backdrop-blur-sm">
+          <UserGroupIcon className="h-10 w-10 text-primary-600 dark:text-orange-500" />
+        </div>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">Groups</h1>
+        <p className="text-gray-700 dark:text-gray-300 mb-2">
+          Create and manage client groups for class sessions and group training programs.
+        </p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 bg-accent-50 dark:bg-blue-500/10 px-4 py-2 rounded-lg inline-block">
+          This feature is under development
+        </p>
       </div>
     </div>
   );
