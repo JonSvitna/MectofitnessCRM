@@ -24,6 +24,7 @@ import Scheduling from './pages/Scheduling';
 import MasterLibraries from './pages/MasterLibraries';
 import Settings from './pages/settings/Settings';
 import ExerciseLibrary from './pages/ExerciseLibrary';
+import AccountProfile from './pages/AccountProfile';
 
 // Protected Route wrapper - redirects to Flask login if not authenticated
 const ProtectedRoute = ({ children }) => {
@@ -120,6 +121,7 @@ function App() {
           <Route path="scheduling" element={<Scheduling />} />
           <Route path="master-libraries" element={<MasterLibraries />} />
           <Route path="settings/*" element={<Settings />} />
+          <Route path="account" element={<AccountProfile />} />
         </Route>
 
         {/* 404 - redirect to dashboard if authenticated, login if not */}
