@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
+import { useThemeStore } from './store/themeStore';
 import { userApi, organizationApi } from './api/client';
 import Layout from './components/Layout';
 import AIChatbot from './components/AIChatbot';
@@ -39,6 +40,17 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const { isAuthenticated, setAuth, logout } = useAuthStore();
+  const { theme, setTheme } = useThemeStore();
+
+  // Initialize theme on app load
+  useEffect(() => {
+    // Apply theme class to document
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   // Check authentication status on app load
   useEffect(() => {
