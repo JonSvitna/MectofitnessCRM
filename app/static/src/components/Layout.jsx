@@ -1,7 +1,7 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   HomeIcon,
   UsersIcon,
@@ -87,6 +87,8 @@ export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [collapsedCategories, setCollapsedCategories] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const profileDropdownRef = useRef(null);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -103,6 +105,23 @@ export default function Layout() {
       document.body.style.touchAction = 'auto';
     };
   }, [mobileMenuOpen]);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+
+    if (profileDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [profileDropdownOpen]);
 
   const handleLogout = () => {
     // Clear local auth state first
@@ -270,17 +289,84 @@ export default function Layout() {
             MectoFitness
           </h1>
           <div className="flex items-center gap-2">
-            <button
-              onClick={toggleTheme}
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <SunIcon className="h-5 w-5" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
+            {/* Mobile Profile Dropdown */}
+            <div className="relative" ref={profileDropdownRef}>
+              <button
+                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 dark:from-orange-500 dark:to-purple-500 flex items-center justify-center text-white font-semibold shadow-sm hover:shadow-md transition-shadow"
+              >
+                {user?.first_name?.charAt(0) || user?.name?.charAt(0) || 'U'}
+              </button>
+
+              {/* Dropdown Menu */}
+              {profileDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-lg shadow-lg py-2">
+                  {/* User Info */}
+                  <div className="px-4 py-3 border-b border-gray-200 dark:border-white/10">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {user?.first_name || user?.name || 'User'} {user?.last_name || ''}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
+                    {organization && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{organization.name}</p>
+                    )}
+                  </div>
+
+                  {/* Menu Items */}
+                  <Link
+                    to="/account"
+                    onClick={() => setProfileDropdownOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                  >
+                    <UserCircleIcon className="h-5 w-5" />
+                    <span>Account Profile</span>
+                  </Link>
+
+                  <Link
+                    to="/settings"
+                    onClick={() => setProfileDropdownOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                  >
+                    <Cog6ToothIcon className="h-5 w-5" />
+                    <span>Settings</span>
+                  </Link>
+
+                  <button
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      toggleTheme();
+                    }}
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                  >
+                    {theme === 'dark' ? (
+                      <>
+                        <SunIcon className="h-5 w-5" />
+                        <span>Light Mode</span>
+                      </>
+                    ) : (
+                      <>
+                        <MoonIcon className="h-5 w-5" />
+                        <span>Dark Mode</span>
+                      </>
+                    )}
+                  </button>
+
+                  <div className="border-t border-gray-200 dark:border-white/10 my-2"></div>
+
+                  <button
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      handleLogout();
+                    }}
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  >
+                    <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                    <span>Logout</span>
+                  </button>
+                </div>
               )}
-            </button>
+            </div>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
@@ -416,6 +502,95 @@ export default function Layout() {
 
       {/* Main content */}
       <div className="lg:pl-64 flex flex-col min-h-screen">
+        {/* Desktop Top Header */}
+        <div className="hidden lg:block sticky top-0 z-30 bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-sm">
+          <div className="px-6 py-4 flex items-center justify-end">
+            {/* Profile Dropdown */}
+            <div className="relative" ref={profileDropdownRef}>
+              <button
+                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+              >
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 dark:from-orange-500 dark:to-purple-500 flex items-center justify-center text-white font-semibold shadow-sm">
+                  {user?.first_name?.charAt(0) || user?.name?.charAt(0) || 'U'}
+                </div>
+                <div className="text-left hidden xl:block">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    {user?.first_name || user?.name || 'User'}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
+                </div>
+                <ChevronDownIcon className={`h-4 w-4 text-gray-500 dark:text-gray-400 transition-transform ${profileDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Dropdown Menu */}
+              {profileDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-lg shadow-lg py-2">
+                  {/* User Info */}
+                  <div className="px-4 py-3 border-b border-gray-200 dark:border-white/10">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {user?.first_name || user?.name || 'User'} {user?.last_name || ''}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
+                    {organization && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{organization.name}</p>
+                    )}
+                  </div>
+
+                  {/* Menu Items */}
+                  <Link
+                    to="/account"
+                    onClick={() => setProfileDropdownOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                  >
+                    <UserCircleIcon className="h-5 w-5" />
+                    <span>Account Profile</span>
+                  </Link>
+
+                  <Link
+                    to="/settings"
+                    onClick={() => setProfileDropdownOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                  >
+                    <Cog6ToothIcon className="h-5 w-5" />
+                    <span>Settings</span>
+                  </Link>
+
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                  >
+                    {theme === 'dark' ? (
+                      <>
+                        <SunIcon className="h-5 w-5" />
+                        <span>Light Mode</span>
+                      </>
+                    ) : (
+                      <>
+                        <MoonIcon className="h-5 w-5" />
+                        <span>Dark Mode</span>
+                      </>
+                    )}
+                  </button>
+
+                  <div className="border-t border-gray-200 dark:border-white/10 my-2"></div>
+
+                  <button
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      handleLogout();
+                    }}
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  >
+                    <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         <main className="flex-1">
           <Outlet />
         </main>
