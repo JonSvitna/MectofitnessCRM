@@ -111,4 +111,4 @@ def logout():
     """Logout user."""
     logout_user()
     flash('You have been logged out. Come back soon!', 'info')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('auth.login'))

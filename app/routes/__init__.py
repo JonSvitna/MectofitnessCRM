@@ -13,3 +13,5 @@ from app.routes.api_user import api_user as api_user_bp
 from app.routes.api_settings import api_settings as api_settings_bp
 from app.routes.api_zoom import bp as api_zoom_bp
 from app.routes.api_stripe import bp as api_stripe_bp
+from app.routes.api_messaging import api_messaging as api_messaging_bp
+from app.routes.api_engagement import api_engagement as api_engagement_bp

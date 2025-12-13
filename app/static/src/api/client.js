@@ -247,6 +247,35 @@ export const settingsApi = {
 };
 
 // ============================================================================
+// MESSAGING API
+// ============================================================================
+export const messagingApi = {
+  getAll: (params) => api.get('/messages', { params }),
+  getOne: (id) => api.get(`/messages/${id}`),
+  create: (data) => api.post('/messages', data),
+  markAsRead: (id) => api.post(`/messages/${id}/read`),
+  archive: (id, archive = true) => api.post(`/messages/${id}/archive`, { archive }),
+  getStats: () => api.get('/messages/stats'),
+};
+
+// ============================================================================
+// ENGAGEMENT API (Groups, Challenges, Announcements)
+// ============================================================================
+export const engagementApi = {
+  // Groups
+  getGroups: (params) => api.get('/engagement/groups', { params }),
+  createGroup: (data) => api.post('/engagement/groups', data),
+  
+  // Challenges
+  getChallenges: (params) => api.get('/engagement/challenges', { params }),
+  createChallenge: (data) => api.post('/engagement/challenges', data),
+  
+  // Announcements
+  getAnnouncements: (params) => api.get('/engagement/announcements', { params }),
+  createAnnouncement: (data) => api.post('/engagement/announcements', data),
+};
+
+// ============================================================================
 // HELPER FUNCTIONS
 // ============================================================================
 

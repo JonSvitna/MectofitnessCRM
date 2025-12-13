@@ -89,8 +89,11 @@ export default function AccountProfile() {
   };
 
   const handleLogout = () => {
+    // Clear local auth state first
     logout();
-    // Redirect to Flask logout endpoint which will clear the session
+    // Clear localStorage to ensure complete logout
+    localStorage.removeItem('auth-storage');
+    // Redirect to Flask logout endpoint which will clear the session and redirect to login
     window.location.href = '/logout';
   };
 
