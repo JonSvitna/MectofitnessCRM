@@ -77,6 +77,21 @@ def create_app(config_name='default'):
     # Configure login manager
     login_manager.login_view = 'auth.login'
     login_manager.login_message = 'Please log in to access this page.'
+
+    # Handle unauthorized access for API vs regular routes
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        """Handle unauthorized access - return JSON for API routes, redirect for others."""
+        from flask import request, jsonify
+        # Check if this is an API request
+        if request.path.startswith('/api/'):
+            return jsonify({
+                'success': False,
+                'error': 'Unauthorized',
+                'message': 'Please log in to access this resource.'
+            }), 401
+        # For non-API requests, redirect to login page
+        return redirect(url_for('auth.login', next=request.url))
     
     # Register blueprints
     from app.routes import (auth, main, clients, sessions, programs, calendar_sync, api,
