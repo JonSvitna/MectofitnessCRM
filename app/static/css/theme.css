@@ -23,7 +23,7 @@
     --theme-input-bg: #FFFFFF;
     --theme-input-text: #1A1A2E;
     --theme-input-border: #E2E8F0;
-    --theme-input-border-focus: #FF6B35;
+    --theme-input-border-focus: #F97316;
     --theme-input-placeholder: #94A3B8;
     
     --theme-card-bg: #FFFFFF;
@@ -110,7 +110,7 @@ body {
 
 .form-control:focus {
     border-color: var(--theme-input-border-focus) !important;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1) !important;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1) !important;
 }
 
 /* ===== CARDS ===== */

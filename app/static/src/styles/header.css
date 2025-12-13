@@ -341,9 +341,14 @@
     width: 100%;
     justify-content: center;
   }
-  
+
   .nav-cta {
     width: 100%;
+  }
+
+  .theme-toggle-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
