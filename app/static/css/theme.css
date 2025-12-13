@@ -23,7 +23,7 @@
     --theme-input-bg: #FFFFFF;
     --theme-input-text: #1A1A2E;
     --theme-input-border: #E2E8F0;
-    --theme-input-border-focus: #FF6B35;
+    --theme-input-border-focus: #F97316;
     --theme-input-placeholder: #94A3B8;
     
     --theme-card-bg: #FFFFFF;
@@ -31,10 +31,10 @@
     --theme-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     
     /* Brand Colors - Remain constant across themes */
-    --brand-primary: #FF6B35;
-    --brand-secondary: #004E89;
-    --brand-accent: #1AE5BE;
-    --brand-dark: #1A1A2E;
+    --brand-primary: #F97316;
+    --brand-secondary: #A855F7;
+    --brand-accent: #FB923C;
+    --brand-dark: #000000;
     --brand-gold: #FFD700;
     
     /* Semantic Colors */
@@ -55,29 +55,29 @@
 /* ===== DARK THEME ===== */
 [data-theme="dark"] {
     /* Theme Colors - Dark Mode */
-    --theme-bg-primary: #0F172A;
-    --theme-bg-secondary: #1E293B;
-    --theme-bg-tertiary: #334155;
-    --theme-bg-elevated: #1E293B;
-    
-    --theme-text-primary: #F1F5F9;
-    --theme-text-secondary: #CBD5E1;
-    --theme-text-tertiary: #94A3B8;
-    --theme-text-inverse: #0F172A;
-    
-    --theme-border-light: #334155;
-    --theme-border-medium: #475569;
-    --theme-border-strong: #64748B;
-    
-    --theme-input-bg: #1E293B;
-    --theme-input-text: #F1F5F9;
-    --theme-input-border: #475569;
-    --theme-input-border-focus: #FF6B35;
-    --theme-input-placeholder: #64748B;
-    
-    --theme-card-bg: #1E293B;
-    --theme-card-border: #334155;
-    --theme-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --theme-bg-primary: #000000;
+    --theme-bg-secondary: #0A0A0A;
+    --theme-bg-tertiary: #1A1A1A;
+    --theme-bg-elevated: #1A1A1A;
+
+    --theme-text-primary: #FFFFFF;
+    --theme-text-secondary: #E5E7EB;
+    --theme-text-tertiary: #9CA3AF;
+    --theme-text-inverse: #000000;
+
+    --theme-border-light: #2A2A2A;
+    --theme-border-medium: #3A3A3A;
+    --theme-border-strong: #4A4A4A;
+
+    --theme-input-bg: #1A1A1A;
+    --theme-input-text: #FFFFFF;
+    --theme-input-border: #3A3A3A;
+    --theme-input-border-focus: #F97316;
+    --theme-input-placeholder: #6B7280;
+
+    --theme-card-bg: #1A1A1A;
+    --theme-card-border: #2A2A2A;
+    --theme-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
     
     /* Shadows adjusted for dark mode */
     --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
@@ -110,7 +110,7 @@ body {
 
 .form-control:focus {
     border-color: var(--theme-input-border-focus) !important;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1) !important;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1) !important;
 }
 
 /* ===== CARDS ===== */
@@ -147,8 +147,8 @@ body {
 
 /* ===== NAVBAR ===== */
 .navbar {
-    background: linear-gradient(135deg, #1A1A2E 0%, #004E89 100%) !important;
-    /* Keep navbar consistent in both themes */
+    background: #000000 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 /* ===== THEME TOGGLE BUTTON ===== */
@@ -188,7 +188,7 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--brand-primary), #FF8C42);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
     border: none;
     cursor: pointer;
     display: flex;
@@ -202,7 +202,7 @@ body {
 
 .ai-chatbot-button:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+    box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
 }
 
 /* Adjust for desktop with sidebar (React app) */
@@ -251,7 +251,7 @@ body {
 }
 
 .chatbot-header {
-    background: linear-gradient(135deg, var(--brand-primary), #FF8C42);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
     color: white;
     padding: 1rem 1.25rem;
     display: flex;
@@ -312,11 +312,11 @@ body {
 }
 
 .message-avatar.ai {
-    background: linear-gradient(135deg, var(--brand-primary), #FF8C42);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
 }
 
 .message-avatar.user {
-    background: var(--brand-secondary);
+    background: var(--brand-accent);
 }
 
 .message-content {
@@ -416,7 +416,7 @@ body {
 }
 
 .chatbot-send:hover {
-    background: #FF8C42;
+    background: #EA580C;
     transform: scale(1.05);
 }
 

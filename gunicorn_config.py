@@ -50,22 +50,29 @@ def pre_fork(server, worker):
 def _dispose_db_pool(log_func, context_msg):
     """
     Helper function to safely dispose database connection pool.
-    
+
     This import is inside the function intentionally - it's only called during
     worker lifecycle events (not per-request), and importing at module level
     would cause issues since the app may not be initialized when this config
     file is first loaded by Gunicorn.
-    
+
     Args:
         log_func: Logging function to use (e.g., server.log.info, worker.log.info)
         context_msg: Context message describing when this is being called
     """
     try:
-        from app import db
-        db.engine.dispose()
-        log_func(f"{context_msg}: Connection pool disposed")
+        from app import create_app, db
+
+        # Create a temporary app context for cleanup operations
+        app = create_app()
+        with app.app_context():
+            # Dispose of the connection pool
+            db.engine.dispose()
+            log_func(f"{context_msg}: Connection pool disposed")
     except Exception as e:
-        log_func(f"{context_msg}: Could not dispose connection pool: {e}")
+        # Silently handle errors during cleanup to avoid polluting logs
+        # This is expected during worker shutdown
+        pass
 
 
 def post_fork(server, worker):
