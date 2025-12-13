@@ -84,7 +84,7 @@ def create_app(config_name='default'):
     from app.routes import (api_clients_bp, api_sessions_bp, api_exercises_bp, api_programs_bp,
                            api_progress_bp, api_nutrition_bp, api_booking_bp, api_payments_bp,
                            api_dashboard_bp, api_organization_bp, api_user_bp, api_settings_bp,
-                           api_zoom_bp, api_stripe_bp)
+                           api_zoom_bp, api_stripe_bp, api_messaging_bp, api_engagement_bp)
     
     app.register_blueprint(auth.bp)
     app.register_blueprint(main.bp)
@@ -107,6 +107,8 @@ def create_app(config_name='default'):
     app.register_blueprint(api_settings_bp)  # RESTful settings API
     app.register_blueprint(api_zoom_bp)  # Zoom integration API
     app.register_blueprint(api_stripe_bp)  # Stripe payment API
+    app.register_blueprint(api_messaging_bp)  # RESTful messaging API
+    app.register_blueprint(api_engagement_bp)  # RESTful engagement API (Groups, Challenges, Announcements)
     app.register_blueprint(intake.bp)
     app.register_blueprint(marketing.bp)
     app.register_blueprint(workflow.bp)
