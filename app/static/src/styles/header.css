@@ -267,6 +267,39 @@
   color: var(--nav-link-hover);
 }
 
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem;
+  background: rgba(148, 163, 184, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.25rem;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(148, 163, 184, 0.2);
+  border-color: rgba(148, 163, 184, 0.3);
+  transform: scale(1.05);
+}
+
+.theme-icon-light,
+.theme-icon-dark {
+  display: none;
+}
+
+[data-theme="light"] .theme-icon-dark {
+  display: block;
+}
+
+[data-theme="dark"] .theme-icon-light {
+  display: block;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .modern-navbar {
