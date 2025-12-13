@@ -123,13 +123,24 @@ export default function Layout() {
     };
   }, [profileDropdownOpen]);
 
-  const handleLogout = () => {
-    // Clear local auth state first
-    logout();
-    // Clear localStorage to ensure complete logout
-    localStorage.removeItem('auth-storage');
-    // Redirect to Flask logout endpoint which will clear the session and redirect to login
-    window.location.href = '/logout';
+  const handleLogout = async () => {
+    try {
+      // Clear local auth state first
+      logout();
+      // Clear localStorage to ensure complete logout
+      localStorage.removeItem('auth-storage');
+      // Call Flask logout endpoint to clear server session
+      // Use fetch with credentials to ensure cookies are sent
+      await fetch('/logout', {
+        method: 'GET',
+        credentials: 'include'
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      // Always redirect to login page, regardless of API call success
+      window.location.href = '/login';
+    }
   };
 
   const toggleCategory = (categoryName) => {
