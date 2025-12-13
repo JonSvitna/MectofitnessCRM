@@ -28,19 +28,31 @@ import AccountProfile from './pages/AccountProfile';
 
 // Protected Route wrapper - redirects to Flask login if not authenticated
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuthStore();
-  
+  const { isAuthenticated, loading } = useAuthStore();
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     // Redirect to Flask login page
     window.location.href = '/login';
     return null;
   }
-  
+
   return children;
 };
 
 function App() {
-  const { isAuthenticated, setAuth, logout } = useAuthStore();
+  const { isAuthenticated, setAuth, logout, setLoading } = useAuthStore();
   const { theme, setTheme } = useThemeStore();
 
   // Initialize theme on app load
@@ -73,6 +85,9 @@ function App() {
 
           // User is authenticated via Flask session
           setAuth(userResponse.data.data, orgData);
+        } else {
+          // No user data - not authenticated
+          setLoading(false);
         }
       } catch (error) {
         // If API returns 401, user is not authenticated
@@ -84,12 +99,15 @@ function App() {
               !window.location.pathname.startsWith('/register')) {
             window.location.href = '/login';
           }
+        } else {
+          // Other errors - stop loading
+          setLoading(false);
         }
       }
     };
 
     checkAuth();
-  }, [setAuth, logout]);
+  }, [setAuth, logout, setLoading]);
 
   return (
     <Router>

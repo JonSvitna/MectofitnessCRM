@@ -8,6 +8,7 @@ export const useAuthStore = create(
       organization: null,
       isAuthenticated: false,
       token: null,
+      loading: true, // Add loading state to prevent premature redirects
 
       setAuth: (user, organization = null, token = null) =>
         set({
@@ -15,6 +16,7 @@ export const useAuthStore = create(
           organization,
           isAuthenticated: true,
           token,
+          loading: false,
         }),
 
       logout: () =>
@@ -23,7 +25,11 @@ export const useAuthStore = create(
           organization: null,
           isAuthenticated: false,
           token: null,
+          loading: false,
         }),
+
+      setLoading: (loading) =>
+        set({ loading }),
 
       updateUser: (userData) =>
         set((state) => ({
