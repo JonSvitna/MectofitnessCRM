@@ -1,3 +1,0 @@
-# Disable mise for this project - use nixpacks Python instead
-[tools]
-# Empty - no tools managed by mise
