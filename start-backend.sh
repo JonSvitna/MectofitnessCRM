@@ -42,8 +42,11 @@ fi
 # Check CORS configuration for separate frontend
 if [ -z "$CORS_ORIGINS" ]; then
     echo "⚠  WARNING: CORS_ORIGINS not set"
-    echo "   Set this to your frontend URL for production"
-    echo "   Example: https://your-frontend.railway.app"
+    echo "   For split deployment, set this to your frontend URL"
+    echo "   Example: CORS_ORIGINS=https://your-frontend.railway.app"
+    echo ""
+    echo "   For monolithic deployment, CORS defaults to '*' (all origins)"
+    echo "   For production split deployment, CORS_ORIGINS is REQUIRED"
 fi
 
 echo ""

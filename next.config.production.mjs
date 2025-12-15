@@ -9,7 +9,9 @@ const nextConfig = {
   },
   // Environment variables for frontend
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
+    // Must be set in Railway environment variables for production
+    // This fallback should only be used in development
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://your-backend.railway.app',
   },
 }
 
