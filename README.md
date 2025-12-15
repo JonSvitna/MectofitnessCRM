@@ -236,11 +236,14 @@ Edit `config.py` to customize:
 ### Project Structure
 ```
 MectofitnessCRM/
-├── app/
-│   ├── models/          # Database models
-│   ├── routes/          # Application routes/blueprints
-│   ├── static/          # CSS, JS, images, React app
-│   └── templates/       # HTML templates
+├── app/                # Main application (backend + frontend)
+│   ├── models/          # Database models (SQLAlchemy)
+│   ├── routes/          # API endpoints & view routes (Flask blueprints)
+│   ├── services/        # Business logic layer
+│   ├── utils/           # Utility functions
+│   ├── static/          # Frontend assets (React app, CSS, images)
+│   └── templates/       # Jinja2 HTML templates
+├── backend/            # ⚠️ See backend/README.md - backend code is in app/
 ├── docs/                # Documentation
 │   ├── setup/          # Setup guides
 │   ├── deployment/     # Deployment documentation
@@ -253,6 +256,8 @@ MectofitnessCRM/
 ├── requirements.txt    # Python dependencies
 └── run.py             # Application entry point
 ```
+
+> **Note**: This project uses a monolithic Flask architecture. All backend code (models, routes, services) is in the `app/` directory. The `backend/` folder contains a README explaining this structure.
 
 ### Running Tests
 ```bash
