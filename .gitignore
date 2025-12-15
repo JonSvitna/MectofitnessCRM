@@ -87,11 +87,10 @@ instance/
 .coverage
 htmlcov/
 
-# AI Model files
-models/*.pkl
-models/*.h5
-models/*.pt
-!models/.gitkeep
+# AI Model files (if needed in future, create models/ directory)
+# models/*.pkl
+# models/*.h5
+# models/*.pt
 app/templates/index_old.html
 
 # Next.js build outputs
