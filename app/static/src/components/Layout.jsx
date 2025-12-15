@@ -2,6 +2,7 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 import { useState, useEffect, useRef } from 'react';
+import logger from '../utils/logger';
 import {
   HomeIcon,
   UsersIcon,
@@ -136,7 +137,7 @@ export default function Layout() {
         credentials: 'include'
       });
     } catch (error) {
-      console.error('Logout error:', error);
+      logger.error('Logout error:', error);
     } finally {
       // Always redirect to login page, regardless of API call success
       window.location.href = '/login';

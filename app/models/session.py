@@ -1,5 +1,5 @@
 """Training session model."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 
 
@@ -38,8 +38,8 @@ class Session(db.Model):
     outlook_event_id = db.Column(db.String(200))
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', back_populates='sessions')

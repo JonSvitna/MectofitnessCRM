@@ -9,6 +9,7 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline';
 import { bookingApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function Scheduling() {
   const [bookings, setBookings] = useState([]);
@@ -34,7 +35,7 @@ export default function Scheduling() {
         setAvailability(response.data.availability || response.data || []);
       }
     } catch (err) {
-      console.error('Error loading scheduling data:', err);
+      logger.error('Error loading scheduling data:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

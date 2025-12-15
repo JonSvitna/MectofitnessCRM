@@ -8,6 +8,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { bookingApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function OnlineBooking() {
   const [bookings, setBookings] = useState([]);
@@ -30,7 +31,7 @@ export default function OnlineBooking() {
       setBookings(bookingsRes.data.bookings || bookingsRes.data || []);
       setAvailability(availRes.data.availability || availRes.data || []);
     } catch (err) {
-      console.error('Error loading booking data:', err);
+      logger.error('Error loading booking data:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

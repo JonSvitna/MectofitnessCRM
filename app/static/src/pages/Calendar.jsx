@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { dashboardApi, handleApiError } from '../api/client';
 import { CalendarIcon, ClockIcon, MapPinIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import logger from '../utils/logger';
 
 export default function Calendar() {
   const [events, setEvents] = useState([]);
@@ -25,7 +26,7 @@ export default function Calendar() {
       });
       setEvents(response.data.data?.events || response.data.events || []);
     } catch (err) {
-      console.error('Error loading calendar:', err);
+      logger.error('Error loading calendar:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

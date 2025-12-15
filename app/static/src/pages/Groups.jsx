@@ -5,6 +5,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { engagementApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function Groups() {
   const [groups, setGroups] = useState([]);
@@ -22,7 +23,7 @@ export default function Groups() {
       const response = await engagementApi.getGroups();
       setGroups(response.data.data?.groups || response.data.groups || []);
     } catch (err) {
-      console.error('Error loading groups:', err);
+      logger.error('Error loading groups:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

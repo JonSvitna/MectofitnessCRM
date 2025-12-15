@@ -1,5 +1,5 @@
 """Organization model for multi-tenant support."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 
 
@@ -41,8 +41,8 @@ class Organization(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     users = db.relationship('User', backref='organization', lazy='dynamic')

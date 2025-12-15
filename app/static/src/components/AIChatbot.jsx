@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import logger from '../utils/logger';
 
 const AIChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +87,7 @@ const AIChatbot = () => {
         throw new Error('Failed to get response');
       }
     } catch (error) {
-      console.error('Chatbot error:', error);
+      logger.error('Chatbot error:', error);
       const errorMessage = {
         text: "Sorry, I'm having trouble connecting. Please try again later.",
         sender: 'ai',

@@ -1,5 +1,5 @@
 """User model for personal trainers."""
-from datetime import datetime
+from datetime import datetime, timezone
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
@@ -27,8 +27,8 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.Text)
     profile_image = db.Column(db.String(200))
     is_active = db.Column(db.Boolean, default=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     clients = db.relationship('Client', back_populates='trainer', lazy='dynamic')
@@ -231,7 +231,7 @@ class User(UserMixin, db.Model):
                 if hasattr(self, key) and key not in self.PROTECTED_FIELDS:
                     setattr(self, key, value)
             
-            self.updated_at = datetime.utcnow()
+            self.updated_at = datetime.now(timezone.utc)
             db.session.commit()
             return True, None
             
@@ -258,7 +258,7 @@ class User(UserMixin, db.Model):
                 return False, "New password must be at least 8 characters"
             
             self.set_password(new_password)
-            self.updated_at = datetime.utcnow()
+            self.updated_at = datetime.now(timezone.utc)
             db.session.commit()
             return True, None
             

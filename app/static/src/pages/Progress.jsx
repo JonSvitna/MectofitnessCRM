@@ -9,6 +9,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { progressApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function Progress() {
   const [entries, setEntries] = useState([]);
@@ -26,7 +27,7 @@ export default function Progress() {
       const response = await progressApi.getEntries({ limit: 50 });
       setEntries(response.data.entries || response.data || []);
     } catch (err) {
-      console.error('Error loading progress:', err);
+      logger.error('Error loading progress:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

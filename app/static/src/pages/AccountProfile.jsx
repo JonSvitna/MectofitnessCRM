@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { userApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 import {
   UserCircleIcon,
   EnvelopeIcon,
@@ -47,7 +48,7 @@ export default function AccountProfile() {
         username: userData.username || '',
       });
     } catch (err) {
-      console.error('Error loading profile:', err);
+      logger.error('Error loading profile:', err);
       showMessage(handleApiError(err), 'error');
     } finally {
       setLoading(false);

@@ -1,5 +1,5 @@
 """Nutrition and habit tracking models."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 import json
 
@@ -45,8 +45,8 @@ class NutritionPlan(db.Model):
     is_ai_generated = db.Column(db.Boolean, default=False)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     client = db.relationship('Client', backref='nutrition_plans')
@@ -94,7 +94,7 @@ class FoodLog(db.Model):
     notes = db.Column(db.Text)
     
     # Timestamps
-    logged_at = db.Column(db.DateTime, default=datetime.utcnow)
+    logged_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     client = db.relationship('Client', backref='food_logs')
@@ -133,8 +133,8 @@ class Habit(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     client = db.relationship('Client', backref='habits')
@@ -161,7 +161,7 @@ class HabitLog(db.Model):
     notes = db.Column(db.Text)
     
     # Timestamps
-    logged_at = db.Column(db.DateTime, default=datetime.utcnow)
+    logged_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     habit = db.relationship('Habit', backref='logs')

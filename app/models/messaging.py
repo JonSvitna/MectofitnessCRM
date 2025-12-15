@@ -1,5 +1,5 @@
 """In-app messaging models."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 
 
@@ -30,7 +30,7 @@ class Message(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
     
     # Timestamps
-    sent_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    sent_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), index=True)
     
     # Relationships
     sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
@@ -40,7 +40,7 @@ class Message(db.Model):
         """Mark message as read."""
         if not self.is_read:
             self.is_read = True
-            self.read_at = datetime.utcnow()
+            self.read_at = datetime.now(timezone.utc)
     
     def __repr__(self):
         return f'<Message {self.id} from User {self.sender_id}>'
@@ -65,8 +65,8 @@ class MessageNotification(db.Model):
     quiet_hours_end = db.Column(db.Time)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     user = db.relationship('User', backref='message_settings', uselist=False)

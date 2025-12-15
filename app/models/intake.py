@@ -1,5 +1,5 @@
 """Client intake form model."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 import json
 
@@ -80,8 +80,8 @@ class ClientIntake(db.Model):
     reviewed_at = db.Column(db.DateTime)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     client = db.relationship('Client', backref='intakes')

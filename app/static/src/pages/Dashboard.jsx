@@ -14,6 +14,7 @@ import {
   BoltIcon,
 } from '@heroicons/react/24/outline';
 import { dashboardApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 // Helper function to format time ago
 const formatTimeAgo = (timestamp) => {
@@ -59,7 +60,7 @@ export default function Dashboard() {
       setActivities(activityRes.data.activities || []);
       setUpcomingSessions(calendarRes.data.sessions?.slice(0, 5) || []);
     } catch (err) {
-      console.error('Error loading dashboard:', err);
+      logger.error('Error loading dashboard:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

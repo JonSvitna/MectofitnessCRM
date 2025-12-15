@@ -11,6 +11,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { exerciseLibraryApi, programsApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function MasterLibraries() {
   const [exercises, setExercises] = useState([]);
@@ -43,7 +44,7 @@ export default function MasterLibraries() {
         setProgramTemplates(response.data.programs || response.data || []);
       }
     } catch (err) {
-      console.error('Error loading libraries:', err);
+      logger.error('Error loading libraries:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

@@ -1,5 +1,5 @@
 """Settings and configuration models."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 import json
 
@@ -55,8 +55,8 @@ class TrainerSettings(db.Model):
     theme_preference = db.Column(db.String(10), default='light')  # 'light', 'dark', or 'auto'
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='settings', uselist=False)
@@ -69,12 +69,12 @@ class TrainerSettings(db.Model):
         """Reset API call counter."""
         self.current_api_calls = 0
         from datetime import timedelta
-        self.api_calls_reset_at = datetime.utcnow() + timedelta(days=1)
+        self.api_calls_reset_at = datetime.now(timezone.utc) + timedelta(days=1)
     
     def can_make_api_call(self):
         """Check if API call limit is reached."""
         # Check if reset is needed
-        if self.api_calls_reset_at and datetime.utcnow() >= self.api_calls_reset_at:
+        if self.api_calls_reset_at and datetime.now(timezone.utc) >= self.api_calls_reset_at:
             self.reset_api_calls()
         
         return self.current_api_calls < self.api_calls_per_day
@@ -97,8 +97,8 @@ class SystemSettings(db.Model):
     category = db.Column(db.String(50))
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     def get_value(self):
         """Parse value based on type."""
