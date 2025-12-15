@@ -1,6 +1,6 @@
 """Initialize Flask application."""
 import logging
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -32,7 +32,22 @@ def create_app(config_name='default'):
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
-    CORS(app)
+    
+    # Configure CORS with proper origin restrictions
+    import os
+    cors_origins = os.environ.get('CORS_ORIGINS', '*')
+    if cors_origins != '*':
+        # Split comma-separated origins for production
+        cors_origins = [origin.strip() for origin in cors_origins.split(',')]
+    
+    CORS(app, resources={
+        r"/api/*": {
+            "origins": cors_origins,
+            "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization"],
+            "supports_credentials": True
+        }
+    })
     
     # Test database connection and create tables on startup
     with app.app_context():

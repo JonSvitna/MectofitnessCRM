@@ -23,6 +23,12 @@ class Config:
     # Security
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
     
+    # CORS Configuration
+    # In production, set CORS_ORIGINS to comma-separated list of allowed origins
+    # Example: CORS_ORIGINS=https://app.example.com,https://www.example.com
+    # In development, defaults to '*' (all origins)
+    CORS_ORIGINS = os.environ.get('CORS_ORIGINS', '*')
+    
     # Database
     SQLALCHEMY_DATABASE_URI = get_database_uri()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
