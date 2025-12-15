@@ -135,6 +135,7 @@ Deploy backend (Flask CRM) and frontend (Next.js marketing) as separate Railway 
 ## Documentation
 
 - **Comprehensive Split Deployment Guide**: [`docs/deployment/RAILWAY_SPLIT_DEPLOYMENT.md`](docs/deployment/RAILWAY_SPLIT_DEPLOYMENT.md)
+- **Railway Configuration Reference**: [`docs/deployment/RAILWAY_CONFIGURATION_REFERENCE.md`](docs/deployment/RAILWAY_CONFIGURATION_REFERENCE.md) - Detailed explanation of all config files
 - **Original Railway Guide**: [`docs/deployment/RAILWAY_DEPLOY.md`](docs/deployment/RAILWAY_DEPLOY.md)
 - **Environment Variables**: [`.env.example`](.env.example)
 - **Main README**: [`README.md`](README.md)
