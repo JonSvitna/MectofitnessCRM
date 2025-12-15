@@ -1,5 +1,5 @@
 """Workflow and flow management models."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 import json
 
@@ -27,8 +27,8 @@ class WorkflowTemplate(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='workflow_templates')
@@ -65,7 +65,7 @@ class WorkflowExecution(db.Model):
     completed_steps = db.Column(db.Text)  # JSON array of completed step IDs with timestamps
     
     # Timestamps
-    started_at = db.Column(db.DateTime, default=datetime.utcnow)
+    started_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     completed_at = db.Column(db.DateTime)
     next_step_at = db.Column(db.DateTime)
     
@@ -85,7 +85,7 @@ class WorkflowExecution(db.Model):
         steps = self.get_completed_steps()
         steps.append({
             'step_id': step_id,
-            'completed_at': datetime.utcnow().isoformat()
+            'completed_at': datetime.now(timezone.utc).isoformat()
         })
         self.completed_steps = json.dumps(steps)
     
@@ -120,8 +120,8 @@ class AutomationRule(db.Model):
     trigger_count = db.Column(db.Integer, default=0)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='automation_rules')

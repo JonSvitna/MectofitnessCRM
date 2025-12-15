@@ -1,5 +1,5 @@
 """Exercise library for workout program builder."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 import json
 
@@ -66,8 +66,8 @@ class ExerciseLibrary(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     creator = db.relationship('User', backref='custom_exercises', foreign_keys=[created_by_trainer_id])
@@ -142,8 +142,8 @@ class ProgramTemplate(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     creator = db.relationship('User', backref='program_templates', foreign_keys=[created_by_trainer_id])

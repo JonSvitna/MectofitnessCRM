@@ -1,5 +1,5 @@
 """Progress tracking models."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 import json
 
@@ -28,8 +28,8 @@ class ProgressPhoto(db.Model):
     is_public = db.Column(db.Boolean, default=False)
     
     # Timestamps
-    taken_at = db.Column(db.DateTime, default=datetime.utcnow)
-    uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
+    taken_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    uploaded_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     client = db.relationship('Client', backref='progress_photos')
@@ -69,8 +69,8 @@ class CustomMetric(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='custom_metrics')
@@ -112,8 +112,8 @@ class ProgressEntry(db.Model):
     energy_level = db.Column(db.Integer)  # 1-10
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     client = db.relationship('Client', backref='progress_entries')

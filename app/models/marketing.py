@@ -1,5 +1,5 @@
 """Marketing automation models."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 import json
 
@@ -25,8 +25,8 @@ class EmailTemplate(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='email_templates')
@@ -55,8 +55,8 @@ class SMSTemplate(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='sms_templates')
@@ -115,8 +115,8 @@ class MarketingCampaign(db.Model):
     clicked_count = db.Column(db.Integer, default=0)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     launched_at = db.Column(db.DateTime)
     completed_at = db.Column(db.DateTime)
     
@@ -162,7 +162,7 @@ class CommunicationLog(db.Model):
     clicked_at = db.Column(db.DateTime)
     
     # Timestamps
-    sent_at = db.Column(db.DateTime, default=datetime.utcnow)
+    sent_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     campaign = db.relationship('MarketingCampaign', backref='communications')

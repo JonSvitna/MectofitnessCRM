@@ -1,5 +1,5 @@
 """Online booking system models."""
-from datetime import datetime, time
+from datetime import datetime, time, timezone
 from app import db
 import json
 
@@ -27,8 +27,8 @@ class BookingAvailability(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='availability_slots')
@@ -60,7 +60,7 @@ class BookingException(db.Model):
     reason = db.Column(db.String(200))
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='booking_exceptions')
@@ -101,7 +101,7 @@ class OnlineBooking(db.Model):
     session_id = db.Column(db.Integer, db.ForeignKey('sessions.id'))
     
     # Timestamps
-    requested_at = db.Column(db.DateTime, default=datetime.utcnow)
+    requested_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     confirmed_at = db.Column(db.DateTime)
     cancelled_at = db.Column(db.DateTime)
     
@@ -166,8 +166,8 @@ class BookingSettings(db.Model):
     booking_page_image_url = db.Column(db.String(500))
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', backref='booking_settings', uselist=False)

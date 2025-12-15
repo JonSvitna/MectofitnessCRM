@@ -1,5 +1,5 @@
 """Training program and exercise models."""
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 
 
@@ -33,8 +33,8 @@ class Program(db.Model):
     notes = db.Column(db.Text)
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     trainer = db.relationship('User', back_populates='programs')
@@ -77,8 +77,8 @@ class Exercise(db.Model):
     image_url = db.Column(db.String(200))
     
     # Timestamps
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     program = db.relationship('Program', back_populates='exercises')
