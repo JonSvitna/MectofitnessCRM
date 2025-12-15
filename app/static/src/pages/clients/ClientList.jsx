@@ -10,7 +10,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { clientsApi, handleApiError } from '../../api/client';
-import logger from '../utils/logger';
+import logger from '../../utils/logger';
 
 export default function ClientList() {
   const [clients, setClients] = useState([]);

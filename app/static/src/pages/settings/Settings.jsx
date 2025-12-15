@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { userApi, settingsApi, handleApiError } from '../../api/client';
-import logger from '../utils/logger';
+import logger from '../../utils/logger';
 import {
   UserCircleIcon,
   Cog6ToothIcon,

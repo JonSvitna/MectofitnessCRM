@@ -25,7 +25,7 @@ import MasterLibraries from './pages/MasterLibraries';
 import Settings from './pages/settings/Settings';
 import ExerciseLibrary from './pages/ExerciseLibrary';
 import AccountProfile from './pages/AccountProfile';
-import logger from '../utils/logger';
+import logger from './utils/logger';
 
 // Protected Route wrapper - redirects to Flask login if not authenticated
 const ProtectedRoute = ({ children }) => {

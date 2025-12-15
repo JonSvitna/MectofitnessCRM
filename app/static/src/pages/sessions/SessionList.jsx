@@ -11,7 +11,7 @@ import {
   ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 import { sessionsApi, handleApiError } from '../../api/client';
-import logger from '../utils/logger';
+import logger from '../../utils/logger';
 
 export default function SessionList() {
   const [sessions, setSessions] = useState([]);

@@ -10,7 +10,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { programsApi, handleApiError } from '../../api/client';
-import logger from '../utils/logger';
+import logger from '../../utils/logger';
 
 export default function ProgramList() {
   const [programs, setPrograms] = useState([]);
