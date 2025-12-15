@@ -1,0 +1,10 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "gunicorn -c gunicorn_config.py run:app"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+[env]
+FLASK_ENV = "production"
