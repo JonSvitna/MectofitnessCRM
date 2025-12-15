@@ -9,9 +9,10 @@ const nextConfig = {
   },
   // Environment variables for frontend
   env: {
-    // Must be set in Railway environment variables for production
-    // This fallback should only be used in development
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://your-backend.railway.app',
+    // IMPORTANT: Set NEXT_PUBLIC_API_URL in Railway environment variables
+    // This placeholder should be replaced with your actual backend URL
+    // Example: https://mecto-backend-xyz.railway.app
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://SET-BACKEND-URL-IN-RAILWAY-ENV.railway.app',
   },
 }
 

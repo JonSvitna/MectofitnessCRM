@@ -1,6 +1,8 @@
 #!/bin/bash
 # Railway startup script for Backend only - Flask CRM
 # This version skips frontend build as frontend is deployed separately
+#
+# Note: This script should be executable. If not, run: chmod +x start-backend.sh
 
 set -e  # Exit on any error
 
