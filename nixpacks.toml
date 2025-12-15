@@ -11,6 +11,7 @@ cmds = [
 ]
 
 [phases.build]
+# Build React dashboard only (Vite), not Next.js marketing homepage
 cmds = ["npm run build"]
 
 [start]

@@ -97,3 +97,6 @@ app/templates/index_old.html
 out/
 .next/
 test_homepage_serve.py
+
+# Vercel
+.vercel

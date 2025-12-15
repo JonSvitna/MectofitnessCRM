@@ -8,6 +8,8 @@ const nextConfig = {
   },
   // Output directory for static export
   distDir: 'out',
+  // Trailing slash for better static hosting compatibility
+  trailingSlash: true,
 }
 
 export default nextConfig

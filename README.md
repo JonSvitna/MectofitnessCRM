@@ -93,20 +93,14 @@ A modern, TrueCoach-style marketing homepage built with Next.js 14 is available 
 - SEO-optimized
 - Framer Motion animations
 
-**To run the Next.js homepage:**
+**To run the Next.js homepage locally:**
 
 ```bash
-# Quick start with helper script
-./run-nextjs-homepage.sh
-
-# Or manually:
-mv app flask_app          # Temporarily rename Flask app
-npm run nextjs:dev        # Start Next.js dev server
+npm run nextjs:dev
 # Visit http://localhost:3000
-mv flask_app app          # Restore Flask app when done
 ```
 
-See [docs/setup/NEXT_JS_HOMEPAGE_README.md](docs/setup/NEXT_JS_HOMEPAGE_README.md) for full documentation.
+**Deployment:** The Next.js homepage should be deployed separately to Vercel. See [DEPLOYMENT.md](DEPLOYMENT.md) for full deployment instructions.
 
 ## 📖 Usage
 
@@ -282,8 +276,8 @@ Comprehensive documentation is available in the `/docs` directory:
 - **[docs/setup/ZOOM_SETUP.md](docs/setup/ZOOM_SETUP.md)** - Zoom integration
 
 ### Deployment
-- **[docs/deployment/](docs/deployment/)** - Deployment guides for various platforms
-- **[CLEANUP_RECOMMENDATIONS.md](CLEANUP_RECOMMENDATIONS.md)** - Code quality and maintenance recommendations
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - **PRIMARY DEPLOYMENT GUIDE** (Vercel + Railway split-stack)
+- **[docs/deployment/](docs/deployment/)** - Additional deployment guides and troubleshooting
 
 ### Architecture
 - **[docs/ROUTING_ARCHITECTURE.md](docs/ROUTING_ARCHITECTURE.md)** - Application routing

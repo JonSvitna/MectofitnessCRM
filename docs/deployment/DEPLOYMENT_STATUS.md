@@ -2,49 +2,68 @@
 
 ## ✅ Ready to Deploy!
 
-Your app is fully configured and ready for production deployment. All code is committed and pushed to GitHub.
+Your app is fully configured for **split-stack deployment** with Vercel (frontend) and Railway (backend).
 
 ---
 
 ## 📋 Recommended Deployment Path
 
-### **STEP 1: Deploy to Render (10 minutes)** ⭐
+### **STEP 1: Deploy Backend to Railway (5-10 minutes)** ⭐
 
-This is the easiest and most reliable option.
+Deploy the Flask CRM backend with PostgreSQL database.
 
-1. **Go to Render Dashboard**: https://dashboard.render.com
+1. **Visit Railway**: https://railway.app
 2. **Sign in with GitHub**
-3. **Click "New +" → "Blueprint"**
+3. **Click "New Project" → "Deploy from GitHub repo"**
 4. **Select repository**: `JonSvitna/MectofitnessCRM`
-5. **Click "Apply"**
-6. **Wait ~10 minutes** for deployment
+5. **Add PostgreSQL database**: Click "New" → "Database" → "PostgreSQL"
+6. **Set environment variables**:
+   - `SECRET_KEY` - Your Flask secret key
+   - `FLASK_ENV` - Set to `production`
+7. **Deploy!** Railway auto-detects configuration
 
 **What you get:**
-- ✅ Full Flask application with all features
-- ✅ PostgreSQL database (1GB)
-- ✅ Auto-builds frontend (Vite + Tailwind)
+- ✅ Flask CRM application with all features
+- ✅ PostgreSQL database
+- ✅ React dashboard (built with Vite)
 - ✅ Auto-deploys on Git push
-- ✅ URL: `https://mectofitness-api.onrender.com`
+- ✅ URL: `https://your-app.up.railway.app`
 
-**Cost:** $14/month (or free tier with cold starts)
-
-📖 **Detailed guide**: `DEPLOY_NOW.md`
+**Cost:** $5/month (includes 500 execution hours + database)
 
 ---
 
-### **STEP 2 (Optional): Add Vercel CDN**
+### **STEP 2: Deploy Frontend to Vercel (5 minutes)** ⭐
 
-After Render works, optionally add Vercel for faster global static asset delivery.
+Deploy the Next.js marketing homepage.
 
+**Option A: Vercel CLI**
 ```bash
-# Deploy static assets to Vercel
-./deploy-vercel.sh
+# Install Vercel CLI
+npm install -g vercel
 
-# Then add in Render:
-# Environment → STATIC_CDN_URL = https://your-vercel-app.vercel.app
+# Deploy
+vercel --prod
 ```
 
-📖 **Detailed guide**: `FRONTEND_DEPLOY.md` or `DEPLOY_SPLIT_STACK.md`
+**Option B: GitHub Integration (Recommended)**
+1. **Visit Vercel**: https://vercel.com
+2. **Sign in with GitHub**
+3. **Click "Add New" → "Project"**
+4. **Import Git Repository**: Select `JonSvitna/MectofitnessCRM`
+5. **Configure**:
+   - Framework Preset: Next.js (auto-detected)
+   - Build Command: `npm run nextjs:build`
+   - Output Directory: `out`
+6. **Deploy!**
+
+**What you get:**
+- ✅ Next.js marketing homepage
+- ✅ Global CDN distribution
+- ✅ Auto-deploys on Git push
+- ✅ URL: `https://your-app.vercel.app`
+
+**Cost:** FREE (Hobby plan)
 
 ---
 

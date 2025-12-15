@@ -1,0 +1,59 @@
+# Backend files - not needed for Vercel frontend deployment
+app/
+migrations/
+scripts/
+docs/
+
+# Python files
+*.py
+requirements.txt
+gunicorn_config.py
+config.py
+
+# Deployment configs for other platforms
+railway.toml
+nixpacks.toml
+Procfile
+render.yaml
+.renderignore
+
+# Build artifacts
+dist/
+out/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment
+.env
+.env.*
+venv/
+env/
+
+# Bash scripts
+*.sh
+
+# Vite config for React dashboard (not needed for Next.js)
+vite.config.js
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+.claude/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
