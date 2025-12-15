@@ -282,8 +282,10 @@ Comprehensive documentation is available in the `/docs` directory:
 - **[docs/setup/ZOOM_SETUP.md](docs/setup/ZOOM_SETUP.md)** - Zoom integration
 
 ### Deployment
-- **[docs/deployment/](docs/deployment/)** - Deployment guides for various platforms
-- **[CLEANUP_RECOMMENDATIONS.md](CLEANUP_RECOMMENDATIONS.md)** - Code quality and maintenance recommendations
+- **[RAILWAY_QUICK_START.md](RAILWAY_QUICK_START.md)** - ⭐ Quick start for Railway deployment (simple or separated)
+- **[docs/deployment/RAILWAY_SPLIT_DEPLOYMENT.md](docs/deployment/RAILWAY_SPLIT_DEPLOYMENT.md)** - Comprehensive separated deployment guide
+- **[docs/deployment/RAILWAY_CONFIGURATION_REFERENCE.md](docs/deployment/RAILWAY_CONFIGURATION_REFERENCE.md)** - Detailed config file reference
+- **[docs/deployment/](docs/deployment/)** - Additional deployment guides for various platforms
 
 ### Architecture
 - **[docs/ROUTING_ARCHITECTURE.md](docs/ROUTING_ARCHITECTURE.md)** - Application routing
