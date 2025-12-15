@@ -10,6 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { organizationApi, handleApiError } from '../api/client';
 import { useAuthStore } from '../store/authStore';
+import logger from '../utils/logger';
 
 export default function Team() {
   const { user } = useAuthStore();
@@ -33,7 +34,7 @@ export default function Team() {
       setMembers(membersRes.data.members || membersRes.data || []);
       setStats(statsRes.data);
     } catch (err) {
-      console.error('Error loading team:', err);
+      logger.error('Error loading team:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

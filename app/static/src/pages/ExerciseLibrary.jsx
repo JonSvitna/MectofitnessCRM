@@ -7,6 +7,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { exerciseLibraryApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function ExerciseLibrary() {
   const [exercises, setExercises] = useState([]);
@@ -41,7 +42,7 @@ export default function ExerciseLibrary() {
       setMuscles(muscleRes.data.muscles || muscleRes.data || []);
       setEquipment(equipRes.data.equipment || equipRes.data || []);
     } catch (err) {
-      console.error('Error loading filter options:', err);
+      logger.error('Error loading filter options:', err);
     }
   };
 
@@ -58,7 +59,7 @@ export default function ExerciseLibrary() {
       const response = await exerciseLibraryApi.getAll(params);
       setExercises(response.data.exercises || response.data || []);
     } catch (err) {
-      console.error('Error loading exercises:', err);
+      logger.error('Error loading exercises:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);
@@ -81,7 +82,7 @@ export default function ExerciseLibrary() {
       const response = await exerciseLibraryApi.search({ q: search });
       setExercises(response.data.exercises || response.data || []);
     } catch (err) {
-      console.error('Error searching exercises:', err);
+      logger.error('Error searching exercises:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

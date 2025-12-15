@@ -10,6 +10,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { programsApi, handleApiError } from '../../api/client';
+import logger from '../utils/logger';
 
 export default function ProgramList() {
   const [programs, setPrograms] = useState([]);
@@ -36,7 +37,7 @@ export default function ProgramList() {
       const response = await programsApi.getAll(params);
       setPrograms(response.data.programs || response.data || []);
     } catch (err) {
-      console.error('Error loading programs:', err);
+      logger.error('Error loading programs:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);
@@ -48,7 +49,7 @@ export default function ProgramList() {
       const response = await programsApi.getStats();
       setStats(response.data);
     } catch (err) {
-      console.error('Error loading stats:', err);
+      logger.error('Error loading stats:', err);
     }
   };
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { userApi, settingsApi, handleApiError } from '../../api/client';
+import logger from '../utils/logger';
 import {
   UserCircleIcon,
   Cog6ToothIcon,
@@ -83,7 +84,7 @@ export default function Settings() {
         notification_email: settingsData.notification_email || '',
       });
     } catch (err) {
-      console.error('Error loading settings:', err);
+      logger.error('Error loading settings:', err);
       showMessage(handleApiError(err), 'error');
     } finally {
       setLoading(false);

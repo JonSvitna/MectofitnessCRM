@@ -5,6 +5,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { engagementApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function Challenges() {
   const [challenges, setChallenges] = useState([]);
@@ -22,7 +23,7 @@ export default function Challenges() {
       const response = await engagementApi.getChallenges();
       setChallenges(response.data.data?.challenges || response.data.challenges || []);
     } catch (err) {
-      console.error('Error loading challenges:', err);
+      logger.error('Error loading challenges:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

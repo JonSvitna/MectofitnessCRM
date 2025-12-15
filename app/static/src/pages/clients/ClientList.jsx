@@ -10,6 +10,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { clientsApi, handleApiError } from '../../api/client';
+import logger from '../utils/logger';
 
 export default function ClientList() {
   const [clients, setClients] = useState([]);
@@ -37,7 +38,7 @@ export default function ClientList() {
       const response = await clientsApi.getAll(params);
       setClients(response.data.clients || response.data || []);
     } catch (err) {
-      console.error('Error loading clients:', err);
+      logger.error('Error loading clients:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);
@@ -49,7 +50,7 @@ export default function ClientList() {
       const response = await clientsApi.getStats();
       setStats(response.data);
     } catch (err) {
-      console.error('Error loading stats:', err);
+      logger.error('Error loading stats:', err);
     }
   };
 

@@ -11,6 +11,7 @@ import {
   ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 import { sessionsApi, handleApiError } from '../../api/client';
+import logger from '../utils/logger';
 
 export default function SessionList() {
   const [sessions, setSessions] = useState([]);
@@ -37,7 +38,7 @@ export default function SessionList() {
       const response = await sessionsApi.getAll(params);
       setSessions(response.data.sessions || response.data || []);
     } catch (err) {
-      console.error('Error loading sessions:', err);
+      logger.error('Error loading sessions:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);
@@ -49,7 +50,7 @@ export default function SessionList() {
       const response = await sessionsApi.getStats();
       setStats(response.data);
     } catch (err) {
-      console.error('Error loading stats:', err);
+      logger.error('Error loading stats:', err);
     }
   };
 

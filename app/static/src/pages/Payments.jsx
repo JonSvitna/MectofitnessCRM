@@ -9,6 +9,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { paymentsApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function Payments() {
   const [transactions, setTransactions] = useState([]);
@@ -34,7 +35,7 @@ export default function Payments() {
       setSubscriptions(subRes.data.subscriptions || subRes.data || []);
       setRevenue(revRes.data);
     } catch (err) {
-      console.error('Error loading payment data:', err);
+      logger.error('Error loading payment data:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

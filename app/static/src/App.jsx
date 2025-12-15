@@ -25,6 +25,7 @@ import MasterLibraries from './pages/MasterLibraries';
 import Settings from './pages/settings/Settings';
 import ExerciseLibrary from './pages/ExerciseLibrary';
 import AccountProfile from './pages/AccountProfile';
+import logger from '../utils/logger';
 
 // Protected Route wrapper - redirects to Flask login if not authenticated
 const ProtectedRoute = ({ children }) => {
@@ -80,7 +81,7 @@ function App() {
             orgData = orgResponse.data.data;
           } catch (orgError) {
             // Organization fetch is optional - continue without it
-            console.warn('Could not fetch organization data:', orgError);
+            logger.warn('Could not fetch organization data:', orgError);
           }
 
           // User is authenticated via Flask session

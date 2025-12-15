@@ -5,6 +5,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { engagementApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function Announcements() {
   const [announcements, setAnnouncements] = useState([]);
@@ -22,7 +23,7 @@ export default function Announcements() {
       const response = await engagementApi.getAnnouncements();
       setAnnouncements(response.data.data?.announcements || response.data.announcements || []);
     } catch (err) {
-      console.error('Error loading announcements:', err);
+      logger.error('Error loading announcements:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);

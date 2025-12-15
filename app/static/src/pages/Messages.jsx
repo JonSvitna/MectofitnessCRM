@@ -8,6 +8,7 @@ import {
   InboxIcon,
 } from '@heroicons/react/24/outline';
 import { messagingApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);
@@ -36,7 +37,7 @@ export default function Messages() {
       const response = await messagingApi.getAll(params);
       setMessages(response.data.data?.messages || response.data.messages || []);
     } catch (err) {
-      console.error('Error loading messages:', err);
+      logger.error('Error loading messages:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);
@@ -48,7 +49,7 @@ export default function Messages() {
       const response = await messagingApi.getStats();
       setStats(response.data.data || response.data);
     } catch (err) {
-      console.error('Error loading stats:', err);
+      logger.error('Error loading stats:', err);
     }
   };
 

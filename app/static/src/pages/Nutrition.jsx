@@ -7,6 +7,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { nutritionApi, handleApiError } from '../api/client';
+import logger from '../utils/logger';
 
 export default function Nutrition() {
   const [plans, setPlans] = useState([]);
@@ -24,7 +25,7 @@ export default function Nutrition() {
       const response = await nutritionApi.getPlans({ limit: 50 });
       setPlans(response.data.plans || response.data || []);
     } catch (err) {
-      console.error('Error loading nutrition plans:', err);
+      logger.error('Error loading nutrition plans:', err);
       setError(handleApiError(err));
     } finally {
       setLoading(false);
