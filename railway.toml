@@ -5,3 +5,6 @@ builder = "nixpacks"
 startCommand = "./start.sh"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
+
+# Note: This is for backend CRM deployment only
+# Frontend (Next.js marketing homepage) should be deployed to Vercel separately

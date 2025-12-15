@@ -17,22 +17,18 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
-    """Landing page - serves Next.js static homepage with authentication support."""
-    # If user is authenticated, redirect directly to dashboard (no intermediate welcome screen)
+    """Landing page for CRM application.
+    
+    Note: Marketing homepage is deployed separately to Vercel.
+    This route serves as the CRM application entry point.
+    """
+    # If user is authenticated, redirect directly to dashboard
     if current_user.is_authenticated:
         return redirect(url_for('main.dashboard'))
     
-    # Check if Next.js static homepage exists
-    homepage_path = os.path.join(current_app.static_folder, 'homepage', 'index.html')
-    if os.path.exists(homepage_path):
-        # For non-authenticated users, serve static Next.js homepage
-        return send_from_directory(
-            os.path.join(current_app.static_folder, 'homepage'),
-            'index.html'
-        )
-    else:
-        # Fallback to old template if Next.js homepage not built yet
-        return render_template('index.html')
+    # For non-authenticated users, redirect to login
+    # (Marketing site is on Vercel, this is the CRM backend)
+    return redirect(url_for('auth.login'))
 
 
 @bp.route('/app')
@@ -104,13 +100,7 @@ def about():
     return render_template('about.html')
 
 
-@bp.route('/_next/<path:path>')
-def serve_next_assets(path):
-    """Serve Next.js static assets."""
-    return send_from_directory(
-        os.path.join(current_app.static_folder, 'homepage', '_next'),
-        path
-    )
+
 
 
 @bp.route('/health')

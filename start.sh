@@ -39,15 +39,18 @@ if [ -z "$PORT" ]; then
 fi
 
 echo ""
-echo "Building Frontend..."
+echo "Building React Dashboard (Vite)..."
 if command -v npm &> /dev/null; then
-    echo "npm found, building React app..."
+    echo "npm found, building React dashboard..."
     npm run build || {
-        echo "⚠  Frontend build failed, continuing with backend only"
+        echo "⚠  React dashboard build failed, continuing with backend only"
     }
 else
-    echo "⚠  npm not found, skipping frontend build"
+    echo "⚠  npm not found, skipping React dashboard build"
 fi
+
+echo ""
+echo "Note: Next.js marketing homepage should be deployed separately to Vercel"
 
 echo ""
 echo "Initializing Database..."

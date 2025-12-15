@@ -12,6 +12,7 @@
     "nextjs:start": "next start",
     "nextjs:lint": "next lint"
   },
+  "comment": "Note: 'npm run build' builds React dashboard (Vite) for Railway. 'npm run nextjs:build' builds Next.js marketing homepage for Vercel.",
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.10",
