@@ -1,0 +1,28 @@
+# Railway configuration for Frontend (Next.js Marketing Site)
+# Deploy this as a separate Railway service
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "npm run nextjs:start"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+[nixpacks]
+# Install Node.js only for frontend
+nixPkgs = ["nodejs_20"]
+nixLibs = []
+
+[phases.install]
+cmds = [
+  "npm install"
+]
+
+[phases.build]
+cmds = [
+  "npm run nextjs:build"
+]
+
+[start]
+cmd = "npm run nextjs:start"

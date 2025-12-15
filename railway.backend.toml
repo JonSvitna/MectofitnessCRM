@@ -1,0 +1,30 @@
+# Railway configuration for Backend (Flask CRM)
+# Deploy this as a separate Railway service
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "./start-backend.sh"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+[nixpacks]
+# Install Python and PostgreSQL client
+nixPkgs = ["python311", "postgresql"]
+nixLibs = []
+
+[phases.install]
+cmds = [
+  "python -m venv /opt/venv",
+  ". /opt/venv/bin/activate && pip install --upgrade pip setuptools wheel",
+  ". /opt/venv/bin/activate && pip install -r requirements.txt"
+]
+
+# Backend doesn't need React frontend build for CRM dashboard
+# The React dashboard is built separately with Vite if needed
+[phases.build]
+cmds = []
+
+[start]
+cmd = ". /opt/venv/bin/activate && ./start-backend.sh"
