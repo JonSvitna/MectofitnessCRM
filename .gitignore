@@ -64,6 +64,7 @@ pnpm-lock.yaml
 
 # Vite build output
 app/static/dist/
+backend/app/static/dist/
 .vite/
 
 # Next.js build output
