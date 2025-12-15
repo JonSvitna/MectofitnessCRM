@@ -1,19 +1,7 @@
 #!/bin/bash
 # Build Next.js homepage as static export
-# This script temporarily renames the Flask app directory to avoid conflicts
 
 set -e
-
-# Cleanup function to restore app directory
-cleanup() {
-    if [ -d "flask_app_temp" ] && [ ! -d "app" ]; then
-        echo "Restoring Flask app directory..."
-        mv flask_app_temp app
-    fi
-}
-
-# Set trap to ensure cleanup on exit
-trap cleanup EXIT INT TERM
 
 echo "========================================" 
 echo "Building Next.js Static Homepage"
@@ -26,32 +14,18 @@ if ! command -v node &> /dev/null; then
     exit 1
 fi
 
-# Check if app directory exists
-if [ ! -d "app" ]; then
-    echo "❌ Error: Flask app directory not found"
+# Check if frontend directory exists
+if [ ! -d "frontend" ]; then
+    echo "❌ Error: Frontend directory not found"
     exit 1
 fi
 
-echo "Step 1: Temporarily renaming Flask app directory..."
-mv app flask_app_temp
-
-echo "Step 2: Building Next.js homepage..."
-npm run nextjs:build
-
-echo "Step 3: Restoring Flask app directory..."
-mv flask_app_temp app
-
-echo "Step 4: Copying static files to Flask static directory..."
-# Remove old homepage files if they exist
-rm -rf app/static/homepage
-
-# Create homepage directory
-mkdir -p app/static/homepage
-
-# Copy Next.js build output
-cp -r out/* app/static/homepage/
+echo "Step 1: Building Next.js homepage..."
+cd frontend
+npm install
+npm run build
 
 echo ""
 echo "✅ Homepage build complete!"
-echo "   Static files copied to: app/static/homepage/"
+echo "   Next.js site ready in frontend/.next/"
 echo ""

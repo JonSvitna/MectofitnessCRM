@@ -1,97 +1,213 @@
-# Backend Code Location
+# MectoFitness CRM - Backend
 
-⚠️ **Important:** The backend code for MectoFitness CRM is located in the `/app` directory, not here.
+Flask-based backend application providing the CRM tools and dashboard functionality.
 
-## Architecture Overview
+## Overview
 
-This project uses a **monolithic Flask architecture** where all backend code is integrated into the `app/` directory. The old separate `backend/` folder structure was removed in December 2024 as part of a codebase reorganization.
+This directory contains the backend Flask application for MectoFitness CRM, including:
+- RESTful API endpoints
+- Database models and migrations
+- Business logic and services
+- Authentication and authorization
+- React-based dashboard (built with Vite)
 
-## Backend Code Structure
-
-All backend functionality can be found in the following locations:
+## Structure
 
 ```
-app/
-├── models/          # Database models (SQLAlchemy)
-├── routes/          # API endpoints and view routes (Flask blueprints)
-│   ├── api_*.py    # RESTful API endpoints
-│   ├── auth.py     # Authentication routes
-│   └── main.py     # Main application routes
-├── services/        # Business logic and service layer
-├── utils/           # Utility functions and helpers
-├── static/          # Frontend assets (React app, CSS, images)
-└── templates/       # Jinja2 HTML templates
+backend/
+├── app/                    # Main Flask application
+│   ├── models/            # SQLAlchemy database models
+│   ├── routes/            # API endpoints and view routes
+│   │   ├── api_*.py      # RESTful API endpoints
+│   │   ├── auth.py       # Authentication routes
+│   │   └── main.py       # Main application routes
+│   ├── services/          # Business logic layer
+│   ├── utils/             # Utility functions
+│   ├── static/            # Static assets and React dashboard
+│   │   ├── dist/         # Built React app (generated)
+│   │   └── src/          # React dashboard source
+│   └── templates/         # Jinja2 templates
+├── migrations/            # Database migration scripts
+├── scripts/               # Utility scripts
+│   ├── init_db.py        # Initialize database
+│   ├── test_*.py         # Test scripts
+│   └── ...
+├── config.py              # Application configuration
+├── run.py                 # Application entry point
+├── requirements.txt       # Python dependencies
+├── gunicorn_config.py     # Gunicorn configuration
+└── vite.config.js         # Vite build config for React dashboard
 ```
 
-## Key Backend Components
+## Quick Start
 
-### API Routes (`app/routes/`)
-- **Authentication**: `auth.py`
-- **Client Management**: `api_clients.py`
-- **Session Management**: `api_sessions.py`
-- **Exercise Library**: `api_exercises.py`
-- **Program Builder**: `api_programs.py`
-- **Progress Tracking**: `api_progress.py`
-- **Nutrition Plans**: `api_nutrition.py`
-- **Booking System**: `api_booking.py`
-- **Payment Processing**: `api_payments.py`
-- **Dashboard Analytics**: `api_dashboard.py`
-- **Organization Settings**: `api_organization.py`
-- **User Management**: `api_user.py`
+### Prerequisites
+- Python 3.8+
+- pip
+- Node.js 16+ (for building React dashboard)
 
-### Database Models (`app/models/`)
-- User, Organization, Client models
-- Session, Exercise, Program models
-- Progress tracking models
-- Payment and booking models
+### Installation
 
-### Business Logic (`app/services/`)
-- Service layer for complex business operations
-- Integration with external APIs (Stripe, Zoom, etc.)
+1. **Install Python dependencies:**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
 
-## Configuration
+2. **Set up environment variables:**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
 
-- **Main Config**: `config.py` (in project root)
-- **Application Factory**: `app/__init__.py`
-- **Entry Point**: `run.py` (in project root)
+3. **Initialize database:**
+   ```bash
+   python scripts/init_db.py
+   ```
 
-## Database Management
+4. **(Optional) Build React dashboard:**
+   ```bash
+   cd ..  # Go to project root
+   npm install
+   npm run build
+   ```
 
-Database scripts are in the `/scripts` directory:
-- `init_db.py` - Initialize database
-- `diagnose_db.py` - Database diagnostics
-- `migrate_organizations.py` - Migration scripts
+### Running the Application
 
-## Running the Backend
-
+**Development mode:**
 ```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Initialize database
-python scripts/init_db.py
-
-# Run development server
 python run.py
 ```
 
+**Production mode:**
+```bash
+gunicorn -c gunicorn_config.py run:app
+```
+
+The application will be available at `http://localhost:5000`
+
+## API Endpoints
+
+### Authentication
+- `POST /auth/login` - User login
+- `POST /auth/register` - User registration
+- `GET /auth/logout` - User logout
+
+### Client Management
+- `GET /api/clients` - List all clients
+- `POST /api/clients` - Create new client
+- `GET /api/clients/<id>` - Get client details
+- `PUT /api/clients/<id>` - Update client
+- `DELETE /api/clients/<id>` - Delete client
+
+### Session Management
+- `GET /api/sessions` - List sessions
+- `POST /api/sessions` - Create session
+- `GET /api/sessions/<id>` - Get session details
+- `PUT /api/sessions/<id>` - Update session
+- `DELETE /api/sessions/<id>` - Delete session
+
+### Other APIs
+- Exercise Library: `/api/exercises/*`
+- Program Builder: `/api/programs/*`
+- Progress Tracking: `/api/progress/*`
+- Nutrition Plans: `/api/nutrition/*`
+- Booking System: `/api/booking/*`
+- Payment Processing: `/api/payments/*`
+- Dashboard Analytics: `/api/dashboard/*`
+
+See `/docs/API.md` for complete API documentation.
+
+## Database
+
+The application uses SQLAlchemy ORM with support for:
+- **Development**: SQLite (default)
+- **Production**: PostgreSQL (recommended)
+
+### Database Scripts
+
+Located in `scripts/` directory:
+- `init_db.py` - Initialize database schema
+- `diagnose_db.py` - Database diagnostics
+- `migrate_organizations.py` - Run migrations
+- `test_db.py` - Test database connectivity
+
+## Configuration
+
+Configuration is managed through `config.py` and environment variables:
+
+### Required Environment Variables
+- `SECRET_KEY` - Flask secret key
+- `DATABASE_URL` - Database connection string (optional, defaults to SQLite)
+
+### Optional Environment Variables
+- `FLASK_ENV` - Environment (development/production)
+- `CORS_ORIGINS` - Allowed CORS origins
+- `OPENAI_API_KEY` - OpenAI API key for chatbot
+- `STRIPE_SECRET_KEY` - Stripe API key for payments
+- `ZOOM_CLIENT_ID` - Zoom API credentials
+- See `.env.example` for complete list
+
+## Development
+
+### Running Tests
+```bash
+# Set test environment
+export FLASK_ENV=testing
+
+# Run all tests
+python -m pytest
+
+# Run specific test scripts
+python scripts/test_api_endpoints.py
+python scripts/test_db.py
+```
+
+### React Dashboard Development
+The React dashboard source is in `app/static/src/`. To develop:
+
+```bash
+# From project root
+npm install
+npm run dev  # Start Vite dev server with hot reload
+```
+
+Build for production:
+```bash
+npm run build  # Outputs to app/static/dist/
+```
+
+## Deployment
+
+The backend can be deployed to various platforms:
+- Railway
+- Render
+- Heroku
+- Vercel (with adaptations)
+
+See `/docs/deployment/` for platform-specific guides.
+
 ## Documentation
 
-For more information, see:
-- `/docs/API.md` - API documentation
-- `/docs/SETUP.md` - Setup guide
-- `/docs/FEATURES.md` - Feature overview
-- `/README.md` - Main project README
+- **API Documentation**: `/docs/API.md`
+- **Setup Guide**: `/docs/SETUP.md`
+- **Features**: `/docs/FEATURES.md`
+- **RBAC Guide**: `/docs/RBAC_GUIDE.md`
+- **Deployment**: `/docs/deployment/`
 
-## Why This Structure?
+## Tech Stack
 
-The monolithic architecture was adopted to:
-- Simplify deployment
-- Reduce configuration complexity
-- Improve code organization
-- Enable better integration between frontend and backend
-- Streamline development workflow
+- **Framework**: Flask 3.0+
+- **Database**: SQLAlchemy 2.0+, PostgreSQL/SQLite
+- **Authentication**: Flask-Login
+- **API**: RESTful JSON APIs
+- **Frontend Build**: Vite 5.0+
+- **Dashboard**: React 18+, Tailwind CSS
+- **Server**: Gunicorn (production)
 
----
+## Support
 
-**Note:** This README exists to help developers who might be looking for a `backend/` folder. All backend code is in `/app`.
+For issues and questions:
+- Check `/docs/` directory
+- Open an issue on GitHub
+- Contact maintainers

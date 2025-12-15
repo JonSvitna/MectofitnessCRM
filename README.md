@@ -15,15 +15,22 @@ MectoFitness CRM is a comprehensive management system designed specifically for 
 - **📊 Progress Analytics**: Track client progress and business metrics
 - **🎨 Modern UI**: Clean green, white, and black color scheme optimized for fitness professionals
 
+## 🏗️ Architecture
+
+This project is split into two main parts for simplicity:
+
+- **`backend/`** - Flask application with CRM tools and dashboard (Python + React)
+- **`frontend/`** - Next.js marketing website (TypeScript + React)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Python 3.8 or higher
-- pip (Python package manager)
-- Virtual environment (recommended)
+- Node.js 18+ (for frontend)
+- pip and npm
 
-### Installation
+### Backend Setup (CRM Dashboard)
 
 1. **Clone the repository**
    ```bash
@@ -31,82 +38,67 @@ MectoFitness CRM is a comprehensive management system designed specifically for 
    cd MectofitnessCRM
    ```
 
-2. **Create a virtual environment**
+2. **Set up backend**
    ```bash
+   cd backend
+   
+   # Create virtual environment
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
+   
+   # Install Python dependencies
    pip install -r requirements.txt
-   ```
-
-4. **Set up environment variables**
-   ```bash
+   
+   # Set up environment variables
    cp .env.example .env
    # Edit .env with your configuration
-   ```
-
-5. **Verify setup (recommended)**
-   ```bash
-   python scripts/verify_setup.py
-   ```
-   This checks your database connection and configuration.
-
-6. **Initialize the database**
-   ```bash
+   
+   # Initialize database
+   python scripts/init_db.py
+   
+   # Run the backend
    python run.py
    ```
-   This will automatically create the database tables.
 
-7. **Access the application**
+3. **Access the CRM dashboard**
    Open your browser and navigate to `http://localhost:5000`
 
-> **Note**: For PostgreSQL setup, see [docs/setup/POSTGRESQL_SETUP.md](docs/setup/POSTGRESQL_SETUP.md). For troubleshooting, see [docs/QUICKSTART.md](docs/QUICKSTART.md).
+> **Note**: For detailed backend setup, see [backend/README.md](backend/README.md)
 
-### Optional: React Frontend
+### Frontend Setup (Marketing Website)
 
-The application includes an optional modern React interface. The traditional Flask interface is fully functional by default.
+1. **Set up frontend**
+   ```bash
+   cd frontend
+   
+   # Install Node dependencies
+   npm install
+   
+   # Run development server
+   npm run dev
+   ```
 
-To use the React interface:
+2. **Access the marketing site**
+   Open your browser and navigate to `http://localhost:3000`
 
+> **Note**: For detailed frontend setup, see [frontend/README.md](frontend/README.md)
+
+### Building for Production
+
+**Backend:**
 ```bash
-# Install Node.js dependencies
+cd backend
 npm install
-
-# Build the React app
-npm run build
-
-# Access React interface at /app after logging in
+npm run build  # Builds React dashboard
+python run.py  # Start Flask server
 ```
 
-See [docs/ROUTING_ARCHITECTURE.md](docs/ROUTING_ARCHITECTURE.md) for details on the dual routing system.
-
-### Next.js Marketing Homepage
-
-A modern, TrueCoach-style marketing homepage built with Next.js 14 is available in the `src/` directory. This provides a premium SaaS landing page with:
-
-- Modern Linear/Vercel-inspired design
-- Dark theme with orange accents
-- Fully responsive (mobile-first)
-- SEO-optimized
-- Framer Motion animations
-
-**To run the Next.js homepage:**
-
+**Frontend:**
 ```bash
-# Quick start with helper script
-./run-nextjs-homepage.sh
-
-# Or manually:
-mv app flask_app          # Temporarily rename Flask app
-npm run nextjs:dev        # Start Next.js dev server
-# Visit http://localhost:3000
-mv flask_app app          # Restore Flask app when done
+cd frontend
+npm run build  # Builds Next.js site
+npm run start  # Start production server
 ```
-
-See [docs/setup/NEXT_JS_HOMEPAGE_README.md](docs/setup/NEXT_JS_HOMEPAGE_README.md) for full documentation.
 
 ## 📖 Usage
 
@@ -236,28 +228,34 @@ Edit `config.py` to customize:
 ### Project Structure
 ```
 MectofitnessCRM/
-├── app/                # Main application (backend + frontend)
-│   ├── models/          # Database models (SQLAlchemy)
-│   ├── routes/          # API endpoints & view routes (Flask blueprints)
-│   ├── services/        # Business logic layer
-│   ├── utils/           # Utility functions
-│   ├── static/          # Frontend assets (React app, CSS, images)
-│   └── templates/       # Jinja2 HTML templates
-├── backend/            # ⚠️ See backend/README.md - backend code is in app/
+├── backend/               # Flask backend (CRM dashboard)
+│   ├── app/              # Main Flask application
+│   │   ├── models/       # Database models (SQLAlchemy)
+│   │   ├── routes/       # API endpoints & view routes
+│   │   ├── services/     # Business logic layer
+│   │   ├── utils/        # Utility functions
+│   │   ├── static/       # Static assets & React dashboard
+│   │   └── templates/    # Jinja2 templates
+│   ├── migrations/       # Database migrations
+│   ├── scripts/          # Utility and test scripts
+│   ├── config.py         # Backend configuration
+│   ├── run.py           # Flask entry point
+│   ├── requirements.txt  # Python dependencies
+│   └── package.json      # Node.js deps for React dashboard
+├── frontend/             # Next.js marketing website
+│   ├── src/             # Next.js source code
+│   │   ├── app/         # App directory (pages, layouts)
+│   │   └── components/  # React components
+│   ├── public/          # Static assets
+│   ├── next.config.mjs  # Next.js configuration
+│   ├── package.json     # Node.js dependencies
+│   └── tailwind.config.js # Tailwind configuration
 ├── docs/                # Documentation
 │   ├── setup/          # Setup guides
 │   ├── deployment/     # Deployment documentation
 │   └── archive/        # Historical documentation
-├── scripts/            # Utility and test scripts
-├── src/                # Next.js homepage source
-├── credentials/        # API credentials
-├── models/             # AI model files
-├── config.py           # Configuration
-├── requirements.txt    # Python dependencies
-└── run.py             # Application entry point
+└── README.md           # This file
 ```
-
-> **Note**: This project uses a monolithic Flask architecture. All backend code (models, routes, services) is in the `app/` directory. The `backend/` folder contains a README explaining this structure.
 
 ### Running Tests
 ```bash

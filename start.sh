@@ -41,10 +41,12 @@ fi
 echo ""
 echo "Building Frontend..."
 if command -v npm &> /dev/null; then
-    echo "npm found, building React app..."
+    echo "npm found, building React dashboard..."
+    cd backend
     npm run build || {
         echo "⚠  Frontend build failed, continuing with backend only"
     }
+    cd ..
 else
     echo "⚠  npm not found, skipping frontend build"
 fi
@@ -52,6 +54,7 @@ fi
 echo ""
 echo "Initializing Database..."
 echo "Note: Railway PostgreSQL connections may take 30-60 seconds to establish"
+cd backend
 $PYTHON scripts/init_db.py || {
     echo "❌ Database initialization failed"
     echo "   This may be due to:"

@@ -1,16 +1,13 @@
 {
-  "name": "mectofitness-crm",
+  "name": "mectofitness-frontend",
   "version": "1.0.0",
-  "description": "Professional Personal Trainer CRM with modern UX/UI powered by Tailwind CSS and Vite",
+  "description": "MectoFitness CRM marketing website powered by Next.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "watch": "vite build --watch",
-    "nextjs:dev": "next dev",
-    "nextjs:build": "next build",
-    "nextjs:start": "next start",
-    "nextjs:lint": "next lint"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next build && next export"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
@@ -21,23 +18,18 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.8"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
-    "@vitejs/plugin-react": "^5.1.2",
-    "axios": "^1.6.7",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.3",
     "lucide-react": "^0.303.0",
     "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.1",
-    "tailwind-merge": "^2.2.0",
-    "zustand": "^4.5.7"
+    "tailwind-merge": "^2.2.0"
   },
   "type": "module"
 }
