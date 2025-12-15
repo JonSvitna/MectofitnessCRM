@@ -50,9 +50,11 @@ Deploy backend (Flask CRM) and frontend (Next.js marketing) as separate Railway 
 
 ### Frontend (Next.js)
 
-**Required (for split deployment only):**
-- `NEXT_PUBLIC_API_URL` - Your backend URL (e.g., `https://backend.railway.app`)
+**Optional (for split deployment only):**
+- `NEXT_PUBLIC_API_URL` - Your backend URL (e.g., `https://backend.railway.app`) - only needed if frontend makes API calls
 - `NODE_ENV` - Set to `production`
+
+**Note**: The Next.js frontend is currently configured as a static export (marketing site). It doesn't require backend API access by default.
 
 ## Files Reference
 

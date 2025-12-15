@@ -1,11 +1,18 @@
 # Railway configuration for Frontend (Next.js Marketing Site)
 # Deploy this as a separate Railway service
+#
+# Note: The Next.js app is configured for static export (output: 'export')
+# If you want server-side rendering, change next.config.mjs:
+#   - Remove: output: 'export'
+#   - Set: output: 'standalone' (optional, for optimization)
 
 [build]
 builder = "nixpacks"
 
 [deploy]
-startCommand = "npm run nextjs:start"
+# For static export, use a simple HTTP server
+# For SSR, use: npm run nextjs:start
+startCommand = "npx serve out -l 3000"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
 
@@ -16,7 +23,8 @@ nixLibs = []
 
 [phases.install]
 cmds = [
-  "npm install"
+  "npm install",
+  "npm install -g serve"
 ]
 
 [phases.build]
@@ -25,4 +33,4 @@ cmds = [
 ]
 
 [start]
-cmd = "npm run nextjs:start"
+cmd = "npx serve out -l 3000"

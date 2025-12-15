@@ -140,8 +140,10 @@ Your backend API will be available at: `https://your-backend.railway.app`
 
 In the **Settings** tab:
 - **Build Command**: `npm run nextjs:build`
-- **Start Command**: `npm run nextjs:start`
+- **Start Command**: `npx serve out -l $PORT` (for static export) or `npm run nextjs:start` (for SSR)
 - **Root Directory**: `/` (leave as default)
+
+**Note**: The Next.js app is configured for static export by default. This is simpler and more cost-effective. If you need server-side rendering (SSR), change `output: 'export'` to `output: 'standalone'` in `next.config.mjs`.
 
 #### Step 4: Set Railway Config File
 
@@ -174,10 +176,12 @@ NEXT_PUBLIC_GA_ID=<google-analytics-id>
 
 Railway will automatically deploy. Watch the logs for:
 - ✅ Node.js dependencies installation
-- ✅ Next.js build
-- ✅ Production server start
+- ✅ Next.js static build (creates `out/` directory)
+- ✅ Static file server start (using `serve`)
 
 Your frontend will be available at: `https://your-frontend.railway.app`
+
+**Note**: Since this is a static export, the frontend doesn't need the backend API URL during build. The frontend is purely a marketing/landing page. If you need to connect it to the backend API, add API calls in your React components using the `NEXT_PUBLIC_API_URL` environment variable.
 
 ### Part 4: Configure CORS (Important!)
 

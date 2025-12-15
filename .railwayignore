@@ -1,0 +1,56 @@
+# Railway Ignore File
+# Files and directories to exclude from Railway deployments
+# This helps reduce build size and speed up deployments
+
+# Git and version control
+.git/
+.gitignore
+
+# Development files
+.env
+.env.local
+*.log
+*.pid
+
+# Documentation (not needed in production)
+docs/
+*.md
+!README.md
+
+# Node modules (installed during build)
+node_modules/
+
+# Python cache and virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+.venv/
+
+# Build artifacts
+out/
+.next/
+dist/
+build/
+
+# Test files
+tests/
+test/
+*.test.js
+*.test.py
+*.spec.js
+*.spec.py
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
