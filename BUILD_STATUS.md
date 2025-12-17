@@ -18,9 +18,10 @@ The MectoFitness CRM application has been successfully built and deployed with a
 ✓ 447 modules transformed
 ✓ Built in 2.72s
 
-Production Bundle:
-- Main CSS: 70.14 kB (gzipped: 10.79 kB)
-- Main JS: 417.80 kB (gzipped: 99.39 kB)
+Production Bundle (uncompressed → gzipped):
+- Main CSS: 70.14 kB → 10.79 kB (85% compression)
+- Main JS: 417.80 kB → 99.39 kB (76% compression)
+- Total: 487.94 kB → 110.18 kB (77% compression)
 ```
 **Status:** ✅ **SUCCESS**
 

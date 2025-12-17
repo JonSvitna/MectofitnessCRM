@@ -90,7 +90,7 @@
 
 **React Dashboard (Vite)**
 ```
-✓ Production bundle: CSS 70.14 kB + JS 417.80 kB (total gzipped: 110.18 kB)
+✓ Production bundle: 487.94 kB uncompressed → 110.18 kB gzipped (77% compression)
 ✓ Build time: 2.72s
 ✓ 447 modules transformed
 ```
