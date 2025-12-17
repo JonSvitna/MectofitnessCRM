@@ -90,7 +90,7 @@
 
 **React Dashboard (Vite)**
 ```
-✓ Production bundle: 417.80 kB (gzipped: 99.39 kB)
+✓ Production bundle: CSS 70.14 kB + JS 417.80 kB (total gzipped: 110.18 kB)
 ✓ Build time: 2.72s
 ✓ 447 modules transformed
 ```
@@ -116,7 +116,7 @@
 | Metric | Value | Rating |
 |--------|-------|--------|
 | Build Time (Vite) | 2.72s | ⚡ Excellent |
-| Bundle Size (gzip) | 110 kB | 🎯 Optimized |
+| Bundle Size (gzip) | 110.18 kB | 🎯 Optimized |
 | Page Load Time | <1s | 🚀 Fast |
 | TypeScript Coverage | 100% | ✅ Full |
 | Responsive Design | Yes | 📱 Mobile-first |

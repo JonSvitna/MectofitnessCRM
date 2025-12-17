@@ -135,7 +135,7 @@ The application features a modern, professional interface with a dark theme and 
 |--------|-------|--------|
 | Vite Build Time | 2.72s | ✅ Excellent |
 | Next.js Build Time | ~15s | ✅ Good |
-| Total Bundle Size (gzip) | 110.18 kB | ✅ Optimal |
+| Total Bundle Size (gzip) | 110.18 kB (CSS: 10.79 kB + JS: 99.39 kB) | ✅ Optimal |
 | Database Init Time | <1s | ✅ Fast |
 | First Page Load | <1s | ✅ Fast |
 
