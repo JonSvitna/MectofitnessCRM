@@ -35,8 +35,9 @@ __pycache__/
 venv/
 env/
 
-# Bash scripts
-*.sh
+# Bash scripts (exclude backend scripts but keep build-nextjs-vercel.sh)
+start.sh
+build.sh
 
 # Vite config for React dashboard (not needed for Next.js)
 vite.config.js
